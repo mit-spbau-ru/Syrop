@@ -1,0 +1,9 @@
+Описание используемых правил кодирования:
+
+Пока не определено, но такой вопрос возникал, поэтому создал этот
+документ
+
+Полезные ссылки:
+http://www.yolinux.com/TUTORIALS/LinuxTutorialC++CodingStyle.html
+ftp://ftp.stack.nl/pub/users/dmitri/doxygen_manual-1.8.0.pdf.zip
+
