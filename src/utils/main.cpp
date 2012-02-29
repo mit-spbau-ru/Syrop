@@ -1,8 +1,7 @@
 #include <iostream>
 #include "utils.h"
 
-#define _DEBUG
-using namespace utilities;
+using namespace utils;
 int main(){
 	
 	Parameters p;
