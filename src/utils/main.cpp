@@ -6,8 +6,9 @@ int main(){
 	
 	Parameters p;
 	std::cin >> p;
+	
 	#ifdef _DEBUG
-	p.print();
+	std::cout << p;
 	#endif
 	return 0;
 }

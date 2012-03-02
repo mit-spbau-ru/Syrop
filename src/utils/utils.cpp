@@ -21,6 +21,21 @@ bool Parameters::threshold (string& str){
 bool Parameters::isProxyName(const string &str) const {
 	return (str[0] == '[')&&(str[str.size()-1] == ']');
 }
+std::ostream & operator<<(std::ostream &os, ProxySettings &P){
+	std::map<string,string>::iterator it;
+	for (it = P.settings.begin(); it != P.settings.end(); it++){
+			os <<  " " << it -> first << " " << it -> second << std::endl;			
+	}
+}
+
+std::ostream & operator<<(std::ostream &os, Parameters &P){
+	std::map<string,ProxySettings>::iterator it;
+	for (it = P.params.begin(); it != P.params.end(); it++){
+			os << "Proxy: " <<  it -> first << std::endl;
+			os << it -> second;
+	}
+
+}
 
 std::istream & operator>>(std::istream &is, Parameters &P){
 	
@@ -53,13 +68,14 @@ std::istream & operator>>(std::istream &is, Parameters &P){
 				getline(is,buf); 
 				continue;
 			} 
-			is >> value;
+			getline(is,value);
 			if (value.empty()) continue;
 			if (P.threshold(value)) {
 				getline(is,buf); 
 				continue;
 			}
 			proxySettings.push(key,value);
+			std::cout << value << std::endl;
 			
 		}		
 		P.params.insert(std::make_pair<string,ProxySettings>(proxyName,proxySettings));

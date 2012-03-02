@@ -16,14 +16,9 @@ namespace utils{
 		std::map<string,string> settings;
 
 		public:
-			string& getProxy(const string&) const; // operator [] ?
+			string& getProxy(const string&) const; 
 			void push(const string&, const string&);
-			void print(){
-				std::map<string,string>::iterator it;
-				for (it = settings.begin(); it != settings.end(); it++){
-					std::cout <<  " " << it -> first << " " << it -> second << std::endl;			
-				}
-			}
+			friend std::ostream & operator<<(std::ostream &, ProxySettings &);
 			
 	};
 
@@ -36,17 +31,9 @@ namespace utils{
 		bool isProxyName(const string &) const;
 		public:
 
-			friend std::istream & operator>>(std::istream &, Parameters &);		
+			friend std::istream & operator>>(std::istream &, Parameters &);	
+			friend std::ostream & operator<<(std::ostream &, Parameters &);	
 			ProxySettings getProxySettings(string&);
-			void print(){
-				std::map<string,ProxySettings>::iterator it;
-				for (it = params.begin(); it != params.end(); it++){
-					std::cout << "Proxy: " <<  it -> first << std::endl;
-					it -> second.print();
-						
-				}				
-			}
-
 
 	};
 
