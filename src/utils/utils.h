@@ -16,9 +16,9 @@ namespace utils{
 		std::map<string,string> settings;
 
 		public:
-			string& getProxy(const string&) const; 
+			string& getProxy(const string&); 
 			void push(const string&, const string&);
-			friend std::ostream & operator<<(std::ostream &, ProxySettings &);
+			friend std::ostream & operator<<(std::ostream &, const ProxySettings &);
 			
 	};
 
@@ -32,8 +32,8 @@ namespace utils{
 		public:
 
 			friend std::istream & operator>>(std::istream &, Parameters &);	
-			friend std::ostream & operator<<(std::ostream &, Parameters &);	
-			ProxySettings getProxySettings(string&);
+			friend std::ostream & operator<<(std::ostream &, const Parameters &);	
+			ProxySettings getProxySettings(const string&) const;
 
 	};
 
