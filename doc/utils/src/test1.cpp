@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 		std::vector<utils::FileInfo> f = utils::listDirEntries(std::string(argv[1]));
 		for (std::vector<utils::FileInfo>::iterator it = f.begin(); it != f.end(); ++it)
 			if (it->isFile())
-				std::cout << it->getName() << std::endl;
+				std::cout << it->getFullName() << std::endl;
 	}
 	catch (utils::SystemException e)
 	{
