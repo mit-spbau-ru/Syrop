@@ -3,6 +3,6 @@
 
 #include "../utils/sysexception.h"
 
-std::vector<std::string> listDirEntries(const std::string dir);
+std::vector<std::string> listDirEntries(std::string const &dir);
 
 #endif //_SYSTEM_H_
