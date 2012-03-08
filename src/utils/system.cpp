@@ -8,6 +8,8 @@
 
 #include "../includes/system.h"
 
+namespace utils {
+
 /**
  * Function list all directory entries in a directory specified by argument
  *
@@ -15,7 +17,7 @@
  * @return vector of directory entries names
  * @throws SystemException if an I/O error occured
  */
-std::vector<std::string> listDirEntries(std::string const &dir)
+std::vector<std::string> listDirEntries(std::string const &dir) throw(SystemException)
 {
 	DIR *dp = 0;
 	struct dirent *result = 0;
@@ -40,3 +42,21 @@ std::vector<std::string> listDirEntries(std::string const &dir)
 	
 	return names;
 }
+
+
+/**
+ * Function gets FileInfo for a file specified by name argument
+ *
+ * @param name file name
+ * @return FileInfo for file specified by name
+ * @throws SystemException if an stat system call error occured
+ */
+FileInfo getFileInfo(std::string const &name) throw(SystemException)
+{
+	FileInfo info(name);
+	info.read();
+	
+	return info;
+}
+
+} // namespace utils

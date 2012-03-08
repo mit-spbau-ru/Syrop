@@ -2,7 +2,13 @@
 #define _SYSTEM_H_
 
 #include "../utils/sysexception.h"
+#include "../utils/fileinfo.h"
 
-std::vector<std::string> listDirEntries(std::string const &dir);
+namespace utils {
+
+	std::vector<std::string> listDirEntries(std::string const &dir) throw(SystemException);
+	FileInfo getFileInfo(std::string const &name) throw(SystemException);
+
+} // namespace utils
 
 #endif //_SYSTEM_H_
