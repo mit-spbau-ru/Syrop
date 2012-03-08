@@ -1,0 +1,26 @@
+Средства взаимодействия с ОС системой:
+
+Заголовочные файлы:
+	system.h
+
+Список функций и сущеностей:
+	std::vector<std::string> listDirEntries(std::string const &dir); --- перечисление файлов и каталогов расположенных
+	в директории указанной параметром std::string const &dir, результат возвращается как std::vector<string>.
+	
+	Пример использования:
+	
+	int main(int argc, char **argv)
+	{
+		try
+		{
+			std::vector<std::string> names = listDirEntries(std::string(argv[1]));
+			for (std::vector<std::string>::iterator it = names.begin(); it != names.end(); ++it)
+				std::cout << *it << std::endl;
+		}
+		catch (SystemException e)
+		{
+			std::cerr << e.getMessage() << std::endl;
+		}
+	
+		return 0;
+	}
