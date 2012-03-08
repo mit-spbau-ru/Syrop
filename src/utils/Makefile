@@ -1,12 +1,12 @@
-СС=g++
-CFLAG=-Wall -D _DEBUG
-LIBS=
-INCLUDE=
+СС := g++
+CFLAG := -Wall -D _DEBUG
+LIBS :=
+INCLUDE :=
 
 all : libutils.a
 
-libutils.a : proxysettings.o netparams.o iniparser.o system.o
-	ar crs libutils.a proxysettings.o netparams.o iniparser.o system.o
+libutils.a : proxysettings.o netparams.o iniparser.o stringutils.o system.o
+	ar crs libutils.a proxysettings.o netparams.o iniparser.o stringutils.o system.o
 
 proxysettings.o : proxysettings.cpp
 	$(CC) $(CFLAG) proxysettings.cpp -c -o proxysettings.o
@@ -16,6 +16,9 @@ netparams.o : netparams.cpp
 
 iniparser.o : iniparser.cpp
 	$(CC) $(CFLAG) iniparser.cpp -c -o iniparser.o
+
+stringutils.o : stringutils.cpp
+	$(CC) $(CFLAG) stringutils.cpp -c -o stringutils.o
 
 system.o : system.cpp
 	$(CC) $(CFLAG) system.cpp -c -o system.o

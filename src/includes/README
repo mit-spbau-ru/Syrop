@@ -1,2 +1,3 @@
 Files:
 	system.h --- system specific utilities
+	stringutils.h --- string processing functions
