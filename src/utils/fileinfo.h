@@ -15,8 +15,12 @@ namespace utils {
 	{
 		public:
 			FileInfo(std::string const &name)
-			: myName(name),
-			myValidityFlag(false)
+			: myValidityFlag(false),
+			myName(name)
+			{}
+			
+			FileInfo()
+			: myValidityFlag(false)
 			{}
 		
 			void read() throw(SystemException)
@@ -57,8 +61,8 @@ namespace utils {
 			}
 		
 		private:
-			std::string myName;
 			bool myValidityFlag;
+			std::string myName;
 			struct stat myStat;
 		
 			void validate() const throw(SystemException)

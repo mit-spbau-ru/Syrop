@@ -14,24 +14,24 @@ namespace utils {
  * Function list all directory entries in a directory specified by argument
  *
  * @param dir directory name
- * @return vector of directory entries names
+ * @return vector of FileInfo
  * @throws SystemException if an I/O error occured
  */
-std::vector<std::string> listDirEntries(std::string const &dir) throw(SystemException)
+std::vector<FileInfo> listDirEntries(std::string const &dir) throw(SystemException)
 {
 	DIR *dp = 0;
 	struct dirent *result = 0;
 	struct dirent entry;
 	const size_t msglen = 256;
 	char msg[msglen];
-	std::vector<std::string> names;
+	std::vector<FileInfo> names;
 	
 	if ( ( dp = opendir(dir.c_str()) ) == NULL)
 		//if an error occured throw SystemException
 		throw SystemException(std::string(strerror_r(errno, msg, msglen)));
 	
 	for (int r = readdir_r(dp, &entry, &result); result != NULL && r == 0; r = readdir_r(dp, &entry, &result) )
-		names.push_back( std::string(entry.d_name) );
+		names.push_back(getFileInfo(dir + "/" + std::string(entry.d_name)));
 	
 	closedir(dp);
 	

@@ -6,7 +6,7 @@
 
 namespace utils {
 
-	std::vector<std::string> listDirEntries(std::string const &dir) throw(SystemException);
+	std::vector<FileInfo> listDirEntries(std::string const &dir) throw(SystemException);
 	FileInfo getFileInfo(std::string const &name) throw(SystemException);
 
 } // namespace utils
