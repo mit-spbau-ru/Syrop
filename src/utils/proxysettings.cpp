@@ -1,4 +1,4 @@
-#include "proxysettings.h"
+#include "../includes/proxysettings.h"
 
 
 namespace utils{

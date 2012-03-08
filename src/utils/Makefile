@@ -1,11 +1,30 @@
-all : main.cpp utils.o
-	g++ -Wall -D _DEBUG main.cpp utils.o
+СС=g++
+CFLAG=-Wall -D _DEBUG
+LIBS=
+INCLUDE=
 
-lib : utils.o
-	ar r utils.a utils.o
+all : libutils.a
 
-utils.o : utils.h utils.cpp
-	g++ -c utils.cpp
+libutils.a : proxysettings.o netparams.o iniparser.o system.o
+	ar crs libutils.a proxysettings.o netparams.o iniparser.o system.o
+
+proxysettings.o : proxysettings.cpp
+	$(CC) $(CFLAG) proxysettings.cpp -c -o proxysettings.o
+
+netparams.o : netparams.cpp
+	$(CC) $(CFLAG) netparams.cpp -c -o netparams.o
+
+iniparser.o : iniparser.cpp
+	$(CC) $(CFLAG) iniparser.cpp -c -o iniparser.o
+
+system.o : system.cpp
+	$(CC) $(CFLAG) system.cpp -c -o system.o
+
+main.o : main.cpp
+	$(CC) $(CFLAG) main.cpp -c -o main.o
+
 clean:
-	rm -rf *.o ./a.out
+	rm -rf *.o *.a
+
+.PHONY : clean
 
