@@ -1,0 +1,5 @@
+Files:
+	coreutils.h --- assitance functions definition
+	coreutils.cpp --- assistance functions implemetation
+	pluginrunner.[h|cpp] --- assitance class to run plugins
+	appsettings.h --- dummy application proxy settings class

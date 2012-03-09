@@ -5,6 +5,7 @@
 #include <vector>
 #include <cerrno>
 #include <cstring>
+#include <cstdlib>
 
 #include "../includes/system.h"
 
@@ -57,6 +58,14 @@ FileInfo getFileInfo(std::string const &name) throw(SystemException)
 	info.read();
 	
 	return info;
+}
+
+std::string getUserHomeDir() throw(SystemException)
+{
+	char *home = getenv("HOME");
+	if (home == NULL)
+		throw SystemException("Environment variable HOME not found");
+	return std::string(home);
 }
 
 } // namespace utils

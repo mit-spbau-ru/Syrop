@@ -2,3 +2,4 @@ Files:
 	sysexception.h --- SystemException definition
 	system.cpp --- system specific utilities implementation
 	stringutils.cpp --- string algorithms
+	fileinfo.[h|cpp] --- file information class

@@ -15,6 +15,9 @@
 
 namespace utils {
 
+	/**
+	 * System information about file
+	 */
 	class FileInfo
 	{
 		public:
@@ -26,44 +29,46 @@ namespace utils {
 			FileInfo()
 			: myValidityFlag(false)
 			{}
+			
+			/**
+			 * Every FileInfo should be readed before using
+			 *
+			 * @throws SystemException if file isn't valid
+			 */
+			void read() throw(SystemException);
 		
-			void read() throw(SystemException)
-			{
-				const size_t msglen = 256;
-				char msg[msglen];
-				
-				//get full path name
-				char *fullPath = realpath(myName.c_str(), NULL);
-				if (errno != 0)
-					//throw SystemException if an error occurred
-					throw SystemException(std::string(strerror_r(errno, msg, msglen)));
-				myName.assign(fullPath);
-				free(fullPath);
-
-				//get file stat
-				stat(myName.c_str(), &myStat);
-				if (errno != 0)
-					//throw SystemException if an error occurred
-					throw SystemException(std::string(strerror_r(errno, msg, msglen)));
-				
-				//O.K.
-				myValidityFlag = true;
-			}
-		
-			std::string getName() const
+			/**
+			 * Method return only name of file or directory. Example: for file '/home/mirovingen/aptu', aptu will be returned
+			 *
+			 * @return file name withot path
+			 * @throws SystemException if file isn't valid
+			 */
+			std::string getName() const throw(SystemException)
 			{
 				validate();
 				
 				return utils::split(myName, std::string("/")).back();
 			}
 			
-			std::string getFullName() const
+			/**
+			 * Method returns full file name
+			 *
+			 * @return full file name
+			 * @throws SystemException if file isn't valid
+			 */
+			std::string getFullName() const throw(SystemException)
 			{
 				validate();
 				
 				return myName;
 			}
 		
+			/**
+			 * If file is a directory returns true, otherwise false
+			 *
+			 * @return true if file is a directory
+			 * @throws SystemException if file isn't valid
+			 */
 			bool isDirectory() const throw(SystemException)
 			{
 				validate();
@@ -71,6 +76,12 @@ namespace utils {
 				return S_ISDIR(myStat.st_mode);
 			}
 		
+			/**
+			 * If file is a regular file returns true, otherwise false
+			 *
+			 * @return true if file is a regular file
+			 * @throws SystemException if file isn't valid
+			 */
 			bool isFile() const throw(SystemException)
 			{
 				validate();
