@@ -1,43 +1,28 @@
-SRC := ..
-INCLUDES := $(SRC)/includes
-PLUGINS := $(SRC)/plugins
-UTILS := $(SRC)/utils
-INTEGRATON := $(SRC)/integration
-GUI := $(SRC)/gui
+PYTHON   := python2.7
+INCLUDES := -I/usr/include/$(PYTHON) -I../includes
+CFLAGS   := -Wall -Werror -pedantic -D _DEBUG $(INCLUDES)
+LIBS     := -l$(PYTHON) -lboost_python -lutils
+LIBSPATH := -L../utils
+CC       := g++
+RM       := rm -f
 
-PYVER := 2.7
-PYTHON := python$(PYVER)
-CFLAGS := -Werror -pedantic
-LIBS := -l$(PYTHON) -lboost_python -lutils
-LIBSPATH := -L$(UTILS)
-INCPATH := -I/usr/include/$(PYTHON) -I$(INCLUDES) -I/usr/include/file
-CC := g++
-MAKE := make
+SOURCES  := $(wildcard *.cpp)
+OBJECTS  := $(patsubst %.cpp, %.o, $(SOURCES))
 
-SOURCES_CPP = $(wildcard *.cpp)
-OBJECTS = $(patsubst %.cpp, %.o, $(SOURCES_CPP))
-
-.SUFFIXES: .cpp .o .h
-
-syrop : $(OBJECTS)
-	@echo -n 'Linking $@ ...'
-	@$(CC) $(LIBS) $(CFLAGS) $(OBJECTS) -o $@
-	@echo ' OK'
-
-.cpp.o :
-	@echo -n 'Compiling $@ ...'
-	@$(CC) -MMD -c $(CFLAGS) $(INCPATH) $< -o $@
-	@echo ' OK'
-
-clean :
-	@$(RM) *.o *.d
+.PHONY : clean
+.SUFFIXES : .cpp .o .h
 
 -include *.d
 
-run : all
-	./$(OUT)
+all : syrop
 
-utils :
-	$(MAKE) -C $(utils)
+syrop : $(OBJECTS)
+	$(CC) $(LIBS) $(CFLAGS) $(OBJECTS) -o $@
 
-.PHONY : clean
+.cpp.o :
+	$(CC) -MMD -c $(CFLAGS) $(INCPATH) $< -o $@
+
+clean :
+	$(RM) *.o *.d syrop
+
+

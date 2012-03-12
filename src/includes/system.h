@@ -1,15 +1,17 @@
-#ifndef _SYSTEM_H_
-#define _SYSTEM_H_
+#ifndef _INCLUDES_SYSTEM_H_
+#define _INCLUDES_SYSTEM_H_
 
-#include "../utils/sysexception.h"
-#include "../utils/fileinfo.h"
+#include <vector>
+#include <string>
+
+#include "fileinfo.h"
 
 namespace utils {
 
-	std::vector<FileInfo> listDirEntries(std::string const &dir) throw(SystemException);
-	FileInfo getFileInfo(std::string const &name) throw(SystemException);
-	std::string getUserHomeDir() throw(SystemException);
+	std::vector<FileInfo> listDirEntries(std::string const &dir);
+	std::string getErrorMessage(int errCode);
+	std::string getUserHomeDir();
 
 } // namespace utils
 
-#endif //_SYSTEM_H_
+#endif //_INCLUDES_SYSTEM_H_

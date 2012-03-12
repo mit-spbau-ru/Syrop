@@ -1,11 +1,9 @@
-#ifndef _CORE_H_
-#define _CORE_H_
+#ifndef _CORE_COREUTILS_H_
+#define _CORE_COREUTILS_H_
 
 #include <string>
 #include <map>
 #include <vector>
-
-#include "../includes/system.h"
 
 namespace core
 {
@@ -17,17 +15,17 @@ namespace core
 	 * @return vector of a string with path
 	 * @throws SystemException if an system error occurred
 	 */
-	std::vector<std::string> getSearchPath() throw(utils::SystemException);
+	std::vector<std::string> const &getSearchPath(); // throws SystemException
 	
 	/**
 	 * Return map of plugins in a diretories specified in the path argument
 	 *
-	 * #param path vectror of search pathes
-	 * @return set of pairs (plugin name, main plugin file)
+	 * @param path vectror of search pathes
+	 * @param plugins set of pairs (plugin name, main plugin file)
 	 * @throws SystemException if an system error occurred
 	 */
-	std::map<std::string, std::string> listPlugins(std::vector<std::string> path) throw(utils::SystemException);
+	void listPlugins(std::vector<std::string> const &path, std::map<std::string, std::string> &plugins); // throws SystemException
 
 } // namespace core
 
-#endif //_CORE_H_
+#endif //_CORE_COREUTILS_H_
