@@ -1,0 +1,50 @@
+Средства взаимодействия с ОС системой:
+
+Заголовочные файлы:
+	system.h
+
+Список функций и сущеностей:
+	std::vector<std::string> listDirEntries(std::string const &dir); --- перечисление файлов и каталогов расположенных
+	в директории указанной параметром std::string const &dir, результат возвращается как std::vector<string>.
+	Пример использования:
+	
+	int main(int argc, char **argv)
+	{
+		try
+		{
+			std::vector<std::string> names = listDirEntries(std::string(argv[1]));
+			for (std::vector<std::string>::iterator it = names.begin(); it != names.end(); ++it)
+				std::cout << *it << std::endl;
+		}
+		catch (SystemException e)
+		{
+			std::cerr << e.getMessage() << std::endl;
+		}
+	
+		return 0;
+	}
+	
+	FileInfo getFileInfo(std::string const &name) throw(SystemException); --- получает информацию о файле указанном
+	параметром std::string const &name, результат возвращается в классе FileInfo (см src/utils/fileinfo.h).
+	Пример использования:
+	
+	int main(int argc, char **argv)
+	{
+		try
+		{
+			std::string dir(argv[1]);
+			std::vector<std::string> names = listDirEntries(dir);
+			for (std::vector<std::string>::iterator it = names.begin(); it != names.end(); ++it)
+			{
+				FileInfo info = getFileInfo(dir + "/" + *it);
+				if (info.isFile())
+					std::cout << info.getName() << std::endl;
+			}
+		}
+		catch (SystemException e)
+		{
+			std::cerr << e.getMessage() << std::endl;
+		}
+	
+		return 0;
+	}
