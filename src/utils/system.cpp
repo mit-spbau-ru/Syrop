@@ -11,8 +11,6 @@
 #include "fileinfo.h"
 #include "sysexception.h"
 
-#include <iostream>
-
 namespace utils {
 
 /**
@@ -91,10 +89,7 @@ void createDir(std::string const &name) // throws SystemException
 				std::string subname(name.begin(), it);
 				//assign USER READ and USER WRITE permissions
 				if ( (mkdir(subname.c_str(), S_IRUSR | S_IWUSR | S_IXUSR) == -1) && (errno != EEXIST) )
-				{
-					std::cerr << errno << " " <<subname << std::endl;
 					throw SystemException(getErrorMessage(errno));
-				}
 			}
 		}
 	}
