@@ -11,6 +11,7 @@ namespace utils {
 	std::vector<FileInfo> listDirEntries(std::string const &dir);
 	std::string getErrorMessage(int errCode);
 	std::string getUserHomeDir();
+	void createDir(std::string const &name);
 
 } // namespace utils
 

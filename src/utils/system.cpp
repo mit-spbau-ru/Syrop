@@ -1,4 +1,5 @@
 #include <dirent.h>
+#include <sys/stat.h>
 #include <sys/types.h>
 
 #include <string>
@@ -9,6 +10,8 @@
 
 #include "fileinfo.h"
 #include "sysexception.h"
+
+#include <iostream>
 
 namespace utils {
 
@@ -67,6 +70,34 @@ std::string getUserHomeDir() // throws sSystemException
 	if (home == NULL)
 		throw SystemException("Environment variable HOME not found");
 	return std::string(home);
+}
+
+/**
+ * Creates directory name with all parent directories if they aren't exist
+ *
+ * @param name name of directory to be created
+ * @throws SystemException if an error occurred
+ */
+void createDir(std::string const &name) // throws SystemException
+{
+	if (!name.empty())
+	{
+		std::string::const_iterator it = name.begin();
+		while (it != name.end())
+		{
+			++it;
+			if ( (it == name.end()) || (*it == '/') )
+			{
+				std::string subname(name.begin(), it);
+				//assign USER READ and USER WRITE permissions
+				if ( (mkdir(subname.c_str(), S_IRUSR | S_IWUSR | S_IXUSR) == -1) && (errno != EEXIST) )
+				{
+					std::cerr << errno << " " <<subname << std::endl;
+					throw SystemException(getErrorMessage(errno));
+				}
+			}
+		}
+	}
 }
 
 } // namespace utils

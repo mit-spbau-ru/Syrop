@@ -9,8 +9,6 @@ OBJECTS  := $(patsubst %.cpp, %.o, $(SOURCES))
 .PHONY : clean
 .SUFFIXES : .cpp .o .h
 
--include *.d
-
 all : libutils.a
 
 libutils.a : $(OBJECTS)
@@ -18,6 +16,8 @@ libutils.a : $(OBJECTS)
 
 .cpp.o : 
 	$(CC) -MMD -c $(CFLAGS) $< -o $@
+
+-include *.d
 
 clean :
 	$(RM) *.o *.d *.a

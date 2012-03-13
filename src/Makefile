@@ -2,7 +2,9 @@ MAKE := make
 
 .PHONY : clean
 
-compile :
+all : syrop
+
+syrop :
 	$(MAKE) -C utils
 	$(MAKE) -C core
 

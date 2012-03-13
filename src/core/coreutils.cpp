@@ -39,19 +39,19 @@ static void listPlugins(string const &dir, map<string, string> &plugins)
 
 vector<string> const& getSearchPath()
 {
-	static vector<string> path;
-	if (path.empty())
+	static vector<string> pathes;
+	if (pathes.empty())
 	{
-		path.push_back(getUserHomeDir() + "/.syrop/plugins");
-		path.push_back("/usr/share/syrop/plugins");
+		pathes.push_back(getUserHomeDir() + "/.syrop/plugins");
+		pathes.push_back("/usr/share/syrop/plugins");
 	}
-	return path;
+	return pathes;
 }
 
-void listPlugins(vector<string> const& path, map<string, string> &plugins)
+void listPlugins(vector<string> const& pathes, map<string, string> &plugins)
 {
 	//for every path in a vector
-	for (vector<string>::const_iterator it = path.begin(); it != path.end(); ++it)
+	for (vector<string>::const_iterator it = pathes.begin(); it != pathes.end(); ++it)
 		listPlugins(*it, plugins);
 }
 

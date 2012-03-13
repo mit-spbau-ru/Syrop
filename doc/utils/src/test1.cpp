@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "system.h"
+#include "sysexception.h"
 
 int main(int argc, char **argv)
 {
@@ -14,7 +15,7 @@ int main(int argc, char **argv)
 	}
 	catch (utils::SystemException e)
 	{
-		std::cerr << e.getMessage() << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 	
 	return 0;
