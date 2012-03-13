@@ -64,7 +64,7 @@ std::vector<FileInfo> listDirEntries(std::string const &dir) // throws SystemExc
  */
 std::string getUserHomeDir() // throws sSystemException
 {
-	char *home = getenv("HOME");
+	char const * const home = getenv("HOME");
 	if (home == NULL)
 		throw SystemException("Environment variable HOME not found");
 	return std::string(home);
