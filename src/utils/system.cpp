@@ -43,8 +43,7 @@ std::vector<FileInfo> listDirEntries(std::string const &dir) // throws SystemExc
 		//if an error occured throw SystemException
 		throw SystemException(getErrorMessage(errno));
 	
-	int r = 0;
-	while ( ( (r = readdir_r(dp, &entry, &result) ) == 0 ) && ( result != NULL ) )
+	while ( ( readdir_r(dp, &entry, &result) == 0 ) && ( result != NULL ) )
 		names.push_back(FileInfo(dir + "/" + entry.d_name));
 	
 	closedir(dp);
