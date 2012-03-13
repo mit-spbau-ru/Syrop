@@ -6,7 +6,6 @@
 #include <vector>
 #include <cerrno>
 #include <cstring>
-#include <cstdlib>
 
 #include "fileinfo.h"
 #include "sysexception.h"
@@ -41,17 +40,21 @@ std::vector<FileInfo> listDirEntries(std::string const &dir) // throws SystemExc
 	
 	if ( ( dp = opendir(dir.c_str()) ) == NULL)
 		//if an error occured throw SystemException
-		throw SystemException(getErrorMessage(errno));
+		throw SystemException(getErrorMessage(errno) + " at listDirEntries");
 	
 	while ( ( readdir_r(dp, &entry, &result) == 0 ) && ( result != NULL ) )
-		names.push_back(FileInfo(dir + "/" + entry.d_name));
-	
-	closedir(dp);
+	{
+		std::string name(entry.d_name);
+		if (name != "." && name != "..")
+			names.push_back(FileInfo(dir + "/" + entry.d_name));
+	}
 	
 	//test an error	
 	if (errno != 0)
 		//throw SystemException if an error occured
-		throw SystemException(getErrorMessage(errno));
+		throw SystemException(getErrorMessage(errno) + " at listDirEntries");
+	
+	closedir(dp);
 	
 	return names;
 }
@@ -61,11 +64,11 @@ std::vector<FileInfo> listDirEntries(std::string const &dir) // throws SystemExc
  *
  * @throws std::exception if there isn't variable HOME
  */
-std::string getUserHomeDir() // throws sSystemException
+std::string getUserHomeDir() // throws SystemException
 {
 	char const * const home = getenv("HOME");
 	if (home == NULL)
-		throw SystemException("Environment variable HOME not found");
+		throw SystemException("Environment variable HOME not found at getUserHomeDir");
 	return std::string(home);
 }
 
@@ -77,19 +80,16 @@ std::string getUserHomeDir() // throws sSystemException
  */
 void createDir(std::string const &name) // throws SystemException
 {
-	if (!name.empty())
+	std::string::const_iterator it = name.begin();
+	while (it != name.end())
 	{
-		std::string::const_iterator it = name.begin();
-		while (it != name.end())
+		++it;
+		if ( (it == name.end()) || (*it == '/') )
 		{
-			++it;
-			if ( (it == name.end()) || (*it == '/') )
-			{
-				std::string subname(name.begin(), it);
-				//assign USER READ and USER WRITE permissions
-				if ( (mkdir(subname.c_str(), S_IRUSR | S_IWUSR | S_IXUSR) == -1) && (errno != EEXIST) )
-					throw SystemException(getErrorMessage(errno));
-			}
+			std::string subname(name.begin(), it);
+			//assign USER READ and USER WRITE permissions
+			if ( (mkdir(subname.c_str(), S_IRUSR | S_IWUSR | S_IXUSR) == -1) && (errno != EEXIST) )
+				throw SystemException(getErrorMessage(errno) + " at createDir");
 		}
 	}
 }

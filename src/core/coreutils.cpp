@@ -1,5 +1,6 @@
 #include "system.h"
 #include "coreutils.h"
+#include "sysexception.h"
 
 using utils::FileInfo;
 using utils::listDirEntries;
@@ -37,13 +38,27 @@ static void listPlugins(string const &dir, map<string, string> &plugins)
 			plugins.insert(make_pair<string, string>( it->getName(), it->getFullName() ) );
 }
 
-vector<string> const& getSearchPath()
+vector<string> const& getSearchPathes()
 {
 	static vector<string> pathes;
 	if (pathes.empty())
 	{
-		pathes.push_back(getUserHomeDir() + "/.syrop/plugins");
-		pathes.push_back("/usr/share/syrop/plugins");
+		try
+		{
+			string name = getUserHomeDir() + "/.syrop/plugins";
+			FileInfo info(name);
+			pathes.push_back(name);
+		}
+		catch (utils::SystemException const &e)
+		{}
+		
+		try
+		{
+			FileInfo info("/usr/share/syrop/plugins");
+			pathes.push_back("/usr/share/syrop/plugins");
+		}
+		catch (utils::SystemException const &e)
+		{}
 	}
 	return pathes;
 }

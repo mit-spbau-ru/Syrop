@@ -15,7 +15,7 @@ namespace core
 	 * @return vector of a string with path
 	 * @throws SystemException if an system error occurred
 	 */
-	std::vector<std::string> const &getSearchPath(); // throws SystemException
+	std::vector<std::string> const &getSearchPathes(); // throws SystemException
 	
 	/**
 	 * Return map of plugins in a diretories specified in the path argument
