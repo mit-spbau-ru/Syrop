@@ -1,5 +1,5 @@
 INCLUDES := ../includes
-CFLAGS   := -Wall -Werror -pedantic -D _DEBUG -I$(INCLUDES)
+CFLAGS   := -Wall -Werror -pedantic -D _DEBUG -I$(INCLUDES) -ggdb3
 CC       := g++
 RM       := rm -f
 

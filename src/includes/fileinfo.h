@@ -17,7 +17,7 @@ namespace utils {
 	class FileInfo
 	{
 	public:
-		FileInfo(std::string const &name) // throws SystemException
+		FileInfo(std::string const &name) // throws std::runtime_error
 		: myName(name)
 		{
 			read();
@@ -73,7 +73,7 @@ namespace utils {
 		std::string myName;
 		struct stat myStat;
 		
-		void read(); // throws SystemException
+		void read(); // throws std::runtime_error
 	};
 	
 } // namespace utils

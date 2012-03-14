@@ -1,15 +1,16 @@
 #include <cstdlib>
 #include <cerrno>
+#include <exception>
 #include <boost/shared_ptr.hpp>
 
 #include "fileinfo.h"
-#include "sysexception.h"
 #include "system.h"
 
 namespace utils {
 
-void FileInfo::read() // throws SystemException
+void FileInfo::read() // throws std::runtime_error
 {	
+	errno = 0;
 	//get full path name
 	boost::shared_ptr<char> fullPath(realpath(myName.c_str(), NULL), free);
 	int errCode = errno;
@@ -20,8 +21,7 @@ void FileInfo::read() // throws SystemException
 		errCode = errno;
 	}
 	if (errCode != 0)
-		//throw SystemException if an error occurred
-		throw SystemException(getErrorMessage(errCode));
+		throw std::runtime_error(getErrorMessage(errCode) + " at FileInfo::read on " + myName);
 }
 
 } // namespace utils
