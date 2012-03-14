@@ -1,23 +1,29 @@
-#ifndef _INIPARSER
-#define _INIPARSER
+#ifndef _INCLUDES_INIPARSER_
+#define _INCLUDES_INIPARSER_
 
 #include <iostream>
 #include <map>
 #include <string>
 
-#include "proxysettings.h"
-#include "netparams.h"
-
-using std::string;
-using std::pair;
-
+#include "inidata.h"
 
 namespace utils {
 
-	struct IniParser {
-		void showAppProxySettings(std::ostream&, AppProxySettings const&);
-		void readNetworkProxySettings(std::istream&, NetworkProxyParameters&);	
-		void showNetworkProxySettings(std::ostream&, NetworkProxyParameters const&);	
+	class IniParser {
+
+	public:
+
+		IniData readData( std::istream &is ) const;
+
+	private:
+		static bool isSectionName( string const &str ) ;
+		static string cleanComments( string const &str );
+		static string adjust( string const &str ) ;
+		static pair <string, string> getPair( string const &str );
+
+		//void showAppProxySettings( std::ostream&, AppProxySettings const& );	
+		//void showNetworkProxySettings( std::ostream&, NetworkProxyParameters const& );
+	
 	};
 			
 
