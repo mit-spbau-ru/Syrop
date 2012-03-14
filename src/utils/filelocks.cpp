@@ -66,7 +66,7 @@ bool lock(std::string const& where, std::string const& what)
  */
 bool unlock(std::string const& where, std::string const& what)
 {
-	if ( !locked(where, what) )
+	if ( locked(where, what) )
 	{
 		removeFile(where + "/" + what);
 		return true;
