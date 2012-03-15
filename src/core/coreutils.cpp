@@ -38,7 +38,11 @@ static void listPlugins(string const &dir, map<string, string> &plugins)
 	vector<FileInfo> children = listDirEntries(dir);
 	for (vector<FileInfo>::const_iterator it = children.begin(); it != children.end(); ++it)
 		if (testPlugin(*it))
-			plugins.insert(make_pair<string, string>( it->getName(), it->getFullName() ) );
+		{
+			string name = it->getName();
+			string fullName = it->getFullName() + "/" + name + pluginExtention;
+			plugins.insert(make_pair<string, string>( name, fullName ) );
+		}
 }
 
 std::string getApplicationDir()

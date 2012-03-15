@@ -6,8 +6,6 @@
 #include <boost/noncopyable.hpp>
 
 #include "system.h"
-
-//dummy AppProxySettings
 #include "appsettings.h"
 
 namespace bpy = boost::python;
@@ -28,8 +26,9 @@ namespace core
 		{
 			Py_Initialize();
 			myMain = bpy::import("__main__").attr("__dict__");
-			myMain["AppProxySettings"] = bpy::class_<AppProxySettings>("AppProxySettings", bpy::no_init)
-								.def("getProxy", &AppProxySettings::getProxy);
+			myMain["AppSettings"] = bpy::class_<utils::AppSettings>("AppSettings", bpy::no_init)
+								.def("getProxy", &utils::AppSettings::getAttribute)
+								.def("hasProxy", &utils::AppSettings::hasAttribute);
 		}
 		
 		/**
@@ -39,7 +38,7 @@ namespace core
 		 * @param settings AppProxySettings
 		 * @throws error_already_set if an Python interpreter error occurred
 		 */
-		void setupSettings(std::string const &script, AppProxySettings const &settings);
+		void setupSettings(std::string const &script, utils::AppSettings const &settings);
 		
 		/**
 		 * Method calls celanupSettings function in the Python script

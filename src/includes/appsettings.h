@@ -9,8 +9,11 @@ namespace utils{
 	class AppSettings{
 
 	public:
-		AppSettings( string const& app, attributes const &settings ) : app(app), 
-									     				   settings(settings) {}
+		AppSettings( string const& app, attributes const &settings )
+		: app(app)
+		, settings(settings)
+		{}
+		
 		string getAttribute(string const &attrName) const;
 		bool hasAttribute(string const &attrName) const;
 		string getApplicationName() const {return app;}

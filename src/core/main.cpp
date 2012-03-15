@@ -7,6 +7,12 @@
 #include "filelocks.h"
 #include "coreutils.h"
 #include "pluginrunner.h"
+#include "proxysettings.h"
+
+using std::string;
+using std::vector;
+using std::map;
+using std::pair;
 
 void printUsage()
 {
@@ -74,14 +80,25 @@ void parseArgs(int argc, char **argv, SyropControlArgs *h)
 	handleArgs(h);
 }
 
-void applyParameters(core::PluginRunner &runner)
+void applyParameters(core::PluginRunner &runner,
+			utils::ProxySettings const& settings)
 {
-	//TODO
+	map<string, string> plugins;
+	vector<string> const& pathes = core::getSearchPathes();
+	core::listPlugins(pathes, plugins);
+	
+	for (map<string, string>::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
+		runner.setupSettings( it->second, settings.getAppSettings(it->first) );
 }
 
 void cancelParameters(core::PluginRunner &runner)
 {
-	//TODO
+	map<string, string> plugins;
+	vector<string> const& pathes = core::getSearchPathes();
+	core::listPlugins(pathes, plugins);
+	
+	for (map<string, string>::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
+		runner.cleanupSettings( it->second );
 }
 
 int main(int argc, char **argv)
@@ -90,25 +107,27 @@ int main(int argc, char **argv)
 	{
 		SyropControlArgs handleParams;
 		parseArgs(argc, argv, &handleParams);
-		std::string appDir = core::getApplicationDir();
+		string appDir = core::getApplicationDir();
 		core::PluginRunner runner;
+		utils::ProxySettings settings;
 	
 		//test lock and call plugins
 		if (handleParams.apply)
 		{
+			string configDir = appDir + core::configs;
+			string configName = configDir + handleParams.network;
 			if (handleParams.create)
 			{
 				//create proxy config file if dosen't exists
-				std::string configDir = appDir + core::configs;
 				utils::createDir(configDir);
-				utils::createFile(configDir + handleParams.network);
+				utils::createFile(configName);
 			}
-			//call ini parser. TBD.
 			if ( utils::locked(appDir, "applied") )
 				cancelParameters(runner);
 			else
 				utils::lock(appDir, "applied");
-			applyParameters(runner);
+			settings.loadData(configName);
+			applyParameters(runner, settings);
 		}
 		//release lock and roll back settings
 		else if (handleParams.rollback && utils::locked(appDir, "applied") )
