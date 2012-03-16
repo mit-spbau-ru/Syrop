@@ -19,8 +19,14 @@ namespace utils{
 		}		
 	}
 
-	void ProxySettings::print() const {
+	/*void ProxySettings::print() const {
 		data.print();
+	}*/
+
+	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 
+	{
+		os << ps.data;
+		return os;
 	}
 
 }
