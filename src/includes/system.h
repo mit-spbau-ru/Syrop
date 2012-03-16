@@ -12,6 +12,8 @@ namespace utils {
 	std::string getErrorMessage(int errCode);
 	std::string getUserHomeDir();
 	void createDir(std::string const &name);
+	void createFile(std::string const &name);
+	void removeFile(std::string const &name);
 
 } // namespace utils
 

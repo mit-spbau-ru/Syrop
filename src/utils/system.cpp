@@ -1,14 +1,15 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <fcntl.h>
 
 #include <string>
 #include <vector>
 #include <cerrno>
 #include <cstring>
+#include <exception>
 
 #include "fileinfo.h"
-#include "sysexception.h"
 
 namespace utils {
 
@@ -29,18 +30,20 @@ std::string getErrorMessage(int errCode)
  *
  * @param dir directory name
  * @return vector of FileInfo
- * @throws std::exception if an I/O error occured
+ * @throws std::runtime_error if an I/O error occured
  */
-std::vector<FileInfo> listDirEntries(std::string const &dir) // throws SystemException
+std::vector<FileInfo> listDirEntries(std::string const &dir) // throws std::runtime_error
 {
 	DIR *dp = 0;
 	dirent *result = 0;
 	dirent entry;
 	std::vector<FileInfo> names;
 	
+	errno = 0;
+	
 	if ( ( dp = opendir(dir.c_str()) ) == NULL)
-		//if an error occured throw SystemException
-		throw SystemException(getErrorMessage(errno) + " at listDirEntries");
+		//if an error occured throw std::runtime_error
+		throw std::runtime_error(getErrorMessage(errno) + " at listDirEntries on " + dir);
 	
 	while ( ( readdir_r(dp, &entry, &result) == 0 ) && ( result != NULL ) )
 	{
@@ -51,8 +54,8 @@ std::vector<FileInfo> listDirEntries(std::string const &dir) // throws SystemExc
 	
 	//test an error	
 	if (errno != 0)
-		//throw SystemException if an error occured
-		throw SystemException(getErrorMessage(errno) + " at listDirEntries");
+		//throw std::runtime_error if an error occured
+		throw std::runtime_error(getErrorMessage(errno) + " at listDirEntries on " + dir);
 	
 	closedir(dp);
 	
@@ -62,13 +65,13 @@ std::vector<FileInfo> listDirEntries(std::string const &dir) // throws SystemExc
 /**
  * Returns user home dir defined in environment variable HOME
  *
- * @throws std::exception if there isn't variable HOME
+ * @throws std::runtime_error if there isn't variable HOME
  */
-std::string getUserHomeDir() // throws SystemException
+std::string getUserHomeDir() // throws std::runtime_error
 {
 	char const * const home = getenv("HOME");
 	if (home == NULL)
-		throw SystemException("Environment variable HOME not found at getUserHomeDir");
+		throw std::runtime_error("Environment variable HOME not found at getUserHomeDir");
 	return std::string(home);
 }
 
@@ -76,9 +79,9 @@ std::string getUserHomeDir() // throws SystemException
  * Creates directory name with all parent directories if they aren't exist
  *
  * @param name name of directory to be created
- * @throws SystemException if an error occurred
+ * @throws std::runtime_error if an error occurred
  */
-void createDir(std::string const &name) // throws SystemException
+void createDir(std::string const &name) // throws std::runtime_error
 {
 	std::string::const_iterator it = name.begin();
 	while (it != name.end())
@@ -88,10 +91,25 @@ void createDir(std::string const &name) // throws SystemException
 		{
 			std::string subname(name.begin(), it);
 			//assign USER READ and USER WRITE permissions
-			if ( (mkdir(subname.c_str(), S_IRUSR | S_IWUSR | S_IXUSR) == -1) && (errno != EEXIST) )
-				throw SystemException(getErrorMessage(errno) + " at createDir");
+			if ( (mkdir(subname.c_str(), S_IRWXU) == -1) && (errno != EEXIST) )
+				throw std::runtime_error(getErrorMessage(errno) + " at createDir on " + name);
 		}
 	}
+	errno = 0;
+}
+
+void createFile(std::string const &name) //throws std::runtime_error
+{
+	int fd = open(name.c_str(), O_CREAT, S_IRWXU);
+	if (fd == -1)
+		throw std::runtime_error(getErrorMessage(errno) + " at createFile on " + name);
+	close(fd);
+}
+
+void removeFile(std::string const &name) //throws std::runtime_error
+{
+	if ( unlink( name.c_str() ) == -1 )
+		throw std::runtime_error(getErrorMessage(errno) + " at removeFile on " + name);
 }
 
 } // namespace utils

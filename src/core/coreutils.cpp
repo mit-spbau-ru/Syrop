@@ -1,10 +1,13 @@
+#include <exception>
+
 #include "system.h"
 #include "coreutils.h"
-#include "sysexception.h"
+#include "fileinfo.h"
 
 using utils::FileInfo;
 using utils::listDirEntries;
 using utils::getUserHomeDir;
+using utils::createDir;
 
 using std::vector;
 using std::map;
@@ -22,7 +25,7 @@ static bool testPlugin(FileInfo const &info)
 		//list files
 		vector<FileInfo> children = listDirEntries(info.getFullName());
 		for (vector<FileInfo>::const_iterator it = children.begin(); it != children.end(); ++it)
-			if (it->getName() == (info.getName() + ".py") )
+			if (it->getName() == (info.getName() + pluginExtention) )
 				//main plugin file must have same name as plugin directory
 				return true;
 	}
@@ -35,7 +38,18 @@ static void listPlugins(string const &dir, map<string, string> &plugins)
 	vector<FileInfo> children = listDirEntries(dir);
 	for (vector<FileInfo>::const_iterator it = children.begin(); it != children.end(); ++it)
 		if (testPlugin(*it))
-			plugins.insert(make_pair<string, string>( it->getName(), it->getFullName() ) );
+		{
+			string name = it->getName();
+			string fullName = it->getFullName() + "/" + name + pluginExtention;
+			plugins.insert(make_pair<string, string>( name, fullName ) );
+		}
+}
+
+std::string getApplicationDir()
+{
+	string dirName = getUserHomeDir() + "/" + home;
+	createDir(dirName);
+	return dirName;
 }
 
 vector<string> const& getSearchPathes()
@@ -45,19 +59,18 @@ vector<string> const& getSearchPathes()
 	{
 		try
 		{
-			string name = getUserHomeDir() + "/.syrop/plugins";
-			FileInfo info(name);
-			pathes.push_back(name);
+			FileInfo info(getUserHomeDir() + "/" + home + plugins);
+			pathes.push_back(info.getFullName());
 		}
-		catch (utils::SystemException const &e)
+		catch (std::runtime_error const &e)
 		{}
 		
 		try
 		{
-			FileInfo info("/usr/share/syrop/plugins");
-			pathes.push_back("/usr/share/syrop/plugins");
+			FileInfo info(setup + plugins);
+			pathes.push_back(info.getFullName());
 		}
-		catch (utils::SystemException const &e)
+		catch (std::runtime_error const &e)
 		{}
 	}
 	return pathes;

@@ -11,7 +11,7 @@ namespace utils {
 	 *
 	 * @see system.cpp
 	 */
-	class SystemException : public std::exception
+	class SystemException : public std::runtime_error
 	{
 	public:
 		/**
@@ -20,20 +20,8 @@ namespace utils {
 		 * @param msg error message
 		 */
 		SystemException(std::string msg)
-		: std::exception()
-		, myMessage(msg)
+		: std::runtime_error(msg)
 		{}
-		
-		~SystemException() throw()
-		{}
-		
-		const char* what() const throw()
-		{
-			return myMessage.c_str();
-		}
-		
-	private:
-		std::string myMessage;
 	};
 	
 } //namespace utils

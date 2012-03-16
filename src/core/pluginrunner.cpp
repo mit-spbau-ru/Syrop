@@ -3,21 +3,35 @@
 namespace core
 {
 
-void PluginRunner::setupSettings(std::string const &script, core::AppProxySettings const &settings)
+void PluginRunner::setupSettings(std::string const &script, utils::AppSettings const &settings)
 {
-	//load script
-	bpy::object ignored = bpy::exec_file(bpy::str(script), myMain);
-	//find setupSettings function by name
-	bpy::object setup = myMain["setupSettings"];
-	//call
-	setup(bpy::ptr(&settings));
+	try
+	{
+		//load script
+		bpy::object ignored = bpy::exec_file(bpy::str(script), myMain);
+		//find setupSettings function by name
+		bpy::object setup = myMain["setupSettings"];
+		//call
+		setup(bpy::ptr(&settings));
+	}
+	catch (bpy::error_already_set const& e)
+	{
+		PyErr_Print();
+	}
 }
 
 void PluginRunner::cleanupSettings(std::string const &script)
 {
-	bpy::object ignored = bpy::exec_file(bpy::str(script), myMain);
-	bpy::object cleanup = myMain["cleanupSettings"];
-	cleanup();
+	try
+	{
+		bpy::object ignored = bpy::exec_file(bpy::str(script), myMain);
+		bpy::object cleanup = myMain["cleanupSettings"];
+		cleanup();
+	}
+	catch (bpy::error_already_set const& e)
+	{
+		PyErr_Print();
+	}
 }
 
 } // namespace core

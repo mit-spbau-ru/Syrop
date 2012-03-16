@@ -1,7 +1,7 @@
 INCLUDES := ../includes
-CFLAGS := -Wall -Werror -pedantic -D _DEBUG -I$(INCLUDES)
-CC := g++
-RM := rm -f
+CFLAGS   := -Wall -Werror -pedantic -D _DEBUG -I$(INCLUDES) -ggdb3
+CC       := g++
+RM       := rm -f
 
 SOURCES := $(wildcard *.cpp)
 OBJECTS := $(patsubst %.cpp, %.o, $(SOURCES))
