@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 
+
 namespace utils{
 
 	using std::string;
@@ -26,7 +27,10 @@ namespace utils{
 		bool hasSection( string const &sec ) const;
 		string getAttribute( string const &sec, string const &param_first ) const;
 
-		void print() const ;
+		//void print() const ;
+
+		friend std::ostream& operator<<( std::ostream &os, IniData const & idata );
+
 	private:
 		map <string, attributes> data;
 		
