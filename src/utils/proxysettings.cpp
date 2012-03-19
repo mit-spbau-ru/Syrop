@@ -1,19 +1,32 @@
-#include "../includes/proxysettings.h"
+#include <iostream>
+#include <fstream>
 
+#include "proxysettings.h"
 
 namespace utils{
 
-void AppProxySettings::push(string const &key, string const &val){
-	settings.insert(pair<string,string>(key,val));
+	AppSettings ProxySettings::getAppSettings( string const &appName ) const
+	{
+		return AppSettings( appName, data.getSection(appName) );
+	}
+
+	void ProxySettings::loadData( string const &fileName )
+	{
+		IniParser iparser;
+		std::ifstream file(fileName.c_str());
+		if (file.is_open()){
+			data = iparser.readData(file);	
+		}		
+	}
+
+	/*void ProxySettings::print() const {
+		data.print();
+	}*/
+
+	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 
+	{
+		os << ps.data;
+		return os;
+	}
+
 }
-
-bool AppProxySettings::empty(){
-	return settings.empty();
-}
-
-bool AppProxySettings::has(string const &str){
-	return settings.find(str) != settings.end();
-}
-
-
-} // namespace utils

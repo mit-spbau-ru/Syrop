@@ -1,36 +1,24 @@
-СС := g++
-CFLAG := -Wall -D _DEBUG
-LIBS :=
-INCLUDE :=
+INCLUDES := ../includes
+CFLAGS   := -Wall -Werror -pedantic -D _DEBUG -I$(INCLUDES) -ggdb3
+CC       := g++
+RM       := rm -f
+
+SOURCES := $(wildcard *.cpp)
+OBJECTS := $(patsubst %.cpp, %.o, $(SOURCES))
+
+.PHONY : clean
+.SUFFIXES : .cpp .o .h
 
 all : libutils.a
 
-libutils.a : proxysettings.o netparams.o iniparser.o fileinfo.o stringutils.o system.o
-	ar crs libutils.a proxysettings.o netparams.o iniparser.o fileinfo.o stringutils.o system.o
+libutils.a : $(OBJECTS)
+	ar crs libutils.a $(OBJECTS)
 
-proxysettings.o : proxysettings.cpp
-	$(CC) $(CFLAG) proxysettings.cpp -c -o proxysettings.o
+.cpp.o :
+	$(CC) -MMD -c $(CFLAGS) $< -o $@
 
-netparams.o : netparams.cpp
-	$(CC) $(CFLAG) netparams.cpp -c -o netparams.o
+-include *.d
 
-iniparser.o : iniparser.cpp
-	$(CC) $(CFLAG) iniparser.cpp -c -o iniparser.o
-
-fileinfo.o : fileinfo.cpp
-	$(CC) $(CFLAG) fileinfo.cpp -c -o fileinfo.o
-
-stringutils.o : stringutils.cpp
-	$(CC) $(CFLAG) stringutils.cpp -c -o stringutils.o
-
-system.o : system.cpp
-	$(CC) $(CFLAG) system.cpp -c -o system.o
-
-main.o : main.cpp
-	$(CC) $(CFLAG) main.cpp -c -o main.o
-
-clean:
-	rm -rf *.o *.a
-
-.PHONY : clean
+clean :
+	$(RM) *.o *.d *.a
 

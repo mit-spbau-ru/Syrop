@@ -1,15 +1,14 @@
-#ifndef _PLUGIN_RUNNER_
-#define _PLUGIN_RUNNER_
+#ifndef _CORE_PLUGINRUNNER_
+#define _CORE_PLUGINRUNNER_
 
 #include <string>
 #include <boost/python.hpp>
+#include <boost/noncopyable.hpp>
 
-#include "../includes/system.h"
-
-//dummy AppProxySettings
+#include "system.h"
 #include "appsettings.h"
 
-namespace bp = boost::python;
+namespace bpy = boost::python;
 
 namespace core
 {
@@ -17,52 +16,48 @@ namespace core
 	/**
 	 * Class initialize Python interpreter and call plugins specified by script name
 	 */
-	class PluginRunner
+	class PluginRunner : public boost::noncopyable
 	{
-		public:
-			/**
-			 * Constructor inititalize Python interpreter and prepare main module
-			 */
-			PluginRunner()
-			{
-				Py_Initialize();
-				myMain = bp::import("__main__").attr("__dict__");
-				myMain["AppProxySettings"] = bp::class_<AppProxySettings>("AppProxySettings", bp::no_init)
-									.def("getProxy", &AppProxySettings::getProxy);
-			}
-			
-			/**
-			 * Method calls setupSettings function with settings in the Python script
-			 *
-			 * @param script Python script name
-			 * @param settings AppProxySettings
-			 * @throws error_already_set if an Python interpreter error occurred
-			 */
-			void setupSettings(std::string const &script, core::AppProxySettings const &settings) throw(bp::error_already_set);
-			
-			/**
-			 * Method calls celanupSettings function in the Python script
-			 *
-			 * @param script Python script name
-			 * @throws error_already_set if an Python intepreter error occurred
-			 */
-			void cleanupSettings(std::string const &script) throw(bp::error_already_set);
-			
-			/**
-			 * Destructor finalize Python interpreter
-			 */
-			~PluginRunner()
-			{
-				Py_Finalize();
-			}
-	
-		private:
-			bp::object myMain;
-			
-			//I don't know whether it safe, anyway it is no needed
-			PluginRunner(PluginRunner const &);
-			PluginRunner& operator=(PluginRunner const &);
-	};
+	public:
+		/**
+		 * Constructor inititalize Python interpreter and prepare main module
+		 */
+		PluginRunner()
+		{
+			Py_Initialize();
+			myMain = bpy::import("__main__").attr("__dict__");
+			myMain["AppSettings"] = bpy::class_<utils::AppSettings>("AppSettings", bpy::no_init)
+								.def("getProxy", &utils::AppSettings::getAttribute)
+								.def("hasProxy", &utils::AppSettings::hasAttribute);
+		}
+		
+		/**
+		 * Method calls setupSettings function with settings in the Python script
+		 *
+		 * @param script Python script name
+		 * @param settings AppProxySettings
+		 * @throws error_already_set if an Python interpreter error occurred
+		 */
+		void setupSettings(std::string const &script, utils::AppSettings const &settings);
+		
+		/**
+		 * Method calls celanupSettings function in the Python script
+		 *
+		 * @param script Python script name
+		 * @throws error_already_set if an Python intepreter error occurred
+		 */
+		void cleanupSettings(std::string const &script);
+		
+		/**
+		 * Destructor finalize Python interpreter
+		 */
+		~PluginRunner()
+		{
+			Py_Finalize();
+		}
 
+	private:
+		bpy::object myMain;
+	};
 } // namespace core
-#endif //_PLUGIN_RUNNER_
+#endif //_CORE_PLUGINRUNNER_

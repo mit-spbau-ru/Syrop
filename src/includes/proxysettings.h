@@ -1,30 +1,27 @@
-#ifndef _PROXYSETTINGS
-#define _PROXYSETTINGS
+#ifndef _INCLUDES_PROXYSETTINGS_
+#define _INCLUDES_PROXYSETTINGS_
 
-#include <iostream>
-#include <map>
-#include <string>
-
-using std::string;
-using std::pair;
-
+#include "inidata.h"
+#include "appsettings.h"
+#include "iniparser.h"
 
 namespace utils{
-	
-	//stores settings of a certain proxy profile 
-	class AppProxySettings{
-	
-		std::map<string,string> settings;
 
-		public:
-			string& getProxy(string const&); 
-			void push(string const&, string const&);
+	class ProxySettings{
 	
-			bool empty();
-			bool has(string const &);
-			friend class IniParser;
-			
+	public:
+
+		AppSettings getAppSettings( string const &sec ) const;
+		void loadData( string const &fileName );
+		
+		//void print() const;
+		friend std::ostream& operator<<( std::ostream &os, ProxySettings const & ps );
+
+	private:
+		IniData data;
+		
 	};
 
-} // namespace utils
+}
+
 #endif

@@ -2,7 +2,9 @@
 #include "utils.h"
 
 using namespace utils;
-int main(){
+
+int main()
+{
 	
 	Parameters p;
 	std::cin >> p;
