@@ -1,4 +1,6 @@
 #include "appsettings.h"
+#include "emptyobject.h"
+//#include "inidata.h"
 
 namespace utils{
 	
@@ -9,7 +11,16 @@ namespace utils{
 
 	string AppSettings::getAttribute(string const &attrName) const
 	{
-		return ( settings.find(attrName) )->second;
+		try 
+		{
+			if ( settings.find(attrName) == settings.end() ) throw EmptyObjectException();
+		     return ( settings.find(attrName) )->second;
+		}
+		catch ( EmptyObjectException E )
+		{
+			std::cout << "AppSettings::getAttribute() : " << E.showReason() << std::endl;
+		}
+		return 0;
 	}
 
 	bool AppSettings::hasAttribute(string const &attrName) const

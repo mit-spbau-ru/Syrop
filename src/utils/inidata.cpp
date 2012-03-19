@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include "inidata.h"
+#include "emptyobject.h"
 
 using std::string;
 using std::map;
@@ -39,7 +40,16 @@ namespace utils{
 
 	attributes IniData::getSection( string const &sec ) const
 	{
-		return (data.find(sec))->second;
+		try
+		{
+			if ( data.find( sec ) == data.end() ) throw EmptyObjectException();
+			return (data.find(sec))->second;
+		}
+		catch ( EmptyObjectException E )
+		{
+			std::cout << "IniData::getSection()" << E.showReason() << std::endl;
+		}
+		return attributes();
 	}
 
 	vector< string > IniData::getSectionsList() const
