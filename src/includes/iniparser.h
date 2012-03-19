@@ -14,6 +14,7 @@ namespace utils {
 	public:
 
 		IniData readData( std::istream &is ) const;
+		void writeData(std::ostream &os, IniData const &idata);
 
 	private:
 		static bool isSectionName( string const &str ) ;

@@ -26,6 +26,17 @@ namespace utils{
 		return data.find(sec) != data.end();		
 	}
 	
+	bool IniData::hasAttribute( string const &sec, string const &attr ) const
+	{
+		if ( hasSection( sec ) )
+		{
+			attributes attrs = getSection( sec );
+			attributes::const_iterator  ait = attrs.find( attr );
+			return ( ait != attrs.end() ) ;
+		}		
+		return false;
+	}
+
 	attributes IniData::getSection( string const &sec ) const
 	{
 		return (data.find(sec))->second;

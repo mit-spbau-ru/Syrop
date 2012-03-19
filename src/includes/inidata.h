@@ -27,6 +27,7 @@ namespace utils{
 		
 		attributes getSection( string const &sec ) const;
 		bool hasSection( string const &sec ) const;
+		bool hasAttribute( string const &sec, string const &attr ) const;
 		vector< string > getSectionsList() const;
 		string getAttribute( string const &sec, string const &param_first ) const;
 

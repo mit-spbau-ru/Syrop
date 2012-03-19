@@ -19,7 +19,35 @@ namespace utils{
 
 		return as;
 	}
- 
+
+
+	void ProxySettings::save( AppSettings const & apps ) 
+	{
+		string name = apps.getApplicationName();
+		data.removeSection( name );
+
+		attributes settings = apps.getAllAttributes();
+		attributes::const_iterator sit = settings.begin();
+
+		data.addSection( name );
+		for ( ; sit != settings.end() ; ++sit )
+		{
+			data.addAttribute(name, *sit);
+		} 
+		fix( data );		
+	}
+
+	AppSettings ProxySettings::addNewApp( string const &name ) 
+	{
+		if ( data.hasSection( name ) ) return AppSettings();
+		
+		attributes attrs; // = data.getSection("default");
+		AppSettings apps( name, attrs );
+		save ( apps ) ;			
+		return apps;
+
+ 	}
+
 	AppSettings ProxySettings::getAppSettings( string const &appName ) const
 	{
 		return AppSettings( appName, data.getSection(appName) );
@@ -27,10 +55,20 @@ namespace utils{
 
 	void ProxySettings::loadData( string const &fileName )
 	{
+		this->fileName = fileName;
 		IniParser iparser;
 		std::ifstream file(fileName.c_str());
 		if (file.is_open()){
 			data = iparser.readData(file);	
+		}		
+	}
+
+	void ProxySettings::fix( IniData const &idata )
+	{
+		IniParser iparser;
+		std::ofstream file(fileName.c_str());
+		if (file.is_open()){
+			iparser.writeData(file, idata);	
 		}		
 	}
 

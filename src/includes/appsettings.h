@@ -13,8 +13,11 @@ namespace utils{
 		: app(app)
 		, settings(settings)
 		{}
+		AppSettings () {}
 		
 		string getAttribute(string const &attrName) const;
+		void setAttribute(string const &attrName, string const &attrVal);
+		attributes const & getAllAttributes() const;
 		bool hasAttribute(string const &attrName) const;
 		string getApplicationName() const {return app;}
 
