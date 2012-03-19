@@ -11,7 +11,6 @@
 
 using std::string;
 using std::vector;
-using std::map;
 using std::pair;
 
 void printUsage()
@@ -50,8 +49,8 @@ void handleArgs(SyropControlArgs const *h)
 
 void parseArgs(int argc, char **argv, SyropControlArgs *h)
 {
-	int c;
-	int dummy;
+	int c = 0;
+	int dummy = 0;
 	
 	h->apply = h->rollback = h->create = h->help = false;
 	
@@ -80,24 +79,23 @@ void parseArgs(int argc, char **argv, SyropControlArgs *h)
 	handleArgs(h);
 }
 
-void applyParameters(core::PluginRunner &runner,
-			utils::ProxySettings const& settings)
+void applyParameters(core::PluginRunner &runner, utils::ProxySettings const& settings)
 {
-	map<string, string> plugins;
+	plugins_t plugins;
 	vector<string> const& pathes = core::getSearchPathes();
 	core::listPlugins(pathes, plugins);
 	
-	for (map<string, string>::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
+	for (plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
 		runner.setupSettings( it->second, settings.getAppSettings(it->first) );
 }
 
 void cancelParameters(core::PluginRunner &runner)
 {
-	map<string, string> plugins;
+	plugins_t plugins;
 	vector<string> const& pathes = core::getSearchPathes();
 	core::listPlugins(pathes, plugins);
 	
-	for (map<string, string>::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
+	for (plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
 		runner.cleanupSettings( it->second );
 }
 
@@ -105,17 +103,17 @@ int main(int argc, char **argv)
 {	
 	try
 	{
-		SyropControlArgs handleParams;
+		SyropControlArgs handleParams = {};
 		parseArgs(argc, argv, &handleParams);
-		string appDir = core::getApplicationDir();
+		string const appDir = core::getApplicationDir();
 		core::PluginRunner runner;
 		utils::ProxySettings settings;
 	
 		//test lock and call plugins
 		if (handleParams.apply)
 		{
-			string configDir = appDir + core::configs;
-			string configName = configDir + handleParams.network;
+			string const configDir = appDir + core::configs;
+			string const configName = configDir + handleParams.network;
 			if (handleParams.create)
 			{
 				//create proxy config file if dosen't exists

@@ -18,7 +18,7 @@ namespace utils {
 	{
 	public:
 		FileInfo(std::string const &name) // throws std::runtime_error
-		: myName(name)
+			: myName(name)
 		{
 			read();
 		}

@@ -5,6 +5,9 @@
 #include <unistd.h>
 #include <getopt.h>
 
+#include <map>
+#include <string>
+
 struct SyropControlArgs
 {
 	bool apply;
@@ -24,5 +27,7 @@ static const struct option longOps[] =
 	{"help",      no_argument,       NULL, 'h'},
 	{NULL,        no_argument,       NULL, 0}
 };
+
+typedef std::map<std::string, std::string> plugins_t;
 
 #endif // _CORE_SYROP_H_

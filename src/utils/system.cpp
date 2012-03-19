@@ -13,6 +13,8 @@
 
 namespace utils {
 
+typedef std::vector<FileInfo> files_t;
+
 /**
  * Returns error message returned by strerror_r
  *
@@ -20,7 +22,7 @@ namespace utils {
  */
 std::string getErrorMessage(int errCode)
 {
-	static const size_t maxLen = 256;
+	static size_t const maxLen = 256;
 	static char msgBuf[maxLen] = {};
 	return std::string(strerror_r(errCode, msgBuf, maxLen));
 }
@@ -32,12 +34,12 @@ std::string getErrorMessage(int errCode)
  * @return vector of FileInfo
  * @throws std::runtime_error if an I/O error occured
  */
-std::vector<FileInfo> listDirEntries(std::string const &dir) // throws std::runtime_error
+files_t listDirEntries(std::string const &dir) // throws std::runtime_error
 {
 	DIR *dp = 0;
 	dirent *result = 0;
-	dirent entry;
-	std::vector<FileInfo> names;
+	dirent entry = {};
+	files_t names;
 	
 	errno = 0;
 	

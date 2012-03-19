@@ -8,9 +8,9 @@ void PluginRunner::setupSettings(std::string const &script, utils::AppSettings c
 	try
 	{
 		//load script
-		bpy::object ignored = bpy::exec_file(bpy::str(script), myMain);
+		bpy::object const ignored = bpy::exec_file(bpy::str(script), myMain);
 		//find setupSettings function by name
-		bpy::object setup = myMain["setupSettings"];
+		bpy::object const setup = myMain["setupSettings"];
 		//call
 		setup(bpy::ptr(&settings));
 	}
@@ -24,8 +24,8 @@ void PluginRunner::cleanupSettings(std::string const &script)
 {
 	try
 	{
-		bpy::object ignored = bpy::exec_file(bpy::str(script), myMain);
-		bpy::object cleanup = myMain["cleanupSettings"];
+		bpy::object const ignored = bpy::exec_file(bpy::str(script), myMain);
+		bpy::object const cleanup = myMain["cleanupSettings"];
 		cleanup();
 	}
 	catch (bpy::error_already_set const& e)

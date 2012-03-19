@@ -12,12 +12,12 @@ void FileInfo::read() // throws std::runtime_error
 {	
 	errno = 0;
 	//get full path name
-	boost::shared_ptr<char> fullPath(realpath(myName.c_str(), NULL), free);
+	boost::shared_ptr<char> const fullPath(realpath(myName.c_str(), NULL), free);
 	int errCode = errno;
 	if (errCode == 0) {
-		myName.assign(fullPath.get());
+		myName.assign( fullPath.get() );
 		//get file stat
-		stat(myName.c_str(), &myStat);
+		stat( myName.c_str(), &myStat );
 		errCode = errno;
 	}
 	if (errCode != 0)

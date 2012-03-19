@@ -8,13 +8,15 @@
 namespace utils
 {
 
+typedef std::vector<FileInfo> files_t;
+
 struct Predicat
 {
 	Predicat(std::string const& s)
 	: myValue(s)
 	{}
 	
-	bool operator()(FileInfo const& info)
+	bool operator()(FileInfo const& info) const
 	{
 		return myValue == info.getName();
 	}
@@ -32,8 +34,8 @@ struct Predicat
  */
 bool locked(std::string const& where, std::string const& what)
 {
-	std::vector<FileInfo> entries = listDirEntries(where);
-	std::vector<FileInfo>::const_iterator it = find_if(entries.begin(),
+	files_t const entries = listDirEntries(where);
+	files_t::const_iterator it = find_if(entries.begin(),
 						entries.end(), Predicat(what));
 	
 	return it != entries.end();
