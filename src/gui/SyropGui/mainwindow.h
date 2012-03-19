@@ -14,8 +14,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+private slots:
+    void addNetwork();
+    
     
 private:
+    void addNetworkEntity(QString const& networkTitle);
     Ui::MainWindow *ui;
 };
 
