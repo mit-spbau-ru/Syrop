@@ -12,6 +12,7 @@ namespace utils{
 	public:
 
 		AppSettings getAppSettings( string const &sec ) const;
+		vector< AppSettings > getAllSettings () const;
 		void loadData( string const &fileName );
 		
 		//void print() const;

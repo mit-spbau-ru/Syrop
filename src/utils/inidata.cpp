@@ -30,6 +30,16 @@ namespace utils{
 	{
 		return (data.find(sec))->second;
 	}
+
+	vector< string > IniData::getSectionsList() const
+	{
+		vector<string> secs;
+		map <string, attributes>::const_iterator it = data.begin();
+		for ( ; it != data.end() ; ++it ) {
+			secs.push_back( it->first );
+		}
+		return secs;
+	}
 	//string IniData::getAttribute(string const &){
 	//}
 

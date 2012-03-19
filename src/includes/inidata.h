@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <map>
 
 
@@ -11,6 +12,7 @@ namespace utils{
 	using std::string;
 	using std::map;
 	using std::pair;
+	using std::vector;
 
 	typedef map <string, string> attributes;
 
@@ -25,6 +27,7 @@ namespace utils{
 		
 		attributes getSection( string const &sec ) const;
 		bool hasSection( string const &sec ) const;
+		vector< string > getSectionsList() const;
 		string getAttribute( string const &sec, string const &param_first ) const;
 
 		//void print() const ;
