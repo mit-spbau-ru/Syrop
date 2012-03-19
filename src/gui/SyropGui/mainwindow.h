@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -17,7 +17,6 @@ public:
 
 private slots:
     void addNetwork();
-    
     
 private:
     void addNetworkEntity(QString const& networkTitle);

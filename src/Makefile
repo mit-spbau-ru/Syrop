@@ -8,6 +8,9 @@ syrop :
 	$(MAKE) -C utils
 	$(MAKE) -C core
 
+syrop_gui:
+	echo 'no way' 
+
 docs :
 	doxygen config.dox
 

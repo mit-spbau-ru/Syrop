@@ -1,9 +1,9 @@
 #include "dialogaddnetwork.h"
 #include "ui_dialogaddnetwork.h"
 
-DialogAddNetwork::DialogAddNetwork(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogAddNetwork)
+DialogAddNetwork::DialogAddNetwork(QWidget *parent) 
+    : QDialog(parent)
+    , ui(new Ui::DialogAddNetwork)
 {
     ui->setupUi(this);
 }

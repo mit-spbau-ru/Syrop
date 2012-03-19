@@ -31,6 +31,11 @@ void MainWindow::addNetwork()
 void MainWindow::addNetworkEntity(QString const& networkTitle)
 {
     ui->listWidgetNetworks->addItem(networkTitle);
+    QWidget* q = new QWidget;
+    ui->tabWidget->addTab(q, "**** Tab");
+    
+    
+    
 }
 
 MainWindow::~MainWindow()

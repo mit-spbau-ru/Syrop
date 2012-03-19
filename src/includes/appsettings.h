@@ -8,6 +8,7 @@ namespace utils{
 	
 	class AppSettings{
 
+
 	public:
 		AppSettings( string const& app, attributes const &settings )
 		: app(app)

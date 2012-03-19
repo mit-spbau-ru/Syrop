@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class DialogAddNetwork;
+    class DialogAddNetwork;
 }
 
 class DialogAddNetwork : public QDialog
