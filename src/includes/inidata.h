@@ -24,6 +24,8 @@ namespace utils{
 		void addAttribute( string const &sec, pair <string, string> const &params );
 		void removeSection( string const &sec );
 		void removeAttribute( string const &attr );
+
+		void dropAll() { data.clear(); }
 		
 		attributes getSection( string const &sec ) const;
 		bool hasSection( string const &sec ) const;

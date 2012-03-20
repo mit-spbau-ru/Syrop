@@ -38,6 +38,13 @@ namespace utils{
 		return false;
 	}
 
+	void IniData::removeSection( string const &sec ) 
+	{
+		map < string, attributes >::iterator dit = data.find( sec );
+		if ( dit != data.end() ) data.erase ( dit );		
+		return;
+	}
+
 	attributes IniData::getSection( string const &sec ) const
 	{
 		try
@@ -47,7 +54,8 @@ namespace utils{
 		}
 		catch ( EmptyObjectException E )
 		{
-			std::cout << "IniData::getSection()" << E.showReason() << std::endl;
+			std::cout << "IniData::getSection() " << E.showReason() << std::endl;
+			throw ( E );
 		}
 		return attributes();
 	}

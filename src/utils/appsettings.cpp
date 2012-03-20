@@ -1,6 +1,5 @@
 #include "appsettings.h"
 #include "emptyobject.h"
-//#include "inidata.h"
 
 namespace utils{
 	
