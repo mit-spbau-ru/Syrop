@@ -1,19 +1,31 @@
+/*****************************************************************************************
+ * Copyright (c) 2012 K. Krasheninnikova, M. Krinkin, S. Martynov, A. Smal, A. Velikiy   *
+ *                                                                                       *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this  *
+ * software and associated documentation files (the "Software"), to deal in the Software *
+ * without restriction, including without limitation the rights to use, copy, modify,    *
+ * merge, publish, distribute, sublicense, and/or sell copies of the Software, and to    *
+ * permit persons to whom the Software is furnished to do so, subject to the following   *
+ * conditions:                                                                           *
+ *                                                                                       *
+ * The above copyright notice and this permission notice shall be included in all copies *
+ * or substantial portions of the Software.                                              *
+ *                                                                                       *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+ *****************************************************************************************/
+
 #include <string>
 #include <iostream>
 #include <cerrno>
 
 #include "syrop.h"
-#include "system.h"
-#include "filelocks.h"
-#include "coreutils.h"
-#include "pluginrunner.h"
-#include "proxysettings.h"
 
-using std::string;
-using std::vector;
-using std::pair;
-
-void printUsage()
+void print_usage()
 {
 	std::cout << "usage:" << std::endl
 	          << "\t1. syrop [-c] (-a <network name> | -r) --- apply or roll back proxy parameters" << std::endl
@@ -23,7 +35,7 @@ void printUsage()
 		  << "\t\t-r or --roll_back" << std::endl;
 }
 
-void handleArgs(SyropControlArgs const *h)
+void handle_args(SyropControlArgs const *h)
 {
 	if (h->apply && h->rollback)
 	{
@@ -37,7 +49,7 @@ void handleArgs(SyropControlArgs const *h)
 	}
 	if (h->help)
 	{
-		printUsage();
+		print_usage();
 		exit(1);
 	}
 	if (!h->apply && !h->rollback)
@@ -47,7 +59,7 @@ void handleArgs(SyropControlArgs const *h)
 	}
 }
 
-void parseArgs(int argc, char **argv, SyropControlArgs *h)
+void parse_args(int argc, char **argv, SyropControlArgs *h)
 {
 	int c = 0;
 	int dummy = 0;
@@ -76,24 +88,24 @@ void parseArgs(int argc, char **argv, SyropControlArgs *h)
 		}
 	}
 	
-	handleArgs(h);
+	handle_args(h);
 }
 
-void applyParameters(core::PluginRunner &runner, utils::ProxySettings const& settings)
+void apply_parameters(PluginRunner &runner, ProxySettings const& settings)
 {
 	plugins_t plugins;
-	vector<string> const& pathes = core::getSearchPathes();
-	core::listPlugins(pathes, plugins);
+	vector<string> const& pathes = search_pathes();
+	list_plugins(pathes, plugins);
 	
 	for (plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
 		runner.setupSettings( it->second, settings.getAppSettings(it->first) );
 }
 
-void cancelParameters(core::PluginRunner &runner)
+void cancel_parameters(PluginRunner &runner)
 {
 	plugins_t plugins;
-	vector<string> const& pathes = core::getSearchPathes();
-	core::listPlugins(pathes, plugins);
+	vector<string> const& pathes = search_pathes();
+	list_plugins(pathes, plugins);
 	
 	for (plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
 		runner.cleanupSettings( it->second );
@@ -104,10 +116,10 @@ int main(int argc, char **argv)
 	try
 	{
 		SyropControlArgs handleParams = {};
-		parseArgs(argc, argv, &handleParams);
-		string const appDir = core::getApplicationDir();
-		core::PluginRunner runner;
-		utils::ProxySettings settings;
+		parse_args(argc, argv, &handleParams);
+		string const appDir = application_dir();
+		PluginRunner runner;
+		ProxySettings settings;
 	
 		//test lock and call plugins
 		if (handleParams.apply)
@@ -117,21 +129,21 @@ int main(int argc, char **argv)
 			if (handleParams.create)
 			{
 				//create proxy config file if dosen't exists
-				utils::createDir(configDir);
-				utils::createFile(configName);
+				create_dir(configDir);
+				create_file(configName);
 			}
-			if ( utils::locked(appDir, "applied") )
-				cancelParameters(runner);
+			if ( locked(appDir, "applied") )
+				cancel_parameters(runner);
 			else
-				utils::lock(appDir, "applied");
+				lock(appDir, "applied");
 			settings.loadData(configName);
-			applyParameters(runner, settings);
+			apply_parameters(runner, settings);
 		}
 		//release lock and roll back settings
-		else if (handleParams.rollback && utils::locked(appDir, "applied") )
+		else if (handleParams.rollback && locked(appDir, "applied") )
 		{
-			cancelParameters(runner);
-			utils::unlock(appDir, "applied");
+			cancel_parameters(runner);
+			unlock(appDir, "applied");
 		}
 	}
 	catch (std::runtime_error const& e)
