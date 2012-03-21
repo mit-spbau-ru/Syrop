@@ -12,14 +12,16 @@ namespace utils{
 	{
 		try 
 		{
-			if ( settings.find(attrName) == settings.end() ) throw EmptyObjectException();
+			if ( settings.find( attrName ) == settings.end() ) 
+				throw EmptyObjectException();
+
 		     return ( settings.find(attrName) )->second;
 		}
 		catch ( EmptyObjectException E )
 		{
 			std::cout << "AppSettings::getAttribute() : " << E.showReason() << std::endl;
 		}
-		return 0;
+		return string();
 	}
 
 	bool AppSettings::hasAttribute(string const &attrName) const

@@ -49,7 +49,9 @@ namespace utils{
 	{
 		try
 		{
-			if ( data.find( sec ) == data.end() ) throw EmptyObjectException();
+			if ( data.find( sec ) == data.end() ) 
+				throw EmptyObjectException();
+
 			return (data.find(sec))->second;
 		}
 		catch ( EmptyObjectException E )
