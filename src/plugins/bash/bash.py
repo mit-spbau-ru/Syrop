@@ -5,27 +5,30 @@ def setupSettings (settings):
 	writeProxyFile(settings)
 
 def cleanupSettings ():
-	os.remove("~/.proxy_settings")
+	os.remove(os.path.expanduser("~/.proxy_settings"))
 
 def writeProxyFile (settings):
-	file = open("~/.proxy_settings", "w")
+	file = open(os.path.expanduser("~/.proxy_settings"), "w")
 	if settings.hasProxy("http"):
 		file.write("http_proxy=" + settings.getProxy("http") + "\n")
+		file.write("export http_proxy\n")
 	if settings.hasProxy("https"):
 		file.write("https_proxy=" + settings.getProxy("https") + "\n")
+		file.write("export https_proxy\n")
 	file.close()
 
 def findProxyParameters ():
-	bashrc = open("~/.bashrc", "r")
+	name = os.path.expanduser("~/.bashrc")
+	bashrc = open(name, "r")
 	for line in bashrc.readlines():
 		if line.lower().find("http_proxy") != -1:
 			return
 		if line.lower().find("proxy_settings") != -1:
 			return
 	bashrc.close()
-	bashrc = open("~/.bashrc", "a")
+	bashrc = open(name, "a")
 	bashrc.write("\n\n")
 	bashrc.write("if [ -f ~/.proxy_settings ]; then\n")
 	bashrc.write("\t. ~/.proxy_settings\n")
-	bashrc.write("fi")
+	bashrc.write("fi\n")
 	bashrc.close()
