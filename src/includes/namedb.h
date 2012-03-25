@@ -47,12 +47,19 @@ namespace utils
 	public:
 		NamesDataBase(std::string const &file);
 		
+		NamesDataBase()
+			{}
+		
+		void addDescription(NetworkAttributes const &attrs) { myBase.push_back(attrs); }
+		
+		void write(std::string const &file);
+		
 		/**
 		 * Adds all known NetworkAttributes that satisfies checker test
 		 *
 		 * @param checker any entity that allow to write checker(attr) and return bool, where attr is
 		 * NetworkAttributes const&
-		 * @param result vector of NetworkAttributes where attributes will be placed
+		 * @param result vector of NetworkAttributes where filtered attributes will be placed
 		 */
 		template <class QueryChecker>
 		void filter(QueryChecker const &checker, networks_t &result) const

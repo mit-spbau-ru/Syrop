@@ -34,7 +34,7 @@ NamesDataBase::NamesDataBase(std::string const &file)
 	errno = 0;
 	std::ifstream in(file.c_str());
 	if ( in.fail() )
-		throw std::runtime_error(error_message(errno));
+		throw std::runtime_error( error_message(errno) );
 		
 	IniData const data = IniParser().readData(in);
 	in.close();
@@ -42,6 +42,26 @@ NamesDataBase::NamesDataBase(std::string const &file)
 	std::vector<std::string> const names = data.getSectionsList();
 	for(std::vector<std::string>::const_iterator it = names.begin(); it != names.end(); ++it)
 		readNetworkAttributes(data, *it);
+}
+
+void NamesDataBase::write(std::string const &file)
+{
+	errno = 0;
+	std::ofstream out(file.c_str());
+	if ( out.fail() )
+		throw std::runtime_error( error_message(errno) );
+	IniData data;
+	for (networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it)
+	{
+		data.addSection(it->config);
+		if (!it->essid.empty()) data.addAttribute(it->config, make_pair("essid", it->essid));
+		if (!it->gwip.empty()) data.addAttribute(it->config, make_pair("gatewayip", it->gwip));
+		if (!it->netmask.empty()) data.addAttribute(it->config, make_pair("netmask", it->netmask));
+		if (!it->dev.empty()) data.addAttribute(it->config, make_pair("device", it->dev));
+	}
+	
+	out << data;
+	out.close();
 }
 
 void NamesDataBase::readNetworkAttributes(IniData const &data, std::string const &network)
