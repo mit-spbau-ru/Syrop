@@ -86,20 +86,18 @@ namespace utils{
 	void ProxySettings::loadData( string const &fileName )
 	{
 		this->fileName = fileName;
-		IniParser iparser;
 		std::ifstream file(fileName.c_str());
 		if (file.is_open()){
-			data = iparser.readData(file);	
+			data = readData(file);	
 		}	
 		file.close();	
 	}
 
 	void ProxySettings::fix( IniData const &idata ) const
 	{
-		IniParser iparser;
 		std::ofstream file(fileName.c_str());
 		if (file.is_open()){
-			iparser.writeData(file, idata);	
+			writeData(file, idata);	
 		}		
 		file.close();
 	}
