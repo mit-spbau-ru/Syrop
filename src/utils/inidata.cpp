@@ -40,7 +40,7 @@ namespace utils{
 
 	void IniData::removeSection( string const &sec ) 
 	{
-		map < string, attributes >::iterator dit = data.find( sec );
+		attributes_map::iterator dit = data.find( sec );
 		if ( dit != data.end() ) data.erase ( dit );		
 		return;
 	}
@@ -65,7 +65,7 @@ namespace utils{
 	vector< string > IniData::getSectionsList() const
 	{
 		vector<string> secs;
-		map <string, attributes>::const_iterator it = data.begin();
+		attributes_map::const_iterator it = data.begin();
 		for ( ; it != data.end() ; ++it ) {
 			secs.push_back( it->first );
 		}
@@ -90,7 +90,7 @@ namespace utils{
 	std::ostream& operator<<( std::ostream &os, IniData const &idata ) 
 	{
 
-		std::map<string, attributes>::const_iterator ait = idata.data.begin();
+		attributes_map::const_iterator ait = idata.data.begin();
 
 		for ( ; ait != idata.data.end(); ++ait){
 			os <<  " " << ait -> first << std::endl; 
