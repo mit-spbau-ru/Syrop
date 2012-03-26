@@ -50,9 +50,10 @@ namespace core
 		{
 			Py_Initialize();
 			myMain = bpy::import("__main__").attr("__dict__");
-			myMain["AppSettings"] = bpy::class_<AppSettings>("AppSettings", bpy::no_init)
-								.def("getProxy", &AppSettings::getAttribute)
-								.def("hasProxy", &AppSettings::hasAttribute);
+			myMain["AppSettings"] = bpy::class_<wrapper>("AppSettings", bpy::no_init)
+								.def("__getitem__", &wrapper::get,
+									bpy::return_value_policy<bpy::copy_const_reference>())
+								.def("__contains__", &wrapper::in);
 		}
 		
 		/**
@@ -82,6 +83,18 @@ namespace core
 
 	private:
 		bpy::object myMain;
+		
+		typedef struct AppSettingsWrapper
+		{
+			AppSettingsWrapper(utils::AppSettings const &settings)
+				: mySettings(settings)
+			{}
+			
+			bool in(string const &prot) const { return mySettings.hasAttribute(prot); }
+			string const& get(string const &prot) const { return mySettings[prot]; }
+			
+			utils::AppSettings const mySettings;
+		} wrapper;
 	};
 } // namespace core
 #endif //_CORE_PLUGINRUNNER_

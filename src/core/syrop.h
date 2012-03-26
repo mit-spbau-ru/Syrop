@@ -30,7 +30,6 @@
 #include <string>
 
 #include "system.h"
-#include "filelocks.h"
 #include "coreutils.h"
 #include "pluginrunner.h"
 #include "proxysettings.h"
@@ -47,9 +46,6 @@ using core::application_dir;
 using utils::ProxySettings;
 using utils::create_dir;
 using utils::create_file;
-using utils::locked;
-using utils::lock;
-using utils::unlock;
 
 struct SyropControlArgs
 {

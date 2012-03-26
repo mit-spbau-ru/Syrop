@@ -9,7 +9,6 @@
 
 namespace utils {
 
-
 	IniData readData( std::istream &is );
 	void writeData(std::ostream &os, IniData const &idata);
 

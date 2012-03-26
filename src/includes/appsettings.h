@@ -6,8 +6,8 @@
 
 namespace utils{
 	
-	class AppSettings{
-
+	class AppSettings
+	{
 	public:
 		AppSettings( string const& app, attributes const &settings )
 		: app(app)
@@ -19,7 +19,7 @@ namespace utils{
 		string const& operator[] (string const &attrName) const;
 		attributes const & getAllAttributes() const;
 		bool hasAttribute(string const &attrName) const;
-		string getApplicationName() const {return app;}
+		string getApplicationName() const { return app; }
 
 	private:
 		std::string app;

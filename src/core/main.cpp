@@ -37,22 +37,22 @@ void print_usage()
 
 void handle_args(SyropControlArgs const *h)
 {
-	if (h->apply && h->rollback)
+	if ( h->apply && h->rollback )
 	{
 		std::cerr << "--apply cannot be used with --roll_back" << std::endl;
 		exit(1);
 	}
-	if (h->apply && h->network.empty())
+	if ( h->apply && h->network.empty() )
 	{
 		std::cerr << "network name cannot be empty" << std::endl;
 		exit(1);
 	}
-	if (h->help)
+	if ( h->help )
 	{
 		print_usage();
 		exit(1);
 	}
-	if (!h->apply && !h->rollback)
+	if ( !h->apply && !h->rollback )
 	{
 		std::cerr << "--apply, --roll_back needed or --help needed" << std::endl;
 		exit(1);
@@ -121,29 +121,24 @@ int main(int argc, char **argv)
 		PluginRunner runner;
 		ProxySettings settings;
 	
-		//test lock and call plugins
-		if (handleParams.apply)
+		//call plugins
+		if ( handleParams.apply )
 		{
 			string const configDir = appDir + core::configs;
 			string const configName = configDir + handleParams.network;
-			if (handleParams.create)
+			if ( handleParams.create )
 			{
 				//create proxy config file if dosen't exists
 				create_dir(configDir);
 				create_file(configName);
 			}
-			if ( locked(appDir, "applied") )
-				cancel_parameters(runner);
-			else
-				lock(appDir, "applied");
 			settings.loadData(configName);
 			apply_parameters(runner, settings);
 		}
-		//release lock and roll back settings
-		else if (handleParams.rollback && locked(appDir, "applied") )
+		//roll back settings
+		else if ( handleParams.rollback )
 		{
 			cancel_parameters(runner);
-			unlock(appDir, "applied");
 		}
 	}
 	catch (std::runtime_error const& e)

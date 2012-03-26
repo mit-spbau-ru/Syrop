@@ -24,10 +24,11 @@
 namespace core
 {
 
-void PluginRunner::setupSettings(string const &script, AppSettings const &settings)
+void PluginRunner::setupSettings(string const &script, AppSettings const &s)
 {
 	try
 	{
+		wrapper const settings(s);
 		//load script
 		bpy::object const ignored = bpy::exec_file(bpy::str(script), myMain);
 		//find setupSettings function by name

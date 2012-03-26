@@ -1,7 +1,7 @@
 PYTHON   := python2.7
 INCLUDES := -I/usr/include/$(PYTHON) -I../includes
 CFLAGS   := -Wall -Werror -pedantic -D _DEBUG $(INCLUDES) -ggdb3
-LIBS     := -l$(PYTHON) -lboost_python -lutils
+LIBS     := -lutils -l$(PYTHON) -lboost_python
 LIBSPATH := -L../utils/
 CC       := g++
 RM       := rm -f

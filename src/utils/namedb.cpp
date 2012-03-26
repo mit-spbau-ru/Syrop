@@ -36,7 +36,7 @@ NamesDataBase::NamesDataBase(std::string const &file)
 	if ( in.fail() )
 		throw std::runtime_error( error_message(errno) );
 		
-	IniData const data = IniParser().readData(in);
+	IniData const data = readData(in);
 	in.close();
 	
 	std::vector<std::string> const names = data.getSectionsList();
