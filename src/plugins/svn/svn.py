@@ -1,8 +1,8 @@
 import os
 
 def setupSettings (settings):
-	if settings.hasProxy("http"):
-		lst = splitProxy(settings.getProxy("http"))
+	if "http" in settings:
+		lst = splitProxy(settings["http"])
 		makeBackupFile()
 		copyBackupFile(lst[0], lst[1])
 

@@ -1,8 +1,8 @@
 def setupSettings (settings):
-	if settings.hasProxy("https"):
-		print settings.getProxy("https")
+	if "https" in settings:
+		print settings["https"]
 	else:
-		print settings.getProxy("http")
+		print settings["http"]
 
 def cleanupSettings ():
 	print "cleanned"

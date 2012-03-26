@@ -9,11 +9,11 @@ def cleanupSettings ():
 
 def writeProxyFile (settings):
 	file = open(os.path.expanduser("~/.proxy_settings"), "w")
-	if settings.hasProxy("http"):
-		file.write("http_proxy=" + settings.getProxy("http") + "\n")
+	if "http" in settings:
+		file.write("http_proxy=" + settings["http"] + "\n")
 		file.write("export http_proxy\n")
-	if settings.hasProxy("https"):
-		file.write("https_proxy=" + settings.getProxy("https") + "\n")
+	if "https" in settings:
+		file.write("https_proxy=" + settings["https"] + "\n")
 		file.write("export https_proxy\n")
 	file.close()
 
