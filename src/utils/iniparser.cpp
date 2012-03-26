@@ -6,7 +6,7 @@
 
 namespace utils {
 
-bool IniParser::isSectionName( string const &str ) 
+bool isSectionName( string const &str ) 
 {
 	size_t from = str.find('[');
 	size_t to = str.find(']');
@@ -14,7 +14,7 @@ bool IniParser::isSectionName( string const &str )
 	return (from != string::npos && to != string::npos);
 }
 
-string IniParser::cleanComments( string const &str )
+string cleanComments( string const &str )
 {
 	string newstr(str);
 	size_t res = newstr.find('#');
@@ -24,7 +24,7 @@ string IniParser::cleanComments( string const &str )
 
 }
 
-string IniParser::adjust( string const &str ) 
+string adjust( string const &str ) 
 {
 	size_t from = str.find('[');
 	size_t to = str.find(']');
@@ -32,7 +32,7 @@ string IniParser::adjust( string const &str )
 	return str.substr( from + 1, to - 1 );
 }
 
-pair <string, string> IniParser::getPair( string const &str ) 
+pair <string, string> getPair( string const &str ) 
 {
 	std::vector <string> splitVec;
 	boost::split( splitVec, str, boost::is_any_of("=") );	
@@ -42,7 +42,7 @@ pair <string, string> IniParser::getPair( string const &str )
 }
 
 
-IniData IniParser::readData(std::istream &is) const
+IniData readData(std::istream &is)
 {
 	IniData data;
 	string instr;
@@ -66,7 +66,7 @@ IniData IniParser::readData(std::istream &is) const
 
 }
 
-void IniParser::writeData(std::ostream &os, IniData const &idata)
+void writeData(std::ostream &os, IniData const &idata)
 {
 	vector< string > secs = idata.getSectionsList();
 	vector< string >::const_iterator sit = secs.begin() ;
