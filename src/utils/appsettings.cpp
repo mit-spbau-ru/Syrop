@@ -8,6 +8,11 @@ namespace utils{
 		return settings;
 	}
 
+        bool AppSettings::hasAttribute(string const &attrName) const
+	{
+		return ( settings.find(attrName) != settings.end() );
+	}
+
 	string const &  AppSettings::operator[](string const &attrName) const
 	{		
 		if ( settings.find( attrName ) == settings.end() ) 
