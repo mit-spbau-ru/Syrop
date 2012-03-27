@@ -14,7 +14,8 @@ namespace utils{
 		AppSettings getAppSettings( string const &sec ) const;
 		vector< AppSettings > getAllSettings () const;
 		void loadData( string const &fileName );
-
+		
+		//void print() const;
 		friend std::ostream& operator<<( std::ostream &os, ProxySettings const & ps );
 
 	private:
