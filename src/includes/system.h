@@ -29,11 +29,48 @@
 
 namespace utils {
 
+	/**
+	 * List entries in dir
+	 *
+	 * @param dir direcotry path
+	 * @return vector of direcotry entries descriptions
+	 */
 	std::vector<FileInfo> list_dir_entries(std::string const &dir);
+	
+	/**
+	 * Returns error message by errcode
+	 *
+	 * @param errCode error code
+	 * @return error message
+	 */
 	std::string error_message(int errCode);
+	
+	/**
+	 * Return user home directory
+	 *
+	 * @return user home directory
+	 */
 	std::string user_home_dir();
+	
+	/**
+	 * Creates directory and all parents
+	 *
+	 * @param directory path
+	 */
 	void create_dir(std::string const &name);
+	
+	/**
+	 * Creates an empty file
+	 *
+	 * @param name file name
+	 */
 	void create_file(std::string const &name);
+	
+	/**
+	 * Removes specified file
+	 *
+	 * @param name file name
+	 */
 	void remove_file(std::string const &name);
 
 } // namespace utils

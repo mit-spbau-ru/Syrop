@@ -28,6 +28,7 @@ void PluginRunner::setupSettings(string const &script, AppSettings const &s)
 {
 	try
 	{
+		//wrap AppSettings
 		wrapper const settings(s);
 		//load script
 		bpy::object const ignored = bpy::exec_file(bpy::str(script), myMain);

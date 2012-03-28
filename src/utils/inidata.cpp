@@ -89,7 +89,6 @@ namespace utils{
 
 	std::ostream& operator<<( std::ostream &os, IniData const &idata ) 
 	{
-
 		attributes_map::const_iterator ait = idata.data.begin();
 
 		for ( ; ait != idata.data.end(); ++ait){
@@ -98,8 +97,6 @@ namespace utils{
 			 	os << "   " << sit -> first  << " " << sit -> second << std::endl;			
 		}
 		return os;
-				
-
 	}
 	
 }
