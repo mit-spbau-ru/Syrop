@@ -3,6 +3,7 @@
 #include "dialogaddnetwork.h"
 #include "applicationsettingstab.h"
 
+/*** Init ***/
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,35 +13,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->horizontalLayoutHolder->setMargin(10);
     ui->centralwidgetHolder->setLayout(ui->horizontalLayoutHolder);
     
-    connect(ui->pushButtonNetworkAdd, SIGNAL(clicked()),
-            this, SLOT(addNetwork()));
-    
-    connect(ui->actionAddNetwork, SIGNAL(triggered(bool)), 
-            this, SLOT(addNetwork()));
-    
-    ui->tabWidget->addTab(new ApplicationSettingsTab, "New tab");
-    
-    
 }
 
+
+/*** Triggers ***/
 void MainWindow::addNetwork()
 {
     DialogAddNetwork* aDialog = new DialogAddNetwork(this);
-    
-    if (aDialog->exec()) {
-        QString title = aDialog->getTitle();
-        addNetworkEntity(title);
-    }
+    aDialog->show();
 }
 
-void MainWindow::addNetworkEntity(QString const& networkTitle)
+
+/*** Event handlers ***/
+void MainWindow::addNewApplicationTab(QString const& networkTitle)
 {
     ui->listWidgetNetworks->addItem(networkTitle);
-    QWidget* q = new QWidget;
-    ui->tabWidget->addTab(q, networkTitle);
-    
+    ui->tabWidget->addTab(new ApplicationSettingsTab, networkTitle);
 }
 
+
+/*** Other ***/
 MainWindow::~MainWindow()
 {
     delete ui;

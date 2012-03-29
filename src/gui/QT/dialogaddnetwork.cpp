@@ -10,9 +10,9 @@ DialogAddNetwork::DialogAddNetwork(QWidget *parent)
     this->setLayout(ui->verticalLayout);
 }
 
-QString const& DialogAddNetwork::getTitle() const
+void DialogAddNetwork::submitChanges() const
 {
-    return ui->lineEditTitle->text();
+    //return ui->lineEditTitle->text();
 }
 
 DialogAddNetwork::~DialogAddNetwork()

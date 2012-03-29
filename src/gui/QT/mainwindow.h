@@ -7,6 +7,12 @@ namespace Ui {
     class MainWindow;
 }
 
+/**
+* MainWindow 
+* - contains DataModel and remove it by itself.
+* - manage other windows
+*/
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -19,7 +25,7 @@ private slots:
     void addNetwork();
     
 private:
-    void addNetworkEntity(QString const& networkTitle);
+    void addNewApplicationTab(QString const& networkTitle);
     Ui::MainWindow *ui;
 };
 
