@@ -6,6 +6,8 @@ DialogAddNetwork::DialogAddNetwork(QWidget *parent)
     , ui(new Ui::DialogAddNetwork)
 {
     ui->setupUi(this);
+    ui->verticalLayout->setMargin(10);
+    this->setLayout(ui->verticalLayout);
 }
 
 QString const& DialogAddNetwork::getTitle() const

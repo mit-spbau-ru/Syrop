@@ -6,7 +6,8 @@ ApplicationSettingsTab::ApplicationSettingsTab(QWidget *parent) :
     ui(new Ui::ApplicationSettingsTab)
 {
     ui->setupUi(this);
-        
+    this->setLayout(ui->formLayout);
+    ui->formLayout->setMargin(10);
 }
 
 ApplicationSettingsTab::~ApplicationSettingsTab()

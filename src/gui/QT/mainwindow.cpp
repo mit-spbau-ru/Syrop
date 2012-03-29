@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     
     ui->setupUi(this);
+    ui->horizontalLayoutHolder->setMargin(10);
     ui->centralwidgetHolder->setLayout(ui->horizontalLayoutHolder);
     
     connect(ui->pushButtonNetworkAdd, SIGNAL(clicked()),
@@ -19,13 +20,15 @@ MainWindow::MainWindow(QWidget *parent) :
     
     ui->tabWidget->addTab(new ApplicationSettingsTab, "New tab");
     
+    
 }
 
 void MainWindow::addNetwork()
 {
-    DialogAddNetwork aDialog;
-    if (aDialog.exec()) {
-        QString title = aDialog.getTitle();
+    DialogAddNetwork* aDialog = new DialogAddNetwork(this);
+    
+    if (aDialog->exec()) {
+        QString title = aDialog->getTitle();
         addNetworkEntity(title);
     }
 }
@@ -34,7 +37,7 @@ void MainWindow::addNetworkEntity(QString const& networkTitle)
 {
     ui->listWidgetNetworks->addItem(networkTitle);
     QWidget* q = new QWidget;
-    ui->tabWidget->addTab(q, "**** Tab");
+    ui->tabWidget->addTab(q, networkTitle);
     
 }
 
