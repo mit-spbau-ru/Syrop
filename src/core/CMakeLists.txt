@@ -1,4 +1,4 @@
-project(syrop CXX)
+project(syrop-core CXX)
 
 add_executable(syrop
 		coreutils.cpp
@@ -15,7 +15,9 @@ include_directories(
 )
 
 target_link_libraries(syrop
-	utils
+	syroputils
 	${Boost_LIBRARIES}
 	${PYTHON_LIBRARIES}
 )
+
+install(TARGETS syrop-core DESTINATION bin)

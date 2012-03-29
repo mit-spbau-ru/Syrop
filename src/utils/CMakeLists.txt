@@ -1,6 +1,6 @@
-project(utils CXX)
+project(syroputils CXX)
 
-add_library(utils
+add_library(syroputils
 		appsettings.cpp
 		inidata.cpp
 		namedb.cpp

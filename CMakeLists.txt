@@ -1,4 +1,4 @@
-project(syrop-full CXX)
+project(syrop CXX)
 
 set(SYROP_BIN ${CMAKE_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SYROP_BIN}/lib)
@@ -9,3 +9,18 @@ set(SYROP_INCLUDE_PATH src/includes)
 include_directories(${SYROP_INCLUDE_PATH})
 
 add_subdirectory(src)
+
+set(CPACK_BINARY_DEB ON)
+set(CPACK_BINARY_RPM OFF)
+set(CPACK_BINARY_STGZ OFF)
+set(CPACK_BINARY_TGZ OFF)
+set(CPACK_BINATY_TZ OFF)
+set(CPACK_BINARY_TBZ2 OFF)
+
+set(CMAKE_INSTALL_PREFIX /usr)
+
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Syrop auto proxy configurating tools")
+set(CPACK_PACKAGE_VERSION 1.0.0)
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "krinkin.m.u@gmail.com")
+
+include(CPack)
