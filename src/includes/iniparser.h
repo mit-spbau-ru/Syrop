@@ -9,23 +9,8 @@
 
 namespace utils {
 
-	class IniParser {
-
-	public:
-
-		IniData readData( std::istream &is ) const;
-
-	private:
-		static bool isSectionName( string const &str ) ;
-		static string cleanComments( string const &str );
-		static string adjust( string const &str ) ;
-		static pair <string, string> getPair( string const &str );
-
-		//void showAppProxySettings( std::ostream&, AppProxySettings const& );	
-		//void showNetworkProxySettings( std::ostream&, NetworkProxyParameters const& );
-	
-	};
-			
+	IniData readData( std::istream &is );
+	void writeData(std::ostream &os, IniData const &idata);
 
 } // namespace utils
 

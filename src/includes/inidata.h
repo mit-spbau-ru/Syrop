@@ -15,18 +15,22 @@ namespace utils{
 	using std::vector;
 
 	typedef map <string, string> attributes;
+	typedef	map <string, attributes> attributes_map;
 
 	class IniData{
 
 	public:
 		void addSection( string const &sec );
-		//void addSection(string const &, string const &);
+		
 		void addAttribute( string const &sec, pair <string, string> const &params );
 		void removeSection( string const &sec );
 		void removeAttribute( string const &attr );
+
+		void dropAll() { data.clear(); }
 		
 		attributes getSection( string const &sec ) const;
 		bool hasSection( string const &sec ) const;
+		bool hasAttribute( string const &sec, string const &attr ) const;
 		vector< string > getSectionsList() const;
 		string getAttribute( string const &sec, string const &param_first ) const;
 

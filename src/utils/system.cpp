@@ -1,3 +1,24 @@
+/*****************************************************************************************
+ * Copyright (c) 2012 K. Krasheninnikova, M. Krinkin, S. Martynov, A. Smal, A. Velikiy   *
+ *                                                                                       *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this  *
+ * software and associated documentation files (the "Software"), to deal in the Software *
+ * without restriction, including without limitation the rights to use, copy, modify,    *
+ * merge, publish, distribute, sublicense, and/or sell copies of the Software, and to    *
+ * permit persons to whom the Software is furnished to do so, subject to the following   *
+ * conditions:                                                                           *
+ *                                                                                       *
+ * The above copyright notice and this permission notice shall be included in all copies *
+ * or substantial portions of the Software.                                              *
+ *                                                                                       *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+ *****************************************************************************************/
+
 #include <dirent.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -20,7 +41,7 @@ typedef std::vector<FileInfo> files_t;
  *
  * @param errCode error code
  */
-std::string getErrorMessage(int errCode)
+std::string error_message(int errCode)
 {
 	static size_t const maxLen = 256;
 	static char msgBuf[maxLen] = {};
@@ -34,7 +55,7 @@ std::string getErrorMessage(int errCode)
  * @return vector of FileInfo
  * @throws std::runtime_error if an I/O error occured
  */
-files_t listDirEntries(std::string const &dir) // throws std::runtime_error
+files_t list_dir_entries(std::string const &dir) // throws std::runtime_error
 {
 	DIR *dp = 0;
 	dirent *result = 0;
@@ -45,7 +66,7 @@ files_t listDirEntries(std::string const &dir) // throws std::runtime_error
 	
 	if ( ( dp = opendir(dir.c_str()) ) == NULL)
 		//if an error occured throw std::runtime_error
-		throw std::runtime_error(getErrorMessage(errno) + " at listDirEntries on " + dir);
+		throw std::runtime_error(error_message(errno) + " at listDirEntries on " + dir);
 	
 	while ( ( readdir_r(dp, &entry, &result) == 0 ) && ( result != NULL ) )
 	{
@@ -57,7 +78,7 @@ files_t listDirEntries(std::string const &dir) // throws std::runtime_error
 	//test an error	
 	if (errno != 0)
 		//throw std::runtime_error if an error occured
-		throw std::runtime_error(getErrorMessage(errno) + " at listDirEntries on " + dir);
+		throw std::runtime_error(error_message(errno) + " at listDirEntries on " + dir);
 	
 	closedir(dp);
 	
@@ -69,7 +90,7 @@ files_t listDirEntries(std::string const &dir) // throws std::runtime_error
  *
  * @throws std::runtime_error if there isn't variable HOME
  */
-std::string getUserHomeDir() // throws std::runtime_error
+std::string user_home_dir() // throws std::runtime_error
 {
 	char const * const home = getenv("HOME");
 	if (home == NULL)
@@ -83,7 +104,7 @@ std::string getUserHomeDir() // throws std::runtime_error
  * @param name name of directory to be created
  * @throws std::runtime_error if an error occurred
  */
-void createDir(std::string const &name) // throws std::runtime_error
+void create_dir(std::string const &name) // throws std::runtime_error
 {
 	std::string::const_iterator it = name.begin();
 	while (it != name.end())
@@ -94,24 +115,24 @@ void createDir(std::string const &name) // throws std::runtime_error
 			std::string subname(name.begin(), it);
 			//assign USER READ and USER WRITE permissions
 			if ( (mkdir(subname.c_str(), S_IRWXU) == -1) && (errno != EEXIST) )
-				throw std::runtime_error(getErrorMessage(errno) + " at createDir on " + name);
+				throw std::runtime_error(error_message(errno) + " at createDir on " + name);
 		}
 	}
 	errno = 0;
 }
 
-void createFile(std::string const &name) //throws std::runtime_error
+void create_file(std::string const &name) //throws std::runtime_error
 {
 	int fd = open(name.c_str(), O_CREAT, S_IRWXU);
 	if (fd == -1)
-		throw std::runtime_error(getErrorMessage(errno) + " at createFile on " + name);
+		throw std::runtime_error(error_message(errno) + " at createFile on " + name);
 	close(fd);
 }
 
-void removeFile(std::string const &name) //throws std::runtime_error
+void remove_file(std::string const &name) //throws std::runtime_error
 {
 	if ( unlink( name.c_str() ) == -1 )
-		throw std::runtime_error(getErrorMessage(errno) + " at removeFile on " + name);
+		throw std::runtime_error(error_message(errno) + " at removeFile on " + name);
 }
 
 } // namespace utils

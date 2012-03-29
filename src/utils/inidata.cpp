@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include "inidata.h"
+#include "emptyobject.h"
 
 using std::string;
 using std::map;
@@ -26,15 +27,45 @@ namespace utils{
 		return data.find(sec) != data.end();		
 	}
 	
+	bool IniData::hasAttribute( string const &sec, string const &attr ) const
+	{
+		if ( hasSection( sec ) )
+		{
+			attributes attrs = getSection( sec );
+			attributes::const_iterator  ait = attrs.find( attr );
+			return ( ait != attrs.end() ) ;
+		}		
+		return false;
+	}
+
+	void IniData::removeSection( string const &sec ) 
+	{
+		attributes_map::iterator dit = data.find( sec );
+		if ( dit != data.end() ) data.erase ( dit );		
+		return;
+	}
+
 	attributes IniData::getSection( string const &sec ) const
 	{
-		return (data.find(sec))->second;
+		try
+		{
+			if ( data.find( sec ) == data.end() ) 
+				throw EmptyObjectException();
+
+			return (data.find(sec))->second;
+		}
+		catch ( EmptyObjectException E )
+		{
+			std::cout << "IniData::getSection() " << E.showReason() << std::endl;
+			throw ( E );
+		}
+		return attributes();
 	}
 
 	vector< string > IniData::getSectionsList() const
 	{
 		vector<string> secs;
-		map <string, attributes>::const_iterator it = data.begin();
+		attributes_map::const_iterator it = data.begin();
 		for ( ; it != data.end() ; ++it ) {
 			secs.push_back( it->first );
 		}
@@ -58,8 +89,7 @@ namespace utils{
 
 	std::ostream& operator<<( std::ostream &os, IniData const &idata ) 
 	{
-
-		std::map<string, attributes>::const_iterator ait = idata.data.begin();
+		attributes_map::const_iterator ait = idata.data.begin();
 
 		for ( ; ait != idata.data.end(); ++ait){
 			os <<  " " << ait -> first << std::endl; 
@@ -67,8 +97,6 @@ namespace utils{
 			 	os << "   " << sit -> first  << " " << sit -> second << std::endl;			
 		}
 		return os;
-				
-
 	}
 	
 }

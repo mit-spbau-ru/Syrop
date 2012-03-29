@@ -1,32 +1,46 @@
+/*****************************************************************************************
+ * Copyright (c) 2012 K. Krasheninnikova, M. Krinkin, S. Martynov, A. Smal, A. Velikiy   *
+ *                                                                                       *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this  *
+ * software and associated documentation files (the "Software"), to deal in the Software *
+ * without restriction, including without limitation the rights to use, copy, modify,    *
+ * merge, publish, distribute, sublicense, and/or sell copies of the Software, and to    *
+ * permit persons to whom the Software is furnished to do so, subject to the following   *
+ * conditions:                                                                           *
+ *                                                                                       *
+ * The above copyright notice and this permission notice shall be included in all copies *
+ * or substantial portions of the Software.                                              *
+ *                                                                                       *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+ *****************************************************************************************/
+
 #include <exception>
 
 #include "system.h"
 #include "coreutils.h"
 #include "fileinfo.h"
 
-using utils::FileInfo;
-using utils::listDirEntries;
-using utils::getUserHomeDir;
-using utils::createDir;
-
-using std::vector;
-using std::map;
-using std::string;
 using std::make_pair;
+
+using utils::list_dir_entries;
+using utils::user_home_dir;
+using utils::create_dir;
 
 namespace core
 {
 
-typedef vector<FileInfo> files_t;
-typedef map<string, string> plugins_t;
-
-static bool testPlugin(FileInfo const &info)
+static bool test_plugin(FileInfo const &info)
 {
 	//plugin is a direcotiry with a python script
 	if (info.isDirectory())
 	{
 		//list files
-		files_t const children = listDirEntries(info.getFullName());
+		files_t const children = list_dir_entries(info.getFullName());
 		for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
 			if (it->getName() == (info.getName() + pluginExtention) )
 				//main plugin file must have same name as plugin directory
@@ -36,11 +50,11 @@ static bool testPlugin(FileInfo const &info)
 }
 
 //function adds plugins in a specified directory to map
-static void listPlugins(string const &dir, plugins_t &plugins)
+static void list_plugins(string const &dir, plugins_t &plugins)
 {
-	files_t const children = listDirEntries(dir);
+	files_t const children = list_dir_entries(dir);
 	for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
-		if (testPlugin(*it))
+		if (test_plugin(*it))
 		{
 			string name = it->getName();
 			string fullName = it->getFullName() + "/" + name + pluginExtention;
@@ -48,21 +62,30 @@ static void listPlugins(string const &dir, plugins_t &plugins)
 		}
 }
 
-std::string getApplicationDir()
+/**
+ * Function returns syrop directory in user home, if directory dosen't
+ * exists function creates it
+ */
+std::string application_dir()
 {
-	string const dirName = getUserHomeDir() + "/" + home;
-	createDir(dirName);
+	string const dirName = user_home_dir() + "/" + home;
+	create_dir(dirName);
 	return dirName;
 }
 
-vector<string> const& getSearchPathes()
+/**
+ * Returns vector of standard path for searching plugins:
+ *  %HOME%/.syrop/plugins
+ *  /usr/share/syrop/plugins
+ */
+vector<string> const& search_pathes()
 {
 	static vector<string> pathes;
 	if (pathes.empty())
 	{
 		try
 		{
-			FileInfo info(getUserHomeDir() + "/" + home + plugins);
+			FileInfo info(user_home_dir() + "/" + home + plugins);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)
@@ -79,11 +102,14 @@ vector<string> const& getSearchPathes()
 	return pathes;
 }
 
-void listPlugins(vector<string> const& pathes, plugins_t &plugins)
+/**
+ * List plugins in directories specified by pathes
+ */
+void list_plugins(vector<string> const& pathes, plugins_t &plugins)
 {
 	//for every path in a vector
 	for (vector<string>::const_iterator it = pathes.begin(); it != pathes.end(); ++it)
-		listPlugins(*it, plugins);
+		list_plugins(*it, plugins);
 }
 
 } // namespace core
