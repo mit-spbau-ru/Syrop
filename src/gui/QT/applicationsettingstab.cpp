@@ -6,7 +6,7 @@ ApplicationSettingsTab::ApplicationSettingsTab(QWidget *parent) :
     ui(new Ui::ApplicationSettingsTab)
 {
     ui->setupUi(this);
-    //ui->formLayout->
+        
 }
 
 ApplicationSettingsTab::~ApplicationSettingsTab()
