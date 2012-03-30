@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAddNetwork, SIGNAL(triggered(bool)), 
             this, SLOT(addNetwork()));
     
-    //ui->tabWidget->addTab(new ApplicationSettingsTab, "New tab");
+    ui->tabWidget->addTab(new ApplicationSettingsTab, "New tab");
     
 }
 
