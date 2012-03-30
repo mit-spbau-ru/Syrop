@@ -9,7 +9,7 @@ namespace Ui {
 
 /**
 * MainWindow 
-* - contains DataModel and remove it by itself.
+* - contains DataModel and remove it by itself. (QT parent)
 * - manage other windows
 */
 
@@ -23,9 +23,10 @@ public:
 
 private slots:
     void addNetwork();
+    void onAddApplicationSettings(std::string const& title);
     
 private:
-    void addNewApplicationTab(QString const& networkTitle);
+    
     Ui::MainWindow *ui;
 };
 
