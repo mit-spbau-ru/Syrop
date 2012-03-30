@@ -12,8 +12,9 @@ int main(int argc, char *argv[])
     
     MainWindow mainWindow;
     mainWindow.show();
-    DataModel::init(&mainWindow);
-    //DataModel::getInstance()->
+    
+    DataModel::getInstance(&mainWindow);
+    DataModel::getInstance();
     
     return a.exec();
 }

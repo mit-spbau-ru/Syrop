@@ -12,47 +12,43 @@
   * Main data structure with events
   */
 
-class DataModel : public QObject
+class QDataModel : public QObject
 {
     Q_OBJECT
+    friend class DataModel;
 public:
-    
-    /**
-      * Parent maybe MainWindow. QT parent object will 
-      * delete instance
-      */
-    static DataModel* init(QObject *parent)
-    {
-        instance = new DataModel(parent);
-        return getInstance();
-    }
-    
-    /**
-      * Works like singleton, but first thing is init()
-      */
-    static DataModel* instance()
-    {
-        if(!instance) {
-            throw std::runtime_error("Not initialized DataModel.");
-        }
-        return instance;
-    }
-    
     void loadData();
     void addApplicationSettings();
-    
 signals:
     void onLoadData();
     void onProxyItemAdded();
-
 private:
-    DataModel(QObject *parent) : QObject(parent) {}
-    
-    DataModel(DataModel const &);
-    void operator=(DataModel const &);
-    
-    static DataModel* instance;
-    
+    QDataModel(QObject *parent = 0) : QObject(parent) {}
+    QDataModel(QDataModel const &);
+    void operator=(QDataModel const &);
 };
+
+/**
+  * Proxy class for storing pointer.
+  */
+class DataModel
+{
+public:
+    static QDataModel* getInstance(QObject* parent = 0) 
+    {
+        static QDataModel* instance = createInstance(parent);
+        return instance;
+    }
+private:
+    static QDataModel* createInstance(QObject* parent)
+    {
+        if(!parent) {
+            throw std::runtime_error("QDataModel must have parent.");
+        }
+        return new QDataModel(parent);
+    }
+};
+
+
 
 #endif // DATAMODEL_H
