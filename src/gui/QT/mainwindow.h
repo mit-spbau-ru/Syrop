@@ -6,9 +6,7 @@
 #include "proxysettings.h"
 #include "appsettings.h"
 
-namespace Ui {
-    class MainWindow;
-}
+namespace Ui { class MainWindow; }
 
 /**
 * MainWindow 
@@ -25,7 +23,9 @@ private slots:
     void onLoad();
     void onAddApplicationSettings(utils::AppSettings const& title);
     void addNetwork();
+    void showAbout();
 private:
+    void bindData();
     Ui::MainWindow *ui;
 };
 

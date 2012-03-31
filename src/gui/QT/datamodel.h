@@ -2,6 +2,7 @@
 #define DATAMODEL_H
 
 #include <QObject>
+#include <QVector>
 
 #include <string>
 #include <vector>
@@ -19,14 +20,17 @@ class QDataModel : public QObject
     friend class DataModel;
 public:
     void loadData();
-    void addProxyItem(std::string const & title);
+    void addProxyItem(QString const & proxyName);
     void addAppSettings(QString const & appName);
+    
+    QVector<utils::ProxySettings> const & getProxies() { return proxySettings; }
+    
 signals:
     void onLoadData();
     void onAddProxyItem(std::string const & title);
     void onAddAppSettings(utils::AppSettings const & appSettings);
 private:
-    std::vector<utils::ProxySettings> proxySettings;
+    QVector<utils::ProxySettings> proxySettings;
     QDataModel(QObject *parent = 0) : QObject(parent) {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);
@@ -43,6 +47,9 @@ public:
         static QDataModel* instance = createInstance(parent);
         return instance;
     }
+
+    typedef QVector<utils::ProxySettings> ProxyList;
+    
 private:
     static QDataModel* createInstance(QObject* parent)
     {

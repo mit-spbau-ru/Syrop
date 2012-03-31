@@ -16,9 +16,9 @@ void QDataModel::loadData()
     emit onLoadData();    
 }
 
-void QDataModel::addAppSettings(QString const & appName)
+void QDataModel::addAppSettings(QString const &)
 {
-    AppSettings* ap = new AppSettings;
+    AppSettings* ap = new AppSettings();
     emit onAddAppSettings(*ap);
 }
 
