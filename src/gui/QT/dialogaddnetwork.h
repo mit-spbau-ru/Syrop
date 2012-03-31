@@ -8,8 +8,8 @@
 namespace Ui { class DialogAddNetwork; }
 
 /**
-* Dialog to add appliction settings
-*/
+ * Dialog for addition appliction settings
+ */
 class DialogAddNetwork : public QDialog
 {
     Q_OBJECT

@@ -27,7 +27,6 @@ void MainWindow::onLoad()
     ui->setupUi(this);
     ui->horizontalLayoutHolder->setMargin(10);
     ui->centralwidgetHolder->setLayout(ui->horizontalLayoutHolder);
-    
     // end design settings
     
     // front end connections
@@ -82,8 +81,6 @@ void MainWindow::showAbout()
     DialogAbout d;
     d.exec();
 }
-
-
 
 /*** Other ***/
 MainWindow::~MainWindow()

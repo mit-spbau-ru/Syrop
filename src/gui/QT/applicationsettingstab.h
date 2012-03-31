@@ -4,20 +4,18 @@
 #include <QWidget>
 #include "appsettings.h"
 
-namespace Ui {
-class ApplicationSettingsTab;
-}
+namespace Ui { class ApplicationSettingsTab;}
 
+/**
+  * Contains appliacation settings as tab
+  */
 class ApplicationSettingsTab : public QWidget
 {
     Q_OBJECT
-    
 public:
     explicit ApplicationSettingsTab(utils::AppSettings const & appSettings, 
                                     QWidget *parent = 0 );
-    
     ~ApplicationSettingsTab();
-    
 private:
     Ui::ApplicationSettingsTab *ui;
     utils::AppSettings const & appSettings;

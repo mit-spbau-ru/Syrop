@@ -3,10 +3,11 @@
 
 #include <QDialog>
 
-namespace Ui {
-class DialogAbout;
-}
+namespace Ui { class DialogAbout; }
 
+/**
+  *
+  */
 class DialogAbout : public QDialog
 {
     Q_OBJECT

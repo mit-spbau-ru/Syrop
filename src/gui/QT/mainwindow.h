@@ -9,10 +9,10 @@
 namespace Ui { class MainWindow; }
 
 /**
-* MainWindow 
-* - contains DataModel and remove it by itself. (QT parent)
-* - manage other windows
-*/
+ * MainWindow 
+ * - contains DataModel and remove it by itself. (QT parent)
+ * - manages other windows
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
