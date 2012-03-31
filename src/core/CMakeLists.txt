@@ -20,4 +20,4 @@ target_link_libraries(syrop
 	${PYTHON_LIBRARIES}
 )
 
-install(TARGETS syrop-core DESTINATION bin)
+install(TARGETS syrop DESTINATION bin)
