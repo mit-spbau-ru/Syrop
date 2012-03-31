@@ -8,9 +8,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    // Init model
+    // Init data model
     DataModel::getInstance(this);
-    
+    connect(DataModel::getInstance(), SIGNAL(onLoadData()),
+            this, SLOT(onLoad()));
+    DataModel::getInstance()->loadData();
+}
+
+void MainWindow::onLoad()
+{
     // design settings
     ui->setupUi(this);
     ui->horizontalLayoutHolder->setMargin(10);
@@ -25,12 +31,23 @@ MainWindow::MainWindow(QWidget *parent) :
     // end front end connection
     
     // data model connections
+    disconnect(DataModel::getInstance(), SIGNAL(onLoadData()),
+            this, SLOT(onLoad()));
     connect(DataModel::getInstance(), SIGNAL(onAddApplicationSettings(std::string)),
             this, SLOT(onAddApplicationSettings(std::string)));
     // end data model connection
-    
 }
 
+/*** Data model reactions ***/
+void MainWindow::onAddApplicationSettings(utils::AppSettings const& appSettings)
+{
+    
+    ui->tabWidget->addTab(
+                    new ApplicationSettingsTab(appSettings, ui->tabWidget), 
+                    QString(appSettings.getApplicationName().data())
+                );
+    
+}
 
 /*** Front end slots ***/
 void MainWindow::addNetwork()
@@ -38,16 +55,6 @@ void MainWindow::addNetwork()
     DialogAddNetwork* aDialog = new DialogAddNetwork(this);
     aDialog->show();
 }
-
-
-/*** Data model reactions***/
-void MainWindow::onAddApplicationSettings(std::string const& networkTitle)
-{
-    QString str(networkTitle.data());
-    ui->listWidgetNetworks->addItem(str);
-    ui->tabWidget->addTab(new ApplicationSettingsTab, str);
-}
-
 
 /*** Other ***/
 MainWindow::~MainWindow()

@@ -20,12 +20,13 @@ class QDataModel : public QObject
 public:
     void loadData();
     void addProxyItem(std::string const & title);
-    void addApplicationSettings(std::string const & title);
+    void addAppSettings(QString const & appName);
 signals:
     void onLoadData();
     void onAddProxyItem(std::string const & title);
-    void onAddApplicationSettings(std::string const & title);
+    void onAddAppSettings(utils::AppSettings const & appSettings);
 private:
+    std::vector<utils::ProxySettings> proxySettings;
     QDataModel(QObject *parent = 0) : QObject(parent) {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);

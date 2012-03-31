@@ -8,11 +8,14 @@ DialogAddNetwork::DialogAddNetwork(QWidget *parent)
     ui->setupUi(this);
     ui->verticalLayout->setMargin(10);
     this->setLayout(ui->verticalLayout);
+    connect(ui->buttonBox, SIGNAL(accepted()), 
+            this, SLOT(onSubmitChanges()));
 }
 
-void DialogAddNetwork::submitChanges() const
+void DialogAddNetwork::onSubmitChanges()
 {
-    //return ui->lineEditTitle->text();
+    DataModel::getInstance()->addAppSettings("Hellooooo");
+    this->close();
 }
 
 DialogAddNetwork::~DialogAddNetwork()

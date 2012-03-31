@@ -20,10 +20,13 @@ public:
     explicit DialogAddNetwork(QWidget *parent = 0);
     ~DialogAddNetwork();
     
+private slots:
+    void onSubmitChanges();
+    
 private:
-    void submitChanges() const;
     
     Ui::DialogAddNetwork *ui;
+    
 };
 
 #endif // DIALOGADDNETWORK_H

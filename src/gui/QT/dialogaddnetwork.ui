@@ -95,7 +95,7 @@
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
    <receiver>DialogAddNetwork</receiver>
-   <slot>accept()</slot>
+   <slot>setFocus()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>248</x>
