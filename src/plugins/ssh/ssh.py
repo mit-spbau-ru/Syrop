@@ -3,8 +3,8 @@ import os
 # creates the configuration file if necessary
 # and calls the substitution of new settings
 def setupSettings (settings):
-	if settings.hasProxy("http"):
-		lst = splitProxy(settings.getProxy("http"))
+	if "http" in settings :
+		lst = splitProxy(settings["http"])
 		makeConfigFile()
 		copyBackupFile(lst[0], lst[1])
 
