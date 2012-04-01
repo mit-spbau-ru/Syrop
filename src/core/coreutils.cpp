@@ -62,6 +62,10 @@ static void list_plugins(string const &dir, plugins_t &plugins)
 		}
 }
 
+/**
+ * Function returns syrop directory in user home, if directory dosen't
+ * exists function creates it
+ */
 std::string application_dir()
 {
 	string const dirName = user_home_dir() + "/" + home;
@@ -69,6 +73,11 @@ std::string application_dir()
 	return dirName;
 }
 
+/**
+ * Returns vector of standard path for searching plugins:
+ *  %HOME%/.syrop/plugins
+ *  /usr/share/syrop/plugins
+ */
 vector<string> const& search_pathes()
 {
 	static vector<string> pathes;
@@ -93,6 +102,9 @@ vector<string> const& search_pathes()
 	return pathes;
 }
 
+/**
+ * List plugins in directories specified by pathes
+ */
 void list_plugins(vector<string> const& pathes, plugins_t &plugins)
 {
 	//for every path in a vector

@@ -45,13 +45,31 @@ namespace utils
 	class NamesDataBase
 	{
 	public:
+		/**
+		 * Opens ini file, and reads network attributes
+		 *
+		 * @param file file name
+		 */
 		NamesDataBase(std::string const &file);
 		
+		/**
+		 * Creates an empty database of network parameters
+		 */
 		NamesDataBase()
 			{}
 		
+		/**
+		 * Add network description to a database
+		 *
+		 * @param attrs network description
+		 */
 		void addDescription(NetworkAttributes const &attrs) { myBase.push_back(attrs); }
 		
+		/**
+		 * Flush database to file
+		 *
+		 * @param file file name
+		 */
 		void write(std::string const &file);
 		
 		/**

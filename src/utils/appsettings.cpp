@@ -18,7 +18,7 @@ namespace utils{
 		if ( settings.find( attrName ) == settings.end() ) 
 				throw EmptyObjectException();
 
-		     return ( settings.find(attrName) )->second;	
+		return ( settings.find(attrName) )->second;	
 	}
 
 	string &  AppSettings::operator[](string const &attrName)
@@ -26,8 +26,7 @@ namespace utils{
 		if ( settings.find( attrName ) == settings.end() ) 
 				throw EmptyObjectException();
 
-		     return ( settings.find(attrName) )->second;
-		
+		return ( settings.find(attrName) )->second;
 	}
 
 
