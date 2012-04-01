@@ -47,19 +47,12 @@ namespace utils{
 
 	attributes IniData::getSection( string const &sec ) const
 	{
-		try
-		{
-			if ( data.find( sec ) == data.end() ) 
-				throw EmptyObjectException();
-
-			return (data.find(sec))->second;
-		}
-		catch ( EmptyObjectException E )
-		{
-			std::cout << "IniData::getSection() " << E.showReason() << std::endl;
-			throw ( E );
-		}
-		return attributes();
+		attributes::const_iterator it = data.find( sec );
+		if ( it == data.end() )
+    			return attributes();
+		else
+			return it->second;
+		
 	}
 
 	vector< string > IniData::getSectionsList() const
