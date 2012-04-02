@@ -7,7 +7,10 @@
 #include "applicationsettingstab.h"
 #include "dialogabout.h"
 
+#include <vector>
+
 using namespace utils;
+using namespace std;
 
 /*** Init ***/
 MainWindow::MainWindow(QWidget *parent) :
@@ -57,6 +60,8 @@ void MainWindow::bindData()
          //ui->listWidgetNetworks->addItem(
          //            proxies.at(i).getAllSettings().at());
      }
+     connect(ui->listWidgetNetworks,SIGNAL(currentRowChanged(int)),
+             this, SLOT(changeCurrentNetwork(int)));
 }
 
 /*** Data model reactions ***/
@@ -75,7 +80,17 @@ void MainWindow::addNetwork()
     DialogAddNetwork* aDialog = new DialogAddNetwork(this);
     aDialog->show();
 }
-
+void MainWindow::changeCurrentNetwork(int i)
+{
+    ProxySettings proxySettings = DataModel::getInstance()->getProxies().at(i);
+    vector<AppSettings> settings = proxySettings.getAllSettings();
+    ui->tabWidget->clear();
+    for(int i = 0; i < settings.size(); ++i) {
+        onAddApplicationSettings(settings.at(i));
+    }
+    
+    //for(vector<AppSettin)
+}
 void MainWindow::showAbout()
 {
     DialogAbout d;

@@ -7,8 +7,8 @@
 namespace Ui { class ApplicationSettingsTab;}
 
 /**
-  * Contains appliacation settings as tab
-  */
+ * Contains appliacation settings as tab
+ */
 class ApplicationSettingsTab : public QWidget
 {
     Q_OBJECT

@@ -20,9 +20,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private slots:
+    // data model
     void onLoad();
     void onAddApplicationSettings(utils::AppSettings const& title);
+    // front end
     void addNetwork();
+    void changeCurrentNetwork(int);
     void showAbout();
 private:
     void bindData();
