@@ -21,14 +21,14 @@ class QDataModel : public QObject
     friend class DataModel;
 public:
     void loadData();
-    void addProxyItem(QString const & proxyName);
+    void addProxyItem  (QString const & proxyName);
     void addAppSettings(QString const & appName);
     
     QVector<utils::ProxySettings> const & getProxies() { return proxySettings; }
     
 signals:
     void onLoadData();
-    void onAddProxyItem(std::string const & title);
+    void onAddProxyItem  (std::string const & title);
     void onAddAppSettings(utils::AppSettings const & appSettings);
 private:
     QVector<utils::ProxySettings> proxySettings;

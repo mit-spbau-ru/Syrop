@@ -66,11 +66,10 @@ void MainWindow::bindData()
 
 /*** Data model reactions ***/
 void MainWindow::onAddApplicationSettings(utils::AppSettings const& appSettings)
-{
+{    
     ui->tabWidget->addTab(
                     new ApplicationSettingsTab(appSettings, ui->tabWidget), 
-                    //QString(appSettings.getApplicationName().data())
-                    "Some appSettings"
+                    QString(appSettings.getApplicationName().data())
                 );
 }
 
@@ -88,8 +87,6 @@ void MainWindow::changeCurrentNetwork(int i)
     for(int i = 0; i < settings.size(); ++i) {
         onAddApplicationSettings(settings.at(i));
     }
-    
-    //for(vector<AppSettin)
 }
 void MainWindow::showAbout()
 {
