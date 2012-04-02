@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     // Init data model
-    DataModel::getInstance(this);
+    DataModel::createInstance(this);
     connect(DataModel::getInstance(), SIGNAL(onLoadData()),
             this, SLOT(onLoad()));
     DataModel::getInstance()->loadData();

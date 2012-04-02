@@ -1,6 +1,7 @@
 #ifndef DATAMODEL_H
 #define DATAMODEL_H
 
+
 #include <QObject>
 #include <QVector>
 
@@ -36,28 +37,37 @@ private:
     void operator=(QDataModel const &);
 };
 
+
 /**
   * Proxy class for storing pointer.
   */
 class DataModel
 {
 public:
-    static QDataModel* getInstance(QObject* parent = 0) 
+    typedef QVector<utils::ProxySettings> ProxyList;
+
+    static QDataModel* createInstance(QObject* parent)
     {
-        static QDataModel* instance = createInstance(parent);
+        static bool createdInstance = false;
+        if(createdInstance) {
+            throw std::runtime_error("Instance has been created before.");
+        }
+        if(!parent) {
+            throw std::invalid_argument("QDataModel must have non-null parent.");
+        }
+        instance = new QDataModel(parent);
+        createdInstance = true;
+        return instance;
+    }
+    
+    static QDataModel* getInstance() 
+    {
         return instance;
     }
 
-    typedef QVector<utils::ProxySettings> ProxyList;
-    
 private:
-    static QDataModel* createInstance(QObject* parent)
-    {
-        if(!parent) {
-            throw std::invalid_argument("QDataModel must have parent.");
-        }
-        return new QDataModel(parent);
-    }
+    static QDataModel* instance;
+    
 };
 
 

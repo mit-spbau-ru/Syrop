@@ -3,6 +3,8 @@
 using namespace utils;
 using namespace std;
 
+QDataModel* DataModel::instance;
+
 void QDataModel::loadData()
 {
     ProxySettings ps1;
@@ -13,7 +15,8 @@ void QDataModel::loadData()
     ps2.loadData("../res/AptuNetwork.ini");
     proxySettings.push_back(ps2);
     
-    emit onLoadData();    
+    emit onLoadData();
+    
 }
 
 void QDataModel::addAppSettings(QString const &)
