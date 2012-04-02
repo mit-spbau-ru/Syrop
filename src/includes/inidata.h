@@ -39,7 +39,7 @@ namespace utils{
 		friend std::ostream& operator<<( std::ostream &os, IniData const & idata );
 
 	private:
-		map <string, attributes> data;
+		attributes_map data;
 		
 	};
 }

@@ -47,7 +47,7 @@ namespace utils{
 
 	attributes IniData::getSection( string const &sec ) const
 	{
-		attributes::const_iterator it = data.find( sec );
+		attributes_map::const_iterator it = data.find( sec );
 		if ( it == data.end() )
     			return attributes();
 		else
