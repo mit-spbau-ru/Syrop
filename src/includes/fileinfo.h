@@ -43,9 +43,6 @@ namespace utils {
 		{
 			read();
 		}
-		
-		FileInfo()
-		{}
 	
 		/**
 		 * Method return only name of file or directory. Example: for file
@@ -65,7 +62,7 @@ namespace utils {
 		 *
 		 * @return full file name
 		 */
-		std::string getFullName() const
+		std::string const& getFullName() const
 		{
 			return myName;
 		}
