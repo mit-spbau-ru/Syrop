@@ -44,6 +44,10 @@ NamesDataBase::NamesDataBase(std::string const &file)
 		readNetworkAttributes(data, *it);
 }
 
+#define ADD_ATTRIBUTE(data, it, section, attr) { \
+if ( !it->attr.empty() ) \
+	data.addAttribute( section, make_pair( #attr, it->attr) ); \
+}
 void NamesDataBase::write(std::string const &file)
 {
 	errno = 0;
@@ -54,31 +58,33 @@ void NamesDataBase::write(std::string const &file)
 	for (networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it)
 	{
 		data.addSection(it->config);
-		if (!it->essid.empty()) data.addAttribute(it->config, make_pair("essid", it->essid));
-		if (!it->gwip.empty()) data.addAttribute(it->config, make_pair("gatewayip", it->gwip));
-		if (!it->netmask.empty()) data.addAttribute(it->config, make_pair("netmask", it->netmask));
-		if (!it->dev.empty()) data.addAttribute(it->config, make_pair("device", it->dev));
+		ADD_ATTRIBUTE(data, it, it->config, essid)
+		ADD_ATTRIBUTE(data, it, it->config, gwip)
+		ADD_ATTRIBUTE(data, it, it->config, netmask)
+		ADD_ATTRIBUTE(data, it, it->config, dev)
 	}
 	
 	out << data;
 	out.close();
 }
+#undef ADD_ATTRIBUTE
 
+#define GET_ATTRIBUTE(src, dst, section, attr) { \
+if ( src.hasAttribute(section, #attr) ) \
+	dst.attr = src.getAttribute(section, #attr); \
+}
 void NamesDataBase::readNetworkAttributes(IniData const &data, std::string const &network)
 {
 	NetworkAttributes attr;
 	attr.config = network;
 	
-	if ( data.hasAttribute(network, "essid") )
-		attr.essid = data.getAttribute(network, "essid");
-	if ( data.hasAttribute(network, "gatewayip") )
-		attr.gwip = data.getAttribute(network, "gatewayip");
-	if ( data.hasAttribute(network, "netmask") )
-		attr.netmask = data.getAttribute(network, "netmask");
-	if ( data.hasAttribute(network, "device") )
-		attr.dev = data.getAttribute(network, "device");
+	GET_ATTRIBUTE(data, attr, network, essid)
+	GET_ATTRIBUTE(data, attr, network, gwip)
+	GET_ATTRIBUTE(data, attr, network, netmask)
+	GET_ATTRIBUTE(data, attr, network, dev)
 		
 	myBase.push_back(attr);
 }
+#undef GET_ATTRIBUTE
 
 } // namespace utils

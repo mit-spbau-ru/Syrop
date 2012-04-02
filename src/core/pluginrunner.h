@@ -84,9 +84,9 @@ namespace core
 	private:
 		bpy::object myMain;
 		
-		typedef struct AppSettingsWrapper
+		struct wrapper
 		{
-			AppSettingsWrapper(utils::AppSettings const &settings)
+			wrapper(utils::AppSettings const &settings)
 				: mySettings(settings)
 			{}
 			
@@ -94,7 +94,8 @@ namespace core
 			string const& get(string const &prot) const { return mySettings[prot]; }
 			
 			utils::AppSettings const mySettings;
-		} wrapper;
+		};
 	};
+	
 } // namespace core
 #endif //_CORE_PLUGINRUNNER_

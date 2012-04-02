@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 import os
 
+def backupSettings ():
+# this method will be invoked before setupSettings
+
 def setupSettings (settings):
 	# получаем имя файла настройки ~/.bashrc
 	name = os.path.expanduser("~/.bashrc")

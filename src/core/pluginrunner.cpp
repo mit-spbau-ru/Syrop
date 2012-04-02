@@ -32,9 +32,12 @@ void PluginRunner::setupSettings(string const &script, AppSettings const &s)
 		wrapper const settings(s);
 		//load script
 		bpy::object const ignored = bpy::exec_file(bpy::str(script), myMain);
+		//find backup function by name
+		bpy::object const backup = myMain["backupSettings"];
 		//find setupSettings function by name
 		bpy::object const setup = myMain["setupSettings"];
 		//call
+		backup();
 		setup(bpy::ptr(&settings));
 	}
 	catch (bpy::error_already_set const& e)

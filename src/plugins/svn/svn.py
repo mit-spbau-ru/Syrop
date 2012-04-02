@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 import ConfigParser, os, re
 
+def backupSettings ():
+# this method will be invoked before setupSettings
+
 def setupSettings (settings):
-	#проверяем что еть нужные настройки
+	#проверяем что есть нужные настройки
 	if 'http' in settings:
 		#сдвигаем global секцию в конец файла
 		moveGlobalToEnd()
