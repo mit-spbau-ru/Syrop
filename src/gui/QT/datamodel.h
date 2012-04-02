@@ -13,8 +13,8 @@
 #include "proxysettings.h"
 
 /**
-  * Main data structure with events
-  */
+ * Main data structure with events
+ */
 class QDataModel : public QObject
 {
     Q_OBJECT
