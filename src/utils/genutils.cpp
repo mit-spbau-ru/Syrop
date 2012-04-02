@@ -1,22 +1,34 @@
 #include <fstream>
 #include <string>
+#include <iostream>
+#include <boost/algorithm/string.hpp>
 #include "genutils.h"
+#include "system.h"
 
 namespace utils{
 		
-	bool fileExists(std::string const &fname)
+	using std::string;
+
+	bool fileExists(string const &fname)
 	{
 	  return std::ifstream( fname.c_str() ,  std::ifstream::in ) != NULL;
 	}
 
 
 	template < class T >	
-	void makeConfig(std::string const &fname, T const & configer )
+	void makeConfig(string const &fname, T const & configer )
 	{
 		if (! fileExists(fname) )
 		{	
 			std::ofstream file;
-			file.open ( fname.c_str() );
+			
+			std::vector < string > split_vec; 
+			boost::split( split_vec, fname, boost::is_any_of("/") );
+			string name = split_vec.back();
+			string dir = fname;
+			dir = dir.erase ( fname.find_last_of (name) ) ;
+			create_dir( dir );
+			file.open ( name.c_str() );
 			
 			configer.generate(file);
 
