@@ -1,8 +1,8 @@
 project(syrop-core CXX)
 
 add_executable(syrop
-		pluginrunner.cpp
-		main.cpp
+	       pluginrunner.cpp
+	       main.cpp
 )
 
 find_package(Boost COMPONENTS python REQUIRED)
