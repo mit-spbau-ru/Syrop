@@ -19,8 +19,8 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef _CORE_COREUTILS_H_
-#define _CORE_COREUTILS_H_
+#ifndef _UTILS_COREUTILS_H_
+#define _UTILS_COREUTILS_H_
 
 #include <string>
 #include <map>
@@ -30,18 +30,16 @@ using std::string;
 using std::vector;
 using std::map;
 
-using utils::FileInfo;
-
-namespace core
+namespace utils
 {
 	typedef vector<FileInfo> files_t;
 	typedef map<string, string> plugins_t;
 
-	const string home = ".syrop/";
-	const string plugins = "plugins/";
-	const string configs = "configs/";
-	const string setup = "/usr/share/syrop/";
-	const string pluginExtention = ".py";
+	const string HOME = ".syrop/";
+	const string PLUGINS = "plugins/";
+	const string CONFIGS = "configs/";
+	const string SETUP = "/usr/share/syrop/";
+	const string PLUGIN_EXTENSION = ".py";
 
 	/**
 	 * Function returns application HOME dir. Directory will be
@@ -50,7 +48,7 @@ namespace core
 	 * @return string with directory name
 	 * @throws std::runtime_error if an error occrred
 	 */
-	string application_dir();
+	std::string const& application_dir();
 
 	/**
 	 * Function returns standart plugin search path:
@@ -71,6 +69,6 @@ namespace core
 	 */
 	void list_plugins(vector<string> const &path, plugins_t &plugins); // throws std::runtime_error
 
-} // namespace core
+} // namespace utils
 
-#endif //_CORE_COREUTILS_H_
+#endif //_UTILS_COREUTILS_H_

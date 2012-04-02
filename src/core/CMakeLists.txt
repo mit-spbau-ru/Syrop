@@ -1,7 +1,6 @@
 project(syrop-core CXX)
 
 add_executable(syrop
-		coreutils.cpp
 		pluginrunner.cpp
 		main.cpp
 )

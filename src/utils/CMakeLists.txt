@@ -9,4 +9,5 @@ add_library(syroputils
 		genutils.cpp
 		fileinfo.cpp
 		system.cpp
+		coreutils.cpp
 )

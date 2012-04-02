@@ -27,11 +27,7 @@
 
 using std::make_pair;
 
-using utils::list_dir_entries;
-using utils::user_home_dir;
-using utils::create_dir;
-
-namespace core
+namespace utils
 {
 
 static bool test_plugin(FileInfo const &info)
@@ -42,7 +38,7 @@ static bool test_plugin(FileInfo const &info)
 		//list files
 		files_t const children = list_dir_entries(info.getFullName());
 		for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
-			if (it->getName() == (info.getName() + pluginExtention) )
+			if (it->getName() == (info.getName() + PLUGIN_EXTENSION) )
 				//main plugin file must have same name as plugin directory
 				return true;
 	}
@@ -54,21 +50,19 @@ static void list_plugins(string const &dir, plugins_t &plugins)
 {
 	files_t const children = list_dir_entries(dir);
 	for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
+	{
 		if (test_plugin(*it))
-		{
-			string name = it->getName();
-			string fullName = it->getFullName() + "/" + name + pluginExtention;
-			plugins.insert(make_pair( name, fullName ) );
-		}
+			plugins[it->getName()] = it->getFullName() + "/" + it->getName() + PLUGIN_EXTENSION;
+	}
 }
 
 /**
  * Function returns syrop directory in user home, if directory dosen't
  * exists function creates it
  */
-std::string application_dir()
+std::string const& application_dir()
 {
-	string const dirName = user_home_dir() + "/" + home;
+	static string const dirName(user_home_dir() + "/" + HOME);
 	create_dir(dirName);
 	return dirName;
 }
@@ -85,7 +79,7 @@ vector<string> const& search_pathes()
 	{
 		try
 		{
-			FileInfo info(user_home_dir() + "/" + home + plugins);
+			FileInfo info(user_home_dir() + "/" + HOME + PLUGINS);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)
@@ -93,7 +87,7 @@ vector<string> const& search_pathes()
 		
 		try
 		{
-			FileInfo info(setup + plugins);
+			FileInfo info(SETUP + PLUGINS);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)
@@ -112,4 +106,4 @@ void list_plugins(vector<string> const& pathes, plugins_t &plugins)
 		list_plugins(*it, plugins);
 }
 
-} // namespace core
+} // namespace utils

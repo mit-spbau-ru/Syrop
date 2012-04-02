@@ -17,13 +17,20 @@ def setupSettings (settings):
 	else:
 		print "WARN: http_proxy is set already in ", os.environ["http_proxy"]
 	
-	# аналогично для https
+	# аналогично для https и ftp
 	if not ("https_proxy" in os.environ):
 		if "https" in settings:
 			bashrc.write("https_proxy=" + settings["https"] + "\n")
 			bashrc.write("export https_proxy\n")
 	else:
 		print "WARN: https_proxy is set already in ", os.environ["https_proxy"]
+		
+	if not ("ftp_proxy" in os.environ):
+		if "ftp" in settings:
+			bashrc.write("ftp_proxy=" + settings["ftp"] + "\n")
+			bashrc.write("export ftp_proxy\n")
+	else:
+		print "WARN: ftp_proxy is set already in ", os.environ["ftp_proxy"]	
 	# ставим конечную метку
 	bashrc.write("\n#syrop end\n")
 	bashrc.close()

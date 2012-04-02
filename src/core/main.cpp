@@ -124,7 +124,7 @@ int main(int argc, char **argv)
 		//call plugins
 		if ( handleParams.apply )
 		{
-			string const configDir = appDir + core::configs;
+			string const configDir = appDir + utils::CONFIGS;
 			string const configName = configDir + handleParams.network;
 			if ( handleParams.create )
 			{

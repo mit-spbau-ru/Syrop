@@ -39,10 +39,10 @@ using std::vector;
 using std::pair;
 
 using core::PluginRunner;
-using core::list_plugins;
-using core::search_pathes;
-using core::application_dir;
 
+using utils::list_plugins;
+using utils::search_pathes;
+using utils::application_dir;
 using utils::ProxySettings;
 using utils::create_dir;
 using utils::create_file;
