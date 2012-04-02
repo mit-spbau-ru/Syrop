@@ -28,14 +28,15 @@
 #include "fileinfo.h"
 
 namespace utils {
+	typedef std::vector<FileInfo> files_t;
 
 	/**
 	 * List entries in dir
 	 *
 	 * @param dir direcotry path
-	 * @return vector of direcotry entries descriptions
+	 * @param names vector of direcotry entries descriptions
 	 */
-	std::vector<FileInfo> list_dir_entries(std::string const &dir);
+	void list_dir_entries(std::string const &dir, files_t &names);
 	
 	/**
 	 * Returns error message by errcode

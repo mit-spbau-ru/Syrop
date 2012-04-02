@@ -31,10 +31,9 @@
 #include <exception>
 
 #include "fileinfo.h"
+#include "system.h"
 
 namespace utils {
-
-typedef std::vector<FileInfo> files_t;
 
 /**
  * Returns error message returned by strerror_r
@@ -52,15 +51,14 @@ std::string error_message(int errCode)
  * Function list all directory entries in a directory specified by argument
  *
  * @param dir directory name
- * @return vector of FileInfo
+ * @param names vector of FileInfo
  * @throws std::runtime_error if an I/O error occured
  */
-files_t list_dir_entries(std::string const &dir) // throws std::runtime_error
+void list_dir_entries(std::string const &dir, files_t &names) // throws std::runtime_error
 {
 	DIR *dp = 0;
 	dirent *result = 0;
 	dirent entry = {};
-	files_t names;
 	
 	errno = 0;
 	
@@ -81,8 +79,6 @@ files_t list_dir_entries(std::string const &dir) // throws std::runtime_error
 		throw std::runtime_error(error_message(errno) + " at listDirEntries on " + dir);
 	
 	closedir(dp);
-	
-	return names;
 }
 
 /**

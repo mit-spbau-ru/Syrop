@@ -20,6 +20,7 @@
  *****************************************************************************************/
 
 #include <exception>
+#include <algorithm>
 
 #include "system.h"
 #include "coreutils.h"
@@ -36,9 +37,11 @@ static bool test_plugin(FileInfo const &info)
 	if (info.isDirectory())
 	{
 		//list files
-		files_t const children = list_dir_entries(info.getFullName());
+		files_t children;
+		
+		list_dir_entries( info.getFullName(), children );
 		for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
-			if (it->getName() == (info.getName() + PLUGIN_EXTENSION) )
+			if ( it->getName() == (info.getName() + PLUGIN_EXTENSION) )
 				//main plugin file must have same name as plugin directory
 				return true;
 	}
@@ -48,12 +51,14 @@ static bool test_plugin(FileInfo const &info)
 //function adds plugins in a specified directory to map
 static void list_plugins(string const &dir, plugins_t &plugins)
 {
-	files_t const children = list_dir_entries(dir);
+	files_t children;
+	
+	list_dir_entries( dir, children );
 	for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
 	{
 		if (test_plugin(*it))
 			plugins[it->getName()] = it->getFullName() + "/" + it->getName() + PLUGIN_EXTENSION;
-	}
+	}	
 }
 
 /**
