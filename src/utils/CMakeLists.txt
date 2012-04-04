@@ -1,7 +1,6 @@
 project(syroputils CXX)
 
 add_library(syroputils
-		appsettings.cpp
 		inidata.cpp
 		namedb.cpp
 		proxysettings.cpp

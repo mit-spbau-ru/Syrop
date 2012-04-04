@@ -1,5 +1,4 @@
 FILE(REMOVE_RECURSE
-  "CMakeFiles/syroputils.dir/appsettings.o"
   "CMakeFiles/syroputils.dir/inidata.o"
   "CMakeFiles/syroputils.dir/namedb.o"
   "CMakeFiles/syroputils.dir/proxysettings.o"

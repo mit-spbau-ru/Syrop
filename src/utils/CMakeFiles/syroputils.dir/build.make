@@ -46,33 +46,9 @@ include src/utils/CMakeFiles/syroputils.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/utils/CMakeFiles/syroputils.dir/flags.make
 
-src/utils/CMakeFiles/syroputils.dir/appsettings.o: src/utils/CMakeFiles/syroputils.dir/flags.make
-src/utils/CMakeFiles/syroputils.dir/appsettings.o: src/utils/appsettings.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/appsettings.o"
-	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/appsettings.o -c /home/ksenia/Syrop_/Syrop/src/utils/appsettings.cpp
-
-src/utils/CMakeFiles/syroputils.dir/appsettings.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/syroputils.dir/appsettings.i"
-	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/ksenia/Syrop_/Syrop/src/utils/appsettings.cpp > CMakeFiles/syroputils.dir/appsettings.i
-
-src/utils/CMakeFiles/syroputils.dir/appsettings.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/syroputils.dir/appsettings.s"
-	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/ksenia/Syrop_/Syrop/src/utils/appsettings.cpp -o CMakeFiles/syroputils.dir/appsettings.s
-
-src/utils/CMakeFiles/syroputils.dir/appsettings.o.requires:
-.PHONY : src/utils/CMakeFiles/syroputils.dir/appsettings.o.requires
-
-src/utils/CMakeFiles/syroputils.dir/appsettings.o.provides: src/utils/CMakeFiles/syroputils.dir/appsettings.o.requires
-	$(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/appsettings.o.provides.build
-.PHONY : src/utils/CMakeFiles/syroputils.dir/appsettings.o.provides
-
-src/utils/CMakeFiles/syroputils.dir/appsettings.o.provides.build: src/utils/CMakeFiles/syroputils.dir/appsettings.o
-.PHONY : src/utils/CMakeFiles/syroputils.dir/appsettings.o.provides.build
-
 src/utils/CMakeFiles/syroputils.dir/inidata.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/inidata.o: src/utils/inidata.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/inidata.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/inidata.o -c /home/ksenia/Syrop_/Syrop/src/utils/inidata.cpp
 
@@ -96,7 +72,7 @@ src/utils/CMakeFiles/syroputils.dir/inidata.o.provides.build: src/utils/CMakeFil
 
 src/utils/CMakeFiles/syroputils.dir/namedb.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/namedb.o: src/utils/namedb.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/namedb.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/namedb.o -c /home/ksenia/Syrop_/Syrop/src/utils/namedb.cpp
 
@@ -120,7 +96,7 @@ src/utils/CMakeFiles/syroputils.dir/namedb.o.provides.build: src/utils/CMakeFile
 
 src/utils/CMakeFiles/syroputils.dir/proxysettings.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/proxysettings.o: src/utils/proxysettings.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/proxysettings.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/proxysettings.o -c /home/ksenia/Syrop_/Syrop/src/utils/proxysettings.cpp
 
@@ -144,7 +120,7 @@ src/utils/CMakeFiles/syroputils.dir/proxysettings.o.provides.build: src/utils/CM
 
 src/utils/CMakeFiles/syroputils.dir/iniparser.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/iniparser.o: src/utils/iniparser.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/iniparser.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/iniparser.o -c /home/ksenia/Syrop_/Syrop/src/utils/iniparser.cpp
 
@@ -168,7 +144,7 @@ src/utils/CMakeFiles/syroputils.dir/iniparser.o.provides.build: src/utils/CMakeF
 
 src/utils/CMakeFiles/syroputils.dir/genutils.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/genutils.o: src/utils/genutils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/genutils.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/genutils.o -c /home/ksenia/Syrop_/Syrop/src/utils/genutils.cpp
 
@@ -192,7 +168,7 @@ src/utils/CMakeFiles/syroputils.dir/genutils.o.provides.build: src/utils/CMakeFi
 
 src/utils/CMakeFiles/syroputils.dir/fileinfo.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/fileinfo.o: src/utils/fileinfo.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/fileinfo.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/fileinfo.o -c /home/ksenia/Syrop_/Syrop/src/utils/fileinfo.cpp
 
@@ -216,7 +192,7 @@ src/utils/CMakeFiles/syroputils.dir/fileinfo.o.provides.build: src/utils/CMakeFi
 
 src/utils/CMakeFiles/syroputils.dir/system.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/system.o: src/utils/system.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/system.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/system.o -c /home/ksenia/Syrop_/Syrop/src/utils/system.cpp
 
@@ -240,7 +216,7 @@ src/utils/CMakeFiles/syroputils.dir/system.o.provides.build: src/utils/CMakeFile
 
 src/utils/CMakeFiles/syroputils.dir/coreutils.o: src/utils/CMakeFiles/syroputils.dir/flags.make
 src/utils/CMakeFiles/syroputils.dir/coreutils.o: src/utils/coreutils.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/ksenia/Syrop_/Syrop/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object src/utils/CMakeFiles/syroputils.dir/coreutils.o"
 	cd /home/ksenia/Syrop_/Syrop/src/utils && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/syroputils.dir/coreutils.o -c /home/ksenia/Syrop_/Syrop/src/utils/coreutils.cpp
 
@@ -264,7 +240,6 @@ src/utils/CMakeFiles/syroputils.dir/coreutils.o.provides.build: src/utils/CMakeF
 
 # Object files for target syroputils
 syroputils_OBJECTS = \
-"CMakeFiles/syroputils.dir/appsettings.o" \
 "CMakeFiles/syroputils.dir/inidata.o" \
 "CMakeFiles/syroputils.dir/namedb.o" \
 "CMakeFiles/syroputils.dir/proxysettings.o" \
@@ -277,7 +252,6 @@ syroputils_OBJECTS = \
 # External object files for target syroputils
 syroputils_EXTERNAL_OBJECTS =
 
-build/ars/libsyroputils.a: src/utils/CMakeFiles/syroputils.dir/appsettings.o
 build/ars/libsyroputils.a: src/utils/CMakeFiles/syroputils.dir/inidata.o
 build/ars/libsyroputils.a: src/utils/CMakeFiles/syroputils.dir/namedb.o
 build/ars/libsyroputils.a: src/utils/CMakeFiles/syroputils.dir/proxysettings.o
@@ -296,7 +270,6 @@ build/ars/libsyroputils.a: src/utils/CMakeFiles/syroputils.dir/link.txt
 src/utils/CMakeFiles/syroputils.dir/build: build/ars/libsyroputils.a
 .PHONY : src/utils/CMakeFiles/syroputils.dir/build
 
-src/utils/CMakeFiles/syroputils.dir/requires: src/utils/CMakeFiles/syroputils.dir/appsettings.o.requires
 src/utils/CMakeFiles/syroputils.dir/requires: src/utils/CMakeFiles/syroputils.dir/inidata.o.requires
 src/utils/CMakeFiles/syroputils.dir/requires: src/utils/CMakeFiles/syroputils.dir/namedb.o.requires
 src/utils/CMakeFiles/syroputils.dir/requires: src/utils/CMakeFiles/syroputils.dir/proxysettings.o.requires

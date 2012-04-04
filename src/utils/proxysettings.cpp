@@ -5,84 +5,86 @@
 
 namespace utils{
 
-	vector <AppSettings> ProxySettings::getAllSettings () const 
+	attributes_map ProxySettings::getAllSettings () const 
 	{
-		vector< AppSettings > as;
-		vector< string > sl = data.getSectionsList();
-		vector< string >::const_iterator slit = sl.begin(); 
-
-		for ( ; slit != sl.end() ; ++slit) {
-
-			string appName = *slit;
-			as.push_back( AppSettings( appName, data.getSection(appName) ));
-		}
-
-		return as;
+		return settings;
 	}
 
 
-	void ProxySettings::saveIniData( AppSettings const & apps ) 
+	void ProxySettings::saveIniData( attributes const & apps, string const & name ) 
 	{
-		string name = apps.getApplicationName();
 		data.removeSection( name );
 
-		attributes settings = apps.getAllAttributes();
-		attributes::const_iterator sit = settings.begin();
+		attributes::const_iterator ait = apps.begin();
 
 		data.addSection( name );
-		for ( ; sit != settings.end() ; ++sit )
+		for ( ; ait != apps.end() ; ++ait )
 		{
-			data.addAttribute(name, *sit);
+			data.addAttribute(name, *ait);
 		} 
 		
 	}
 
-	
-	void ProxySettings::save( AppSettings const & apps )
+	bool ProxySettings::existsApp( string const &appName )
 	{
-		data.dropAll();
-		saveIniData ( apps );
-		fix( data );		
+		return settings.find( appName ) != settings.end() ;
+
+
+	}		
+
+	// first call existsApp() is suggested to check if such a name exists in map
+	attributes& ProxySettings::operator[] (string const &appName)
+	{
+		return settings[ appName ];	
+
 	}
 
+	
+	// first call existsApp() is suggested to check if such a name exists in map
+	attributes const& ProxySettings::operator[] (string const &appName) const
+	{
+		return settings.find( appName ) -> second;
+	}
+
+	
 
 
-	void ProxySettings::save( vector < AppSettings > const & apps ) 
+	void ProxySettings::save( ) 
 	{
 		data.dropAll();
-		vector <AppSettings> :: const_iterator asit = apps.begin();
-		for ( ; asit != apps.end() ; ++asit )
+		attributes_map :: const_iterator sit = settings.begin();
+		for ( ; sit != settings.end() ; ++sit )
 		{
-			saveIniData (*asit);
+			saveIniData ( sit->second, sit->first );
 		} 
 		fix(data);
 	}
 
 
-	AppSettings ProxySettings::addNewApp( string const &name ) 
+	// checks if the application of name name exists
+	// in this case returns its settings
+	// else adds a new application  
+	// and returns a reference to the empty settings
+	attributes& ProxySettings::addApp( string const &name ) 
 	{
-		if ( data.hasSection( name ) ) return AppSettings();
-		
-		attributes attrs; // = data.getSection("default");
-		AppSettings apps( name, attrs );
-		save ( apps ) ;			
-		return apps;
+				
+		attributes_map :: const_iterator res = settings.find( name );	
+		if ( res != settings.end() ) return settings[name] ;
+
+		attributes attrs;
+		settings.insert ( make_pair ( name, attrs ) ); 
+		save () ;			
+		return settings[ name ];
 
  	}
 
-	AppSettings ProxySettings::getAppSettings( string const &appName ) const
+	void ProxySettings::removeApp( string const & name )
 	{
-		try {	
-			AppSettings aps = AppSettings( appName, data.getSection(appName) );
-			return aps;
-		}
-		catch ( EmptyObjectException E ) 
+		if ( existsApp (name) ) 
 		{
-
-		}		
-		return AppSettings();
+			settings.erase ( settings.find (name) );
+		}
 	}
-
 	void ProxySettings::loadData( string const &fileName )
 	{
 		this->fileName = fileName;
@@ -102,9 +104,6 @@ namespace utils{
 		file.close();
 	}
 
-	/*void ProxySettings::print() const {
-		data.print();
-	}*/
 
 	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 
 	{

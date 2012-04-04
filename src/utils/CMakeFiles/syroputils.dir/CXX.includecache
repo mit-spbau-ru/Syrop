@@ -6,29 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/ksenia/Syrop_/Syrop/src/utils/appsettings.cpp
-appsettings.h
-/home/ksenia/Syrop_/Syrop/src/utils/appsettings.h
-emptyobject.h
-/home/ksenia/Syrop_/Syrop/src/utils/emptyobject.h
-
-/home/ksenia/Syrop_/Syrop/src/utils/inidata.cpp
+/home/ksenia/Syrop_/Syrop/src/utils/proxysettings.cpp
 iostream
 -
-string
+fstream
 -
-map
--
-inidata.h
-/home/ksenia/Syrop_/Syrop/src/utils/inidata.h
 emptyobject.h
 /home/ksenia/Syrop_/Syrop/src/utils/emptyobject.h
-
-src/includes/appsettings.h
-inidata.h
-src/includes/inidata.h
-string
--
+proxysettings.h
+/home/ksenia/Syrop_/Syrop/src/utils/proxysettings.h
 
 src/includes/emptyobject.h
 exception
@@ -43,4 +29,20 @@ vector
 -
 map
 -
+
+src/includes/iniparser.h
+iostream
+-
+map
+-
+string
+-
+inidata.h
+src/includes/inidata.h
+
+src/includes/proxysettings.h
+inidata.h
+src/includes/inidata.h
+iniparser.h
+src/includes/iniparser.h
 

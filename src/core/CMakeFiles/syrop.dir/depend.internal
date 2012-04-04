@@ -5,7 +5,6 @@ src/core/CMakeFiles/syrop.dir/main.o
  /home/ksenia/Syrop_/Syrop/src/core/main.cpp
  /home/ksenia/Syrop_/Syrop/src/core/pluginrunner.h
  /home/ksenia/Syrop_/Syrop/src/core/syrop.h
- src/includes/appsettings.h
  src/includes/coreutils.h
  src/includes/fileinfo.h
  src/includes/inidata.h
@@ -15,7 +14,5 @@ src/core/CMakeFiles/syrop.dir/main.o
 src/core/CMakeFiles/syrop.dir/pluginrunner.o
  /home/ksenia/Syrop_/Syrop/src/core/pluginrunner.cpp
  /home/ksenia/Syrop_/Syrop/src/core/pluginrunner.h
- src/includes/appsettings.h
  src/includes/fileinfo.h
- src/includes/inidata.h
  src/includes/system.h

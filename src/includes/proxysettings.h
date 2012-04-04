@@ -23,7 +23,6 @@
 #define _INCLUDES_PROXYSETTINGS_
 
 #include "inidata.h"
-#include "appsettings.h"
 #include "iniparser.h"
 
 namespace utils{
@@ -35,21 +34,24 @@ namespace utils{
 
 		void loadData( string const &fileName );
 
-		AppSettings getAppSettings( string const &sec ) const;
-		vector< AppSettings > getAllSettings () const;
+		attributes_map getAllSettings () const;
 
-		void save ( AppSettings const & apps ) ;
-		void save ( vector < AppSettings > const & apps ) ;
-		AppSettings addNewApp( string const &name ) ;
+		void save (  ) ;
+		attributes& addApp( string const &name ) ;
+		void removeApp( string const &sec ) ;
 
-		//void print() const;
+		bool existsApp(const std::string& appName);
+		attributes& operator[] (string const &appName);
+		attributes const& operator[] (string const &appName) const;		
+
 		friend std::ostream& operator<<( std::ostream &os, ProxySettings const & ps );
 
 	private:
-		void saveIniData ( AppSettings const & apps ) ;
+		void saveIniData ( attributes const & apps, string const & name ) ;
 		void fix( IniData const &idata ) const;	
 
 		IniData data;
+		attributes_map settings;
 		string fileName;	
 	};
 

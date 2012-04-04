@@ -1,2 +1,2 @@
-/usr/bin/ar cr ../../build/ars/libsyroputils.a  CMakeFiles/syroputils.dir/appsettings.o CMakeFiles/syroputils.dir/inidata.o CMakeFiles/syroputils.dir/namedb.o CMakeFiles/syroputils.dir/proxysettings.o CMakeFiles/syroputils.dir/iniparser.o CMakeFiles/syroputils.dir/genutils.o CMakeFiles/syroputils.dir/fileinfo.o CMakeFiles/syroputils.dir/system.o CMakeFiles/syroputils.dir/coreutils.o
+/usr/bin/ar cr ../../build/ars/libsyroputils.a  CMakeFiles/syroputils.dir/inidata.o CMakeFiles/syroputils.dir/namedb.o CMakeFiles/syroputils.dir/proxysettings.o CMakeFiles/syroputils.dir/iniparser.o CMakeFiles/syroputils.dir/genutils.o CMakeFiles/syroputils.dir/fileinfo.o CMakeFiles/syroputils.dir/system.o CMakeFiles/syroputils.dir/coreutils.o
 /usr/bin/ranlib ../../build/ars/libsyroputils.a

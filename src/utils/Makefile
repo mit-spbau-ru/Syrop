@@ -171,21 +171,6 @@ syroputils/fast:
 .PHONY : syroputils/fast
 
 # target to build an object file
-appsettings.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/appsettings.o
-.PHONY : appsettings.o
-
-# target to preprocess a source file
-appsettings.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/appsettings.i
-.PHONY : appsettings.i
-
-# target to generate assembly for a file
-appsettings.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/appsettings.s
-.PHONY : appsettings.s
-
-# target to build an object file
 coreutils.o:
 	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/coreutils.o
 .PHONY : coreutils.o
@@ -320,9 +305,6 @@ help:
 	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... syroputils"
-	@echo "... appsettings.o"
-	@echo "... appsettings.i"
-	@echo "... appsettings.s"
 	@echo "... coreutils.o"
 	@echo "... coreutils.i"
 	@echo "... coreutils.s"

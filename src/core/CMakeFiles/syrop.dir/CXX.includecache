@@ -52,12 +52,6 @@ pluginrunner.h
 proxysettings.h
 /home/ksenia/Syrop_/Syrop/src/core/proxysettings.h
 
-src/includes/appsettings.h
-inidata.h
-src/includes/inidata.h
-string
--
-
 src/includes/coreutils.h
 string
 -
@@ -103,8 +97,6 @@ src/includes/inidata.h
 src/includes/proxysettings.h
 inidata.h
 src/includes/inidata.h
-appsettings.h
-src/includes/appsettings.h
 iniparser.h
 src/includes/iniparser.h
 
