@@ -24,7 +24,7 @@
 namespace core
 {
 
-void PluginRunner::setupSettings(string const &script, AppSettings const &s)
+void PluginRunner::setupSettings(string const &script, attributes const &s)
 {
 	try
 	{

@@ -32,7 +32,7 @@
 using std::string;
 
 namespace bpy = boost::python;
-using utils::AppSettings;
+using utils::attributes;
 
 namespace core
 {
@@ -63,7 +63,7 @@ namespace core
 		 * @param settings AppProxySettings
 		 * @throws error_already_set if an Python interpreter error occurred
 		 */
-		void setupSettings(string const &script, AppSettings const &settings);
+		void setupSettings(string const &script, attributes const &settings);
 		
 		/**
 		 * Method calls celanupSettings function in the Python script
@@ -86,14 +86,14 @@ namespace core
 		
 		struct wrapper
 		{
-			wrapper(utils::AppSettings const &settings)
+			wrapper(attributes const &settings)
 				: mySettings(settings)
 			{}
 			
-			bool in(string const &prot) const { return mySettings.hasAttribute(prot); }
-			string const& get(string const &prot) const { return mySettings[prot]; }
+			bool in(string const &prot) const { return (mySettings.find(prot) != mySettings.end()); }
+			string const& get(string const &prot) const { return mySettings.find(prot)->second; }
 			
-			utils::AppSettings const mySettings;
+			attributes const mySettings;
 		};
 	};
 	

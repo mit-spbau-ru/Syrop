@@ -98,7 +98,7 @@ void apply_parameters(PluginRunner &runner, ProxySettings const& settings)
 	list_plugins(pathes, plugins);
 	
 	for (plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
-		runner.setupSettings( it->second, settings.getAppSettings(it->first) );
+		runner.setupSettings( it->second, settings[it->first] );
 }
 
 void cancel_parameters(PluginRunner &runner)
@@ -144,7 +144,12 @@ int main(int argc, char **argv)
 	catch (std::runtime_error const& e)
 	{
 		std::cerr << "error: " << e.what() << std::endl;
-		exit(1);
+		return 1;
+	}
+	catch (std::exception const& e)
+	{
+		std::cerr << "unexpected exception: " << e.what() << std::endl;
+		return 1;
 	}
 	
 	return EXIT_SUCCESS;

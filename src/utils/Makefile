@@ -8,7 +8,7 @@ default_target: all
 #=============================================================================
 # Special targets provided by cmake.
 
-# Disable implicit rules so canoncical targets will work.
+# Disable implicit rules so canonical targets will work.
 .SUFFIXES:
 
 # Remove some rules from gmake that .SUFFIXES does not remove.
@@ -36,10 +36,10 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ksenia/Syrop_/Syrop
+CMAKE_SOURCE_DIR = /home/mirovingen/ws/aptu/Syrop
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ksenia/Syrop_/Syrop
+CMAKE_BINARY_DIR = /home/mirovingen/ws/aptu/Syrop
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -98,7 +98,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/ksenia/Syrop_/Syrop && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/mirovingen/ws/aptu/Syrop && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -108,7 +108,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/ksenia/Syrop_/Syrop && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/ksenia/Syrop_/Syrop/CPackSourceConfig.cmake
+	cd /home/mirovingen/ws/aptu/Syrop && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/mirovingen/ws/aptu/Syrop/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -127,14 +127,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/ksenia/Syrop_/Syrop && $(CMAKE_COMMAND) -E cmake_progress_start /home/ksenia/Syrop_/Syrop/CMakeFiles /home/ksenia/Syrop_/Syrop/src/utils/CMakeFiles/progress.marks
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ksenia/Syrop_/Syrop/CMakeFiles 0
+	cd /home/mirovingen/ws/aptu/Syrop && $(CMAKE_COMMAND) -E cmake_progress_start /home/mirovingen/ws/aptu/Syrop/CMakeFiles /home/mirovingen/ws/aptu/Syrop/src/utils/CMakeFiles/progress.marks
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirovingen/ws/aptu/Syrop/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/clean
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/preinstall
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/preinstall
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/ksenia/Syrop_/Syrop && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/mirovingen/ws/aptu/Syrop && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/utils/CMakeFiles/syroputils.dir/rule:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/CMakeFiles/syroputils.dir/rule
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f CMakeFiles/Makefile2 src/utils/CMakeFiles/syroputils.dir/rule
 .PHONY : src/utils/CMakeFiles/syroputils.dir/rule
 
 # Convenience name for target.
@@ -167,127 +167,127 @@ syroputils: src/utils/CMakeFiles/syroputils.dir/rule
 
 # fast build rule for target.
 syroputils/fast:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/build
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/build
 .PHONY : syroputils/fast
 
 # target to build an object file
 coreutils.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/coreutils.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/coreutils.o
 .PHONY : coreutils.o
 
 # target to preprocess a source file
 coreutils.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/coreutils.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/coreutils.i
 .PHONY : coreutils.i
 
 # target to generate assembly for a file
 coreutils.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/coreutils.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/coreutils.s
 .PHONY : coreutils.s
 
 # target to build an object file
 fileinfo.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/fileinfo.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/fileinfo.o
 .PHONY : fileinfo.o
 
 # target to preprocess a source file
 fileinfo.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/fileinfo.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/fileinfo.i
 .PHONY : fileinfo.i
 
 # target to generate assembly for a file
 fileinfo.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/fileinfo.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/fileinfo.s
 .PHONY : fileinfo.s
 
 # target to build an object file
 genutils.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/genutils.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/genutils.o
 .PHONY : genutils.o
 
 # target to preprocess a source file
 genutils.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/genutils.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/genutils.i
 .PHONY : genutils.i
 
 # target to generate assembly for a file
 genutils.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/genutils.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/genutils.s
 .PHONY : genutils.s
 
 # target to build an object file
 inidata.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/inidata.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/inidata.o
 .PHONY : inidata.o
 
 # target to preprocess a source file
 inidata.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/inidata.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/inidata.i
 .PHONY : inidata.i
 
 # target to generate assembly for a file
 inidata.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/inidata.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/inidata.s
 .PHONY : inidata.s
 
 # target to build an object file
 iniparser.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/iniparser.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/iniparser.o
 .PHONY : iniparser.o
 
 # target to preprocess a source file
 iniparser.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/iniparser.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/iniparser.i
 .PHONY : iniparser.i
 
 # target to generate assembly for a file
 iniparser.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/iniparser.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/iniparser.s
 .PHONY : iniparser.s
 
 # target to build an object file
 namedb.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/namedb.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/namedb.o
 .PHONY : namedb.o
 
 # target to preprocess a source file
 namedb.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/namedb.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/namedb.i
 .PHONY : namedb.i
 
 # target to generate assembly for a file
 namedb.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/namedb.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/namedb.s
 .PHONY : namedb.s
 
 # target to build an object file
 proxysettings.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/proxysettings.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/proxysettings.o
 .PHONY : proxysettings.o
 
 # target to preprocess a source file
 proxysettings.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/proxysettings.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/proxysettings.i
 .PHONY : proxysettings.i
 
 # target to generate assembly for a file
 proxysettings.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/proxysettings.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/proxysettings.s
 .PHONY : proxysettings.s
 
 # target to build an object file
 system.o:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/system.o
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/system.o
 .PHONY : system.o
 
 # target to preprocess a source file
 system.i:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/system.i
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/system.i
 .PHONY : system.i
 
 # target to generate assembly for a file
 system.s:
-	cd /home/ksenia/Syrop_/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/system.s
+	cd /home/mirovingen/ws/aptu/Syrop && $(MAKE) -f src/utils/CMakeFiles/syroputils.dir/build.make src/utils/CMakeFiles/syroputils.dir/system.s
 .PHONY : system.s
 
 # Help Target
@@ -340,6 +340,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/ksenia/Syrop_/Syrop && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/mirovingen/ws/aptu/Syrop && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
