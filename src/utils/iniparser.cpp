@@ -24,7 +24,7 @@ string cleanComments( string const &str )
 
 }
 
-string adjust( string const &str ) 
+string extractName( string const &str ) 
 {
 	size_t from = str.find('[');
 	size_t to = str.find(']');
@@ -54,7 +54,7 @@ IniData readData(std::istream &is)
 		instr = cleanComments(instr);
 		
 		if ( isSectionName(instr) ){
-			curSec = adjust(instr);
+			curSec = extractName(instr);
 			data.addSection(curSec);
 		}
 		else if ( !instr.empty() ) {
@@ -84,22 +84,5 @@ void writeData(std::ostream &os, IniData const &idata)
 }
 
 
-/*void IniParser::showAppProxySettings(std::ostream &os, AppProxySettings const &P)
-{
-	std::map<string, string>::const_iterator it;
-	for (it = P.settings.begin(); it != P.settings.end(); it++){
-			os <<  " " << it -> first << " " << it -> second << std::endl;			
-	}
-}*/
-
-/*void IniParser::showNetworkProxySettings(std::ostream &os, NetworkProxyParameters const &P)
-{
-	std::map<string, AppProxySettings>::const_iterator it;
-	for (it = P.params.begin(); it != P.params.end(); it++){
-			os << "Proxy: " <<  it -> first << std::endl;
-			showAppProxySettings(os,it -> second);
-	}
-
-}*/
 
 } //namespace utils

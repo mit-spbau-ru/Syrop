@@ -19,9 +19,6 @@ namespace utils{
 		data[sec].insert(params);
 	}
 
-	//void IniData::removeSection(string const &);
-	//void IniData::removeAttribute(string const &);
-	
 	bool IniData::hasSection( string const &sec ) const
 	{
 		return data.find(sec) != data.end();		
@@ -64,23 +61,7 @@ namespace utils{
 		}
 		return secs;
 	}
-	//string IniData::getAttribute(string const &){
-	//}
-
-/*	void IniData::print() const {
-
-		std::map<string, attributes>::const_iterator ait = data.begin();
-
-		for ( ; ait != data.end(); ++ait){
-			std::cout <<  " " << ait -> first << std::endl; 
-			for (attributes::const_iterator sit = ait->second.begin() ; sit != ait->second.end() ; ++sit ) 
-			 	std::cout << "   " << sit -> first  << " " << sit -> second << std::endl;			
-		}
-
-	}
-*/
-
-	std::ostream& operator<<( std::ostream &os, IniData const &idata ) 
+		std::ostream& operator<<( std::ostream &os, IniData const &idata ) 
 	{
 		attributes_map::const_iterator ait = idata.data.begin();
 

@@ -21,7 +21,7 @@ namespace utils{
 	}
 
 
-	void ProxySettings::_save( AppSettings const & apps ) 
+	void ProxySettings::saveIniData( AppSettings const & apps ) 
 	{
 		string name = apps.getApplicationName();
 		data.removeSection( name );
@@ -41,7 +41,7 @@ namespace utils{
 	void ProxySettings::save( AppSettings const & apps )
 	{
 		data.dropAll();
-		_save ( apps );
+		saveIniData ( apps );
 		fix( data );		
 	}
 
@@ -53,7 +53,7 @@ namespace utils{
 		vector <AppSettings> :: const_iterator asit = apps.begin();
 		for ( ; asit != apps.end() ; ++asit )
 		{
-			_save (*asit);
+			saveIniData (*asit);
 		} 
 		fix(data);
 	}

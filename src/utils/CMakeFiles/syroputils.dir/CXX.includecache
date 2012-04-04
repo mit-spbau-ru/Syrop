@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ksenia/Syrop_/Syrop/src/utils/appsettings.cpp
+appsettings.h
+/home/ksenia/Syrop_/Syrop/src/utils/appsettings.h
+emptyobject.h
+/home/ksenia/Syrop_/Syrop/src/utils/emptyobject.h
+
+/home/ksenia/Syrop_/Syrop/src/utils/inidata.cpp
+iostream
+-
+string
+-
+map
+-
+inidata.h
+/home/ksenia/Syrop_/Syrop/src/utils/inidata.h
+emptyobject.h
+/home/ksenia/Syrop_/Syrop/src/utils/emptyobject.h
+
+src/includes/appsettings.h
+inidata.h
+src/includes/inidata.h
+string
+-
+
+src/includes/emptyobject.h
+exception
+-
+
+src/includes/inidata.h
+iostream
+-
+string
+-
+vector
+-
+map
+-
+
