@@ -28,7 +28,8 @@
 #include <map>
 
 
-namespace utils{
+namespace utils
+{
 
 	using std::string;
 	using std::map;
