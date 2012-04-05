@@ -52,6 +52,36 @@ namespace utils{
 		
 	}
 
+        IniData::const_iterator  IniData::begin () const
+        {
+             return data.begin();
+        }
+        IniData::const_iterator  IniData::end () const
+        {
+             return data.end();
+        }
+
+        IniData::iterator  IniData::begin ()
+        {
+             return data.begin();
+        }
+        IniData::iterator IniData::end ()
+        {
+             return data.end();
+        }
+
+
+
+//	attributes & IniData::operator [] ( string const & secName ) 
+//	{
+//		return data [ secName ]; 
+//	}
+
+//	attributes const & IniData::operator [] ( string const & secName) const
+//	{
+//		return data.find ( secName ) -> second ;
+//	}
+
 	vector< string > IniData::getSectionsList() const
 	{
 		vector<string> secs;
