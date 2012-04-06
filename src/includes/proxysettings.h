@@ -39,8 +39,8 @@ namespace utils{
 		void save 			() ;
 
 		bool existsApp			( const std::string& appName );
-		//attributes& operator[] 		( string const &appName );
-		//attributes const& operator[] 	( string const &appName ) const;		
+		attributes & operator[] 		( string const &appName );
+		attributes const & operator[] 	( string const &appName ) const;		
 
 
 		typedef IniData::iterator iterator;

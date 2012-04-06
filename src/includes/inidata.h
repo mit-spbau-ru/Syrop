@@ -49,7 +49,9 @@ namespace utils{
 
 		void dropAll			() { data.clear(); }
 		
-		attributes getSection		( string const &sec ) const;
+		attributes getSection			( string const &sec ) const;
+        	attributes & operator[] 	( string const &appName );
+               	attributes const & operator[] 	( string const &appName ) const;
 		bool hasSection			( string const &sec ) const;
 		bool hasAttribute		( string const &sec, string const &attr ) const;
 		vector< string > getSectionsList() const;

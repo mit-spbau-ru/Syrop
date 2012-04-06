@@ -11,22 +11,21 @@ namespace utils{
 		return data.hasSection ( appName ) ;
 
 	}		
-/*
-	// first call existsApp() is suggested to check if such a name exists in map
-	attributes& ProxySettings::operator[] (string const &appName)
+
+	// first call existsApp() is suggested to check if such an item exists in the map
+	attributes & ProxySettings::operator[] (string const &appName)
 	{
 		return data [ appName ];	
 
 	}
 
 	
-	// first call existsApp() is suggested to check if such a name exists in map
-	attributes const& ProxySettings::operator[] (string const &appName) const
+	// first call existsApp() is suggested to check if such an item exists in the map
+	attributes const & ProxySettings::operator[] (string const &appName) const
 	{
-		//return settings.find( appName ) -> second;
 		return data [ appName ];
 	}
-*/
+
 	
 
 	ProxySettings :: const_iterator  ProxySettings::begin () const
