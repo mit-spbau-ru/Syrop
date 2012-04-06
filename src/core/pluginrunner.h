@@ -27,7 +27,7 @@
 #include <boost/noncopyable.hpp>
 
 #include "system.h"
-#include "appsettings.h"
+#include "inidata.h"
 
 using std::string;
 
