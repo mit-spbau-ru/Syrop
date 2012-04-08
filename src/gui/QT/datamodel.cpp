@@ -22,7 +22,7 @@ void QDataModel::loadData()
 
 void QDataModel::addNetwork(QString const & appName)
 {
-    //proxySettings
+    proxySettings.push_back(ProxySettings());
     emit onAddNetwork(appName);
 }
 

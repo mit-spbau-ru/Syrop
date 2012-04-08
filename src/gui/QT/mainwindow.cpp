@@ -56,7 +56,7 @@ void MainWindow::bindData()
      DataModel::ProxyList const & proxies = DataModel::getInstance()->getProxies();
      
      for(int i = 0; i < proxies.size(); i++) {
-         ui->listWidgetNetworks->addItem(proxies[i]);         
+         ui->listWidgetNetworks->addItem("GIVE ME NAME");
      }
      connect(ui->listWidgetNetworks,SIGNAL(currentRowChanged(int)),
              this, SLOT(changeCurrentNetwork(int)));

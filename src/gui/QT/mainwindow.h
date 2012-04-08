@@ -4,7 +4,6 @@
 #include <QMainWindow>
 
 #include "proxysettings.h"
-//#include "appsettings.h"
 
 namespace Ui { class MainWindow; }
 
