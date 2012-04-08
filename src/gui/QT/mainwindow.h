@@ -25,8 +25,12 @@ private slots:
     // front end
     void addNetwork();
     void changeCurrentNetwork(int);
-    void showAbout();    
+    void showAbout();
 private:
+    /**
+     * Fill network list from DatamModel
+     * and bind signals from list to tabs
+     */
     void bindData();
     Ui::MainWindow *ui;
 };

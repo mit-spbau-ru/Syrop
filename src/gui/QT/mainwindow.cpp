@@ -8,6 +8,7 @@
 
 #include <vector>
 
+
 using namespace utils;
 using namespace std;
 
@@ -47,8 +48,15 @@ void MainWindow::onLoad()
             this, SLOT(onAddNetwork(QString)));
     // end data model connection
     
+    
     bindData();
     
+    // select first network
+    if(DataModel::getInstance()->getProxies().size() > 0){
+        ui->listWidgetNetworks->setCurrentRow(0);
+    }
+    
+
 }
 
 void MainWindow::bindData()
@@ -65,7 +73,6 @@ void MainWindow::bindData()
 /*** Data model reactions ***/
 void MainWindow::onAddNetwork(QString const & title)
 {    
-
     ui->listWidgetNetworks->addItem(title);
 }
 
@@ -80,6 +87,7 @@ void MainWindow::changeCurrentNetwork(int i)
     ProxySettings proxySettings = DataModel::getInstance()->getProxies().at(i);
     
     ui->tabWidget->clear();
+    
     
     // recreate tabs 
     ui->tabWidget->addTab(

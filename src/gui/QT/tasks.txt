@@ -13,4 +13,3 @@ Fixed singleton init
 *** IGNORED ***
 
 *** QUESTIONS ***
-Как мне создавать новые appSettings и сохранять ее (пример)?
