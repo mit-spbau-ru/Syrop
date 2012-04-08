@@ -41,10 +41,18 @@ else:unix: LIBS += -L$$PWD/../../utils/ -lsyroputils
 INCLUDEPATH += $$PWD/../../includes
 DEPENDPATH += $$PWD/../../includes
 
-win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../utils/release/syroputils.lib
-else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../utils/debug/syroputils.lib
-else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../utils/libsyroputils.a
-
 OTHER_FILES += \
     tasks.txt \
     tasksHistory.txt
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../build/ars/release/ -lsyroputils
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../build/ars/debug/ -lsyroputils
+else:symbian: LIBS += -lsyroputils
+else:unix: LIBS += -L$$PWD/../../../build/ars/ -lsyroputils
+
+INCLUDEPATH += $$PWD/../../includes
+DEPENDPATH += $$PWD/../../includes
+
+win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../build/ars/release/syroputils.lib
+else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../build/ars/debug/syroputils.lib
+else:unix:!symbian: PRE_TARGETDEPS += $$PWD/../../../build/ars/libsyroputils.a

@@ -1,4 +1,3 @@
-#include "appsettings.h"
 #include "proxysettings.h"
 
 #include "mainwindow.h"
@@ -44,8 +43,8 @@ void MainWindow::onLoad()
     // data model connections
     disconnect(DataModel::getInstance(), SIGNAL(onLoadData()),
             this, SLOT(onLoad()));
-    connect(DataModel::getInstance(), SIGNAL(onAddAppSettings(utils::AppSettings)),
-            this, SLOT(onAddApplicationSettings(utils::AppSettings)));
+    connect(DataModel::getInstance(), SIGNAL(onAddNetwork(QString)),
+            this, SLOT(onAddNetwork(QString)));
     // end data model connection
     
     bindData();
@@ -55,22 +54,19 @@ void MainWindow::onLoad()
 void MainWindow::bindData()
 {
      DataModel::ProxyList const & proxies = DataModel::getInstance()->getProxies();
+     
      for(int i = 0; i < proxies.size(); i++) {
-         ui->listWidgetNetworks->addItem("Some network");
-         //ui->listWidgetNetworks->addItem(
-         //            proxies.at(i).getAllSettings().at());
+         ui->listWidgetNetworks->addItem(proxies[i]);         
      }
      connect(ui->listWidgetNetworks,SIGNAL(currentRowChanged(int)),
              this, SLOT(changeCurrentNetwork(int)));
 }
 
 /*** Data model reactions ***/
-void MainWindow::onAddApplicationSettings(utils::AppSettings const& appSettings)
+void MainWindow::onAddNetwork(QString const & title)
 {    
-    ui->tabWidget->addTab(
-                    new ApplicationSettingsTab(appSettings, ui->tabWidget), 
-                    QString(appSettings.getApplicationName().data())
-                );
+
+    ui->listWidgetNetworks->addItem(title);
 }
 
 /*** Front end slots ***/
@@ -82,12 +78,25 @@ void MainWindow::addNetwork()
 void MainWindow::changeCurrentNetwork(int i)
 {
     ProxySettings proxySettings = DataModel::getInstance()->getProxies().at(i);
-    vector<AppSettings> settings = proxySettings.getAllSettings();
+    
     ui->tabWidget->clear();
-    for(int i = 0; i < settings.size(); ++i) {
-        onAddApplicationSettings(settings.at(i));
-    }
+    
+    // recreate tabs 
+    ui->tabWidget->addTab(
+                    new ApplicationSettingsTab(ui->tabWidget), QString("Default")
+                );
+    ui->tabWidget->addTab(
+                    new ApplicationSettingsTab(ui->tabWidget), QString("SVN")
+                );
+    ui->tabWidget->addTab(
+                    new ApplicationSettingsTab(ui->tabWidget), QString("SSH")
+                );
+    ui->tabWidget->addTab(
+                    new ApplicationSettingsTab(ui->tabWidget), QString("Bash")
+                );
+   
 }
+
 void MainWindow::showAbout()
 {
     DialogAbout d;
@@ -99,3 +108,4 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+

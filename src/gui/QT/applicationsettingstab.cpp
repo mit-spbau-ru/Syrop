@@ -1,11 +1,9 @@
 #include "applicationsettingstab.h"
 #include "ui_applicationsettingstab.h"
 
-ApplicationSettingsTab::ApplicationSettingsTab(
-        utils::AppSettings const & appSettings, QWidget *parent) 
+ApplicationSettingsTab::ApplicationSettingsTab(QWidget *parent) 
     : QWidget(parent)
     , ui(new Ui::ApplicationSettingsTab)
-    , appSettings(appSettings)
 {
     ui->setupUi(this);
     this->setLayout(ui->formLayout);

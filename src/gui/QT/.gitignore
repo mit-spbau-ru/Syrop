@@ -9,7 +9,6 @@
 
 # Qt files #
 ###################
-*.pro
 *.user
 *autosave
 Makefile

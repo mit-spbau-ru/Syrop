@@ -4,7 +4,7 @@
 #include <QMainWindow>
 
 #include "proxysettings.h"
-#include "appsettings.h"
+//#include "appsettings.h"
 
 namespace Ui { class MainWindow; }
 
@@ -22,11 +22,11 @@ public:
 private slots:
     // data model
     void onLoad();
-    void onAddApplicationSettings(utils::AppSettings const& title);
+    void onAddNetwork(QString const & title);
     // front end
     void addNetwork();
     void changeCurrentNetwork(int);
-    void showAbout();
+    void showAbout();    
 private:
     void bindData();
     Ui::MainWindow *ui;

@@ -3,10 +3,11 @@
 using namespace utils;
 using namespace std;
 
-QDataModel* DataModel::instance;
+QDataModel* DataModel::instance = 0;
 
 void QDataModel::loadData()
 {
+    //ProxySettings.
     ProxySettings ps1;
     ps1.loadData("../res/HomeNetwork.ini");
     proxySettings.push_back(ps1);
@@ -19,9 +20,14 @@ void QDataModel::loadData()
     
 }
 
-void QDataModel::addAppSettings(QString const &)
+void QDataModel::addNetwork(QString const & appName)
 {
-    AppSettings* ap = new AppSettings();
-    emit onAddAppSettings(*ap);
+    //proxySettings
+    emit onAddNetwork(appName);
 }
+
+
+
+
+
 
