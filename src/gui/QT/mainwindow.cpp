@@ -70,7 +70,7 @@ void MainWindow::bindData()
         it++;
     }
      
-    connect(ui->listWidgetNetworks,SIGNAL(currentTextChanged(QString)),
+    connect(ui->listWidgetNetworks, SIGNAL(currentTextChanged(QString)),
             this, SLOT(changeCurrentNetwork(QString)));
     
 }
@@ -90,12 +90,12 @@ void MainWindow::addNetwork()
 
 void MainWindow::changeCurrentNetwork(QString const & title)
 {
-    ProxySettings proxySettings = 
+    ProxySettings const& proxySettings = 
             DataModel::getInstance()->getProxies()
             .find(title.toStdString())->second;
     
     ui->tabWidget->clear();
-    ProxySettings::iterator it = proxySettings.begin();
+    ProxySettings::const_iterator it = proxySettings.begin();
     while(it != proxySettings.end()) {
         ui->tabWidget->addTab(new ApplicationSettingsTab(ui->tabWidget, it->second), 
                               QString(it->first.data()));

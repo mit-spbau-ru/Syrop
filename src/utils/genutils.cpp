@@ -40,15 +40,22 @@ namespace utils{
 				throw ( runtime_error( "file does not exist" ) ); 
 		}
 
-		map< string, ProxySettings > readAllProxySettings ( string const & dir)
+        /**
+         * @param dir
+         */
+		map< string, ProxySettings > readAllProxySettings ( string dir )
 		{
+		        if (dir.at(dir.size() - 1) != '/')
+		            dir += "/";
+		            
 				vector < string > allFiles = list_dir_files( dir );
 				vector < string >::const_iterator afit = allFiles.begin();
 
 				map < string, ProxySettings > allSettings;
 				for ( ; afit != allFiles.end(); ++afit )
 				{
-						allSettings.insert( make_pair ( fileToNet( *afit ) , ProxySettings( *afit )) );
+				// TODO :: catch exceptions here
+						allSettings[fileToNet( *afit )].loadData( dir + *afit );
 				}
 				return allSettings;
 		}

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include "emptyobject.h"
 #include "proxysettings.h"
@@ -9,7 +8,6 @@ namespace utils{
 	bool ProxySettings::existsApp( string const &appName )
 	{
 		return data.hasSection ( appName ) ;
-
 	}		
 
 	// first call existsApp() is suggested to check if such an item exists in the map
@@ -48,18 +46,18 @@ namespace utils{
 	void ProxySettings::saveData( IniData const &idata, string const &fileName  ) const
 	{
 		std::ofstream file(fileName.c_str());
-		if (file){
-			writeData(file, idata);	
-		}
+		if (!file)
+			throw std::runtime_error("Can't open \"" + fileName + "\" for writing");	
+		writeData(file, idata);	
 	}
 
 	void ProxySettings::loadData( string const &fileName )
 	{
 		std::ifstream file(fileName.c_str());
-		
-		if (file){
-			data = readData(file);	
-		}	
+		if (!file)
+    		throw std::runtime_error("Can't open \"" + fileName + "\" for reading");	
+
+		data = readData(file);	
 	}
 
 	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 
