@@ -87,11 +87,12 @@ void MainWindow::addNetwork()
     DialogAddNetwork* aDialog = new DialogAddNetwork(this);
     aDialog->show();
 }
+
 void MainWindow::changeCurrentNetwork(QString const & title)
 {
-    
     ProxySettings proxySettings = 
-            DataModel::getInstance()->getProxies().find(title.toStdString())->second;
+            DataModel::getInstance()->getProxies()
+            .find(title.toStdString())->second;
     
     ui->tabWidget->clear();
     ProxySettings::iterator it = proxySettings.begin();
@@ -100,6 +101,10 @@ void MainWindow::changeCurrentNetwork(QString const & title)
                               QString(it->first.data()));
         it++;
     }
+    
+    ui->buttonBoxSettings->setEnabled(true);
+    ui->pushButtonNetworkRemove->setEnabled(true);
+    
 }
 
 void MainWindow::showAbout()

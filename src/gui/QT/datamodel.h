@@ -1,7 +1,6 @@
 #ifndef DATAMODEL_H
 #define DATAMODEL_H
 
-
 #include <QObject>
 #include <QVector>
 
@@ -23,11 +22,13 @@ public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
     
     void loadData();
-    void addNetwork(QString const & appName);
+    void addNetwork(QString const & name);
+    void removeNetwork(QString const & name);
     proxyList& getProxies() { return proxySettings; }
 signals:
     void onLoadData();
     void onAddNetwork(QString const & appName);
+    void onRemoveNetwork(QString const & appName);
 private:
     proxyList proxySettings;
     QDataModel(QObject *parent = 0) : QObject(parent) {}

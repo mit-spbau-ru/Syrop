@@ -13,24 +13,14 @@ QDataModel* DataModel::instance = 0;
 void QDataModel::loadData()
 {
     proxySettings = utils::readAllProxySettings("../res");
-    
-    ProxySettings pr = proxySettings.begin()->second;
-    ProxySettings::iterator it = pr.begin();
-    
-    while(it != pr.end()) {
-        cout << it->first << endl;
-        it++;
-    }
-    
     emit onLoadData();
-    
 }
 
-void QDataModel::addNetwork(QString const & appName)
+void QDataModel::addNetwork(QString const & name)
 {
     //proxySettings.push_back(ProxySettings());
-    proxySettings.insert(make_pair(appName.toStdString(), ProxySettings()));
-    emit onAddNetwork(appName);
+    proxySettings.insert(make_pair(name.toStdString(), ProxySettings()));
+    emit onAddNetwork(name);
 }
 
 
