@@ -83,7 +83,7 @@ void list_dir_entries(std::string const &dir, files_t &names) // throws std::run
 
 
  /**
- * Gets .ini files in a directory
+ * Gets all regular files in a directory
  *
  * @param dir direcotry path
  * @param names vector of direcotry entries descriptions

@@ -29,7 +29,7 @@
 
 namespace utils {
 	typedef std::vector<FileInfo> files_t;
-
+i
 	/**
 	 * List entries in dir
 	 *
@@ -39,7 +39,7 @@ namespace utils {
 	void list_dir_entries(std::string const &dir, files_t &names);
 
 	/**
-	 * Gets .ini files in a directory
+	 * Gets all regular files in a directory
 	 *
 	 * @param dir direcotry path
 	 * @param names vector of direcotry entries descriptions
