@@ -31,7 +31,6 @@ namespace utils{
 				filter_dir_files( dir, allFiles );
 				files_t::const_iterator afit = allFiles.begin();
 
-				map < string, ProxySettings > allSettings;
 				for ( ; afit != allFiles.end(); ++afit )
 				{
 						allSettings.insert( make_pair ( afit->getName() , readProxySettings( afit->getName() )) );
