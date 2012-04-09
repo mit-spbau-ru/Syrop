@@ -22,8 +22,7 @@ HEADERS  += \
     dialogaddnetwork.h \
     applicationsettingstab.h \
     datamodel.h \
-    dialogabout.h \
-    ../../includes/system.h
+    dialogabout.h
 
 FORMS    += \
     mainwindow.ui \
