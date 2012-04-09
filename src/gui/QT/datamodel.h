@@ -31,7 +31,10 @@ signals:
     void onRemoveNetwork(QString const & appName);
 private:
     proxyList proxySettings;
-    QDataModel(QObject *parent = 0) : QObject(parent) {}
+    QDataModel(QObject *parent = 0) 
+        : QObject(parent)
+        , proxySettings(proxyList())
+    {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);
 };

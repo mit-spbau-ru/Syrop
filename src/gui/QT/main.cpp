@@ -1,7 +1,7 @@
 #include <QtGui>
 
 #include "mainwindow.h"
-#include "formtestscroll.h"
+
 
 int main(int argc, char *argv[]) 
 {
