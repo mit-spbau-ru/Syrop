@@ -29,7 +29,7 @@
 
 namespace utils {
 	typedef std::vector<FileInfo> files_t;
-
+i
 	/**
 	 * List entries in dir
 	 *
@@ -39,11 +39,14 @@ namespace utils {
 	void list_dir_entries(std::string const &dir, files_t &names);
 
 	/**
-	 * List files in dir
+	 * Gets all regular files in a directory
 	 *
 	 * @param dir direcotry path
+	 * @param names vector of direcotry entries descriptions
 	 */
-    std::vector < std::string >  list_dir_files( std::string const &dir );	
+
+    void filter_dir_files(std::string const &dir, files_t &nets);
+	
 	/**
 	 * Returns error message by errcode
 	 *

@@ -81,38 +81,21 @@ void list_dir_entries(std::string const &dir, files_t &names) // throws std::run
 	closedir(dp);
 }
 
-/**
- * Function gets all file entries in a directory specified by the argument
- *
- * @param dir directory name
- * @throws std::runtime_error if an I/O error occured
- */
-std::vector < std::string > list_dir_files( std::string const &dir ) // throws std::runtime_error
-{
-	DIR *dp = 0;
-	dirent *result = 0;
-	dirent entry = {};
-	
-	errno = 0;
-	std::vector < std::string > names;
 
-	if ( ( dp = opendir(dir.c_str()) ) == NULL)
-		//if an error occured throw std::runtime_error
-		throw std::runtime_error(error_message(errno) + " at listDirEntries on " + dir);
-	
-	while ( ( readdir_r(dp, &entry, &result) == 0 ) && ( result != NULL ) )
-	{
-		if ( entry.d_type == DT_REG	)
-				names.push_back(entry.d_name);		
-	}
-	
-	//test an error	
-	if (errno != 0)
-		//throw std::runtime_error if an error occured
-		throw std::runtime_error(error_message(errno) + " at listDirEntries on " + dir);
-	
-	closedir(dp);
-    return names;
+ /**
+ * Gets all regular files in a directory
+ *
+ * @param dir direcotry path
+ * @param names vector of direcotry entries descriptions
+ 
+ */
+void filter_dir_files(std::string const &dir, files_t &nets) // throws std::runtime_error
+{
+		files_t names;
+		list_dir_entries( dir, names );
+		files_t::const_iterator it = names.begin();
+		for ( ; it != names.end() ; ++it )
+				if ( it->isFile() ) nets.push_back( it->getName() );
 }
 
 /**
