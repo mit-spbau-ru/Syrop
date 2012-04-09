@@ -13,7 +13,7 @@ class ApplicationSettingsTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ApplicationSettingsTab(QWidget *parent, utils::attributes& attributes);
+    explicit ApplicationSettingsTab(QWidget *parent, utils::attributes const& attributes);
     ~ApplicationSettingsTab();
 private:
     Ui::ApplicationSettingsTab *ui;

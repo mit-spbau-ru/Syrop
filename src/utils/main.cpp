@@ -10,10 +10,18 @@ int main()
 {
 	using namespace utils;
 
-//	ProxySettings proxy;
-//	proxy.loadData("net_2.ini");
-//	std::cout << "data:" << std::endl;
-//	std::cout << proxy;	
+	ProxySettings proxy;
+	proxy.loadData("net_2.ini");
+	std::cout << "data:" << std::endl;
+	//std::cout << proxy;
+	attributes attr = proxy["app2"];
+	attributes::const_iterator pit = attr.begin();
+	for ( ; pit != attr.end(); ++pit )
+	{
+		std::cout << pit->first << " " << pit->second << std::endl;
+		
+	}
+		
 //	vector < AppSettings > asets = proxy.getAllSettings();
 	//std::cout << "asets before erase:" << asets.size() << std::endl;
 	//asets.erase( asets.begin() + 1 );
@@ -32,7 +40,7 @@ int main()
 //		std::cout << "too short: " << asets.size() << std::endl;
 //	}
 	//asets[0]['ssl_port'] = 3130;
-	utils::create_dir("~/folder/aaaa");	
+	//utils::create_dir("~/folder/aaaa");	
 
 	return 0;
 }

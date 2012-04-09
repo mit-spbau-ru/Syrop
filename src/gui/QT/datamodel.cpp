@@ -12,7 +12,7 @@ QDataModel* DataModel::instance = 0;
 
 void QDataModel::loadData()
 {
-    proxySettings = utils::readAllProxySettings("../res");
+    proxySettings = utils::readAllProxySettings("../res/");
     emit onLoadData();
 }
 
