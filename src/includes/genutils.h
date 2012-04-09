@@ -28,10 +28,6 @@
 
 namespace utils{
 
-bool fileExists(std::string const &fname);
-
-std::string fileToNet( string const & fname );
-std::string netToFile( string const & fname );
 ProxySettings readProxySettings( string const & fname );
 map< string, ProxySettings > readAllProxySettings ( string const & dir);
 

@@ -13,42 +13,28 @@ namespace utils{
 	using std::string;
     using std::runtime_error;
 
-	bool fileExists( string const &fname )
-	{
-	  return std::ifstream( fname.c_str() ,  std::ifstream::in ) != NULL;
-	}
-
-		string fileToNet( string const & fname )
-		{
-			std::vector < string > split_vec; 
-			boost::split( split_vec, fname, boost::is_any_of(".") );
-			return split_vec.front();				
-		}	
-
-		string netToFile( string const & fname )
-		{	
-			return fname + ".ini";						
-
-		}
-
 		ProxySettings readProxySettings( string const & fname )
 		{
-				if ( fileExists (fname) ) 
-				{
-						return ProxySettings ( fname );
+				try {
+						FileInfo file ( fname );
+						return ProxySettings ( file.getName() );
 				}
-				throw ( runtime_error( "file does not exist" ) ); 
+				catch ( std::runtime_error const &e ) {
+						throw ( e );
+				}
+				 
 		}
 
 		map< string, ProxySettings > readAllProxySettings ( string const & dir)
 		{
-				vector < string > allFiles = list_dir_files( dir );
-				vector < string >::const_iterator afit = allFiles.begin();
+				files_t  allFiles;
+				filter_dir_files( dir, allFiles );
+				files_t::const_iterator afit = allFiles.begin();
 
 				map < string, ProxySettings > allSettings;
 				for ( ; afit != allFiles.end(); ++afit )
 				{
-						allSettings.insert( make_pair ( fileToNet( *afit ) , ProxySettings( *afit )) );
+						allSettings.insert( make_pair ( afit->getName() , readProxySettings( afit->getName() )) );
 				}
 				return allSettings;
 		}
@@ -56,14 +42,15 @@ namespace utils{
 	template < class T >	
 	void makeConfig(string const &fname, T const & configer )
 	{
-		if (! fileExists(fname) )
-		{	
+		try{ 
+			FileInfo f(fname) ;
+		
 			std::ofstream file;
 			
 			std::vector < string > split_vec; 
 			boost::split( split_vec, fname, boost::is_any_of("/") );
 			string name = split_vec.back();
-			string dir = fname;
+			string dir = f.getFullName();
 			dir = dir.erase ( fname.find_last_of (name) ) ;
 			create_dir( dir );
 			file.open ( name.c_str() );
@@ -71,6 +58,9 @@ namespace utils{
 			configer.generate(file);
 
 			file.close ();
+		}
+		catch ( std::runtime_error const &e ) {
+					throw ( e );
 		}
 
 	}
