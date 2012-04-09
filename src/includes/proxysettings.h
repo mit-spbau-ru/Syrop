@@ -30,40 +30,37 @@ namespace utils{
 	
 	class ProxySettings
 	{
-	
 	public:
+		ProxySettings(){}
 
+		ProxySettings( string const &fileName )
+		{
+			loadData(fileName);
+		}
+		
 		void loadData			( string const &fileName );
-
-
-		void save 			() ;
+		void saveData 			( string const &fileName ) ;
 
 		bool existsApp			( const std::string& appName );
+
 		attributes & operator[] 		( string const &appName );
 		attributes const & operator[] 	( string const &appName ) const;		
 
-
-		typedef IniData::iterator iterator;
-		
+		typedef IniData::iterator 		iterator;
 		typedef IniData::const_iterator const_iterator;
 
+		const_iterator  begin 	() const;
+		const_iterator  end 	() const;
+		iterator        begin 	();
+	    iterator        end   	();
 
-		ProxySettings::const_iterator  begin 	() const;
-		ProxySettings::const_iterator  end 	() const;
-		ProxySettings::iterator begin 		();
-	        ProxySettings::iterator end   		();
 		friend std::ostream& operator<<( std::ostream &os, ProxySettings const & ps );
-
-
-
 	
 	private:
 		void saveIniData 	( attributes const & apps, string const & name ) const;
-		void fix		( IniData const &idata ) const;	
-
+		void fix			( IniData const &idata, const string & fileName ) const;	
 
 		IniData data;
-		string fileName;	
 	};
 
 }

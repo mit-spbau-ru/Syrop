@@ -37,7 +37,13 @@ namespace utils {
 	 * @param names vector of direcotry entries descriptions
 	 */
 	void list_dir_entries(std::string const &dir, files_t &names);
-	
+
+	/**
+	 * List files in dir
+	 *
+	 * @param dir direcotry path
+	 */
+    std::vector < std::string >  list_dir_files( std::string const &dir );	
 	/**
 	 * Returns error message by errcode
 	 *

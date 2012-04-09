@@ -16,7 +16,6 @@ namespace utils{
 	attributes & ProxySettings::operator[] (string const &appName)
 	{
 		return data [ appName ];	
-
 	}
 
 	
@@ -26,54 +25,47 @@ namespace utils{
 		return data [ appName ];
 	}
 
-	
-
 	ProxySettings :: const_iterator  ProxySettings::begin () const
-        {
-             return data.begin();
-        }
-        ProxySettings :: const_iterator  ProxySettings::end () const
-        {
-             return data.end();
-        }
+	{
+		 return data.begin();
+	}
+
+	ProxySettings :: const_iterator  ProxySettings::end () const
+	{
+		 return data.end();
+	}
 
 	ProxySettings :: iterator  ProxySettings::begin ()
-        {
-	     return data.begin();
-        }
-        ProxySettings ::iterator  ProxySettings::end ()
-        {
-             return data.end();
-        }
+    {
+		return data.begin();
+    }
 
-	void ProxySettings::save(  ) 
+    ProxySettings ::iterator  ProxySettings::end ()
+    {
+        return data.end();
+    }
+
+	void ProxySettings::saveData( string const &fileName  ) 
 	{
-		fix( data );
+		fix( data, fileName );
 	}
 
-		
 	void ProxySettings::loadData( string const &fileName )
 	{
-		this->fileName = fileName;
 		std::ifstream file(fileName.c_str());
 		
-		if (file.is_open()){
+		if (file){
 			data = readData(file);	
 		}	
-		file.close();
-
-	
 	}
 
-	void ProxySettings::fix( IniData const &idata ) const
+	void ProxySettings::fix( IniData const &idata, string const &fileName ) const
 	{
 		std::ofstream file(fileName.c_str());
-		if (file.is_open()){
+		if (file){
 			writeData(file, idata);	
 		}		
-		file.close();
 	}
-
 
 	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 
 	{
