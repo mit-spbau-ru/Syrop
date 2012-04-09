@@ -15,14 +15,8 @@ namespace utils{
 
 		ProxySettings readProxySettings( string const & fname )
 		{
-				try {
-						FileInfo file ( fname );
-						return ProxySettings ( file.getName() );
-				}
-				catch ( std::runtime_error const &e ) {
-						throw ( e );
-				}
-				 
+				FileInfo file ( fname );
+				return ProxySettings ( file.getName() );
 		}
 
 		void readAllProxySettings ( string const & dir, map< string, ProxySettings > &allSettings )
@@ -33,21 +27,18 @@ namespace utils{
 
 				for ( ; afit != allFiles.end(); ++afit )
 				{
-						allSettings.insert( make_pair ( afit->getName() , readProxySettings( afit->getName() )) );
+						allSettings.insert( make_pair ( afit->getName() , readProxySettings( afit->getFullName() )) );
 				}
 		}
 
 	template < class T >	
 	void makeConfig(string const &fname, T const & configer )
 	{
-		try{ 
 			FileInfo f(fname) ;
 		
 			std::ofstream file;
 			
-			std::vector < string > split_vec; 
-			boost::split( split_vec, fname, boost::is_any_of("/") );
-			string name = split_vec.back();
+		    string name = f.getName();
 			string dir = f.getFullName();
 			dir = dir.erase ( fname.find_last_of (name) ) ;
 			create_dir( dir );
@@ -56,10 +47,6 @@ namespace utils{
 			configer.generate(file);
 
 			file.close ();
-		}
-		catch ( std::runtime_error const &e ) {
-					throw ( e );
-		}
 
 	}
 
