@@ -29,7 +29,7 @@
 
 namespace utils {
 	typedef std::vector<FileInfo> files_t;
-i
+
 	/**
 	 * List entries in dir
 	 *
