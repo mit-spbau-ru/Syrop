@@ -45,9 +45,12 @@ namespace utils{
         return data.end();
     }
 
-	void ProxySettings::saveData( string const &fileName  ) 
+	void ProxySettings::saveData( IniData const &idata, string const &fileName  ) const
 	{
-		fix( data, fileName );
+		std::ofstream file(fileName.c_str());
+		if (file){
+			writeData(file, idata);	
+		}
 	}
 
 	void ProxySettings::loadData( string const &fileName )
@@ -57,14 +60,6 @@ namespace utils{
 		if (file){
 			data = readData(file);	
 		}	
-	}
-
-	void ProxySettings::fix( IniData const &idata, string const &fileName ) const
-	{
-		std::ofstream file(fileName.c_str());
-		if (file){
-			writeData(file, idata);	
-		}		
 	}
 
 	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 

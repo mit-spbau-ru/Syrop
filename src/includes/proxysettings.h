@@ -39,7 +39,7 @@ namespace utils{
 		}
 		
 		void loadData			( string const &fileName );
-		void saveData 			( string const &fileName ) ;
+		void saveData 			( IniData const &idata, string const &fileName ) const;
 
 		bool existsApp			( const std::string& appName );
 
@@ -58,8 +58,7 @@ namespace utils{
 	
 	private:
 		void saveIniData 	( attributes const & apps, string const & name ) const;
-		void fix			( IniData const &idata, const string & fileName ) const;	
-
+		
 		IniData data;
 	};
 
