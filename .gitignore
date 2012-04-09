@@ -3,3 +3,11 @@ lib
 *.o
 *.d
 *.gch
+Makefile
+*.deb
+*.cmake
+CMakeFiles
+CMakeCache.txt
+build
+install_manifest.txt
+_CPack_Packages

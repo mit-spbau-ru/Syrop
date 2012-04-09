@@ -24,11 +24,18 @@
 
 #include <string>
 #include <map>
+#include "proxysettings.h"
 
 namespace utils{
 
 bool fileExists(std::string const &fname);
 
+std::string fileToNet( string const & fname );
+std::string netToFile( string const & fname );
+ProxySettings readProxySettings( string const & fname );
+map< string, ProxySettings > readAllProxySettings ( string const & dir);
+
+	
 template < class T >
 void makeConfig(std::string const &fname);
 
