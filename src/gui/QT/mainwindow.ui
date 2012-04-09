@@ -25,46 +25,54 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>691</width>
-      <height>261</height>
+      <width>701</width>
+      <height>258</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayoutHolder">
      <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <layout class="QVBoxLayout" name="verticalLayoutSettings">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMaximumSize</enum>
        </property>
-       <property name="sizeIncrement">
-        <size>
-         <width>10</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="baseSize">
-        <size>
-         <width>1</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="currentIndex">
-        <number>-1</number>
-       </property>
-       <property name="elideMode">
-        <enum>Qt::ElideNone</enum>
-       </property>
-       <property name="movable">
-        <bool>true</bool>
-       </property>
-      </widget>
+       <item>
+        <widget class="QTabWidget" name="tabWidget">
+         <property name="sizeIncrement">
+          <size>
+           <width>10</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="baseSize">
+          <size>
+           <width>1</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+         <property name="elideMode">
+          <enum>Qt::ElideNone</enum>
+         </property>
+         <property name="movable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="buttonBoxSettings">
+         <property name="standardButtons">
+          <set>QDialogButtonBox::SaveAll</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayoutList">
        <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
+        <enum>QLayout::SetMinimumSize</enum>
        </property>
        <item>
         <widget class="QLabel" name="label">
@@ -82,12 +90,6 @@
         <widget class="QListWidget" name="listWidgetNetworks">
          <property name="enabled">
           <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
          </property>
         </widget>
        </item>

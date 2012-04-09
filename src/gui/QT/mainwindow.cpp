@@ -85,24 +85,13 @@ void MainWindow::addNetwork()
 void MainWindow::changeCurrentNetwork(int i)
 {
     ProxySettings proxySettings = DataModel::getInstance()->getProxies().at(i);
-    
     ui->tabWidget->clear();
-    
-    
-    // recreate tabs 
-    ui->tabWidget->addTab(
-                    new ApplicationSettingsTab(ui->tabWidget), QString("Default")
-                );
-    ui->tabWidget->addTab(
-                    new ApplicationSettingsTab(ui->tabWidget), QString("SVN")
-                );
-    ui->tabWidget->addTab(
-                    new ApplicationSettingsTab(ui->tabWidget), QString("SSH")
-                );
-    ui->tabWidget->addTab(
-                    new ApplicationSettingsTab(ui->tabWidget), QString("Bash")
-                );
-   
+    ProxySettings::iterator it = proxySettings.begin();
+    while(it != proxySettings.end()) {
+        ui->tabWidget->addTab(new ApplicationSettingsTab(ui->tabWidget, it->second), 
+                              QString(it->first.data()));
+        it++;
+    }
 }
 
 void MainWindow::showAbout()

@@ -2,7 +2,7 @@
 #define APPLICATIONSETTINGSTAB_H
 
 #include <QWidget>
-
+#include <inidata.h>
 
 namespace Ui { class ApplicationSettingsTab;}
 
@@ -13,11 +13,11 @@ class ApplicationSettingsTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ApplicationSettingsTab( QWidget *parent = 0 );
+    explicit ApplicationSettingsTab(QWidget *parent, utils::attributes& attributes);
     ~ApplicationSettingsTab();
 private:
     Ui::ApplicationSettingsTab *ui;
-    
+    utils::attributes attributes;
     void bindData();
 };
 
