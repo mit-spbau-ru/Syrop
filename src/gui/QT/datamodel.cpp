@@ -1,4 +1,9 @@
+#include <genutils.h>
+#include <map>
+
 #include "datamodel.h"
+
+#include <iostream>
 
 using namespace utils;
 using namespace std;
@@ -7,14 +12,15 @@ QDataModel* DataModel::instance = 0;
 
 void QDataModel::loadData()
 {
-    //ProxySettings.
-    ProxySettings ps1;
-    ps1.loadData("../res/HomeNetwork.ini");
-    proxySettings.push_back(ps1);
+    proxySettings = utils::readAllProxySettings("../res");
     
-    ProxySettings ps2;
-    ps2.loadData("../res/AptuNetwork.ini");
-    proxySettings.push_back(ps2);
+    ProxySettings pr = proxySettings.begin()->second;
+    ProxySettings::iterator it = pr.begin();
+    
+    while(it != pr.end()) {
+        cout << it->first << endl;
+        it++;
+    }
     
     emit onLoadData();
     
@@ -22,7 +28,8 @@ void QDataModel::loadData()
 
 void QDataModel::addNetwork(QString const & appName)
 {
-    proxySettings.push_back(ProxySettings());
+    //proxySettings.push_back(ProxySettings());
+    proxySettings.insert(make_pair(appName.toStdString(), ProxySettings()));
     emit onAddNetwork(appName);
 }
 

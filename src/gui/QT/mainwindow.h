@@ -24,7 +24,7 @@ private slots:
     void onAddNetwork(QString const & title);
     // front end
     void addNetwork();
-    void changeCurrentNetwork(int);
+    void changeCurrentNetwork(QString const &);
     void showAbout();
 private:
     /**

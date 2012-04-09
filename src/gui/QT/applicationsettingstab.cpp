@@ -13,15 +13,12 @@ ApplicationSettingsTab::ApplicationSettingsTab(QWidget *parent, utils::attribute
     utils::attributes::iterator it = attributes.begin();
     
     
-    
     while(it != attributes.end()) {
         QString key(it->first.data());
-        
-        if(key == "asd"){
-        }
-        
         QString value(it->second.data());
-        ///qDebug();
+        QLineEdit* le = new QLineEdit(this);
+        le->setText(value);
+        ui->formLayout->addRow(key, le);
         it++;
     }
     

@@ -61,13 +61,18 @@ void MainWindow::onLoad()
 
 void MainWindow::bindData()
 {
-     DataModel::ProxyList const & proxies = DataModel::getInstance()->getProxies();
+     //QDataModel::ProxyList::iterator it = DataModel::getInstance()->getProxies(); 
+    QDataModel::proxyList::iterator it = 
+            DataModel::getInstance()->getProxies().begin();
+    
+    while(it != DataModel::getInstance()->getProxies().end()){
+        ui->listWidgetNetworks->addItem(QString(it->first.data()));
+        it++;
+    }
      
-     for(int i = 0; i < proxies.size(); i++) {
-         ui->listWidgetNetworks->addItem("GIVE ME NAME");
-     }
-     connect(ui->listWidgetNetworks,SIGNAL(currentRowChanged(int)),
-             this, SLOT(changeCurrentNetwork(int)));
+    connect(ui->listWidgetNetworks,SIGNAL(currentTextChanged(QString)),
+            this, SLOT(changeCurrentNetwork(QString)));
+    
 }
 
 /*** Data model reactions ***/
@@ -82,9 +87,12 @@ void MainWindow::addNetwork()
     DialogAddNetwork* aDialog = new DialogAddNetwork(this);
     aDialog->show();
 }
-void MainWindow::changeCurrentNetwork(int i)
+void MainWindow::changeCurrentNetwork(QString const & title)
 {
-    ProxySettings proxySettings = DataModel::getInstance()->getProxies().at(i);
+    
+    ProxySettings proxySettings = 
+            DataModel::getInstance()->getProxies().find(title.toStdString())->second;
+    
     ui->tabWidget->clear();
     ProxySettings::iterator it = proxySettings.begin();
     while(it != proxySettings.end()) {

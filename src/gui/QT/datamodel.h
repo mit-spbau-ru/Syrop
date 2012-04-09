@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
-
+#include <map>
 
 #include "proxysettings.h"
 
@@ -20,14 +20,16 @@ class QDataModel : public QObject
     Q_OBJECT
     friend class DataModel;
 public:
-    void loadData();    
-    void addNetwork(QString const & appName);    
-    QVector<utils::ProxySettings> const & getProxies() { return proxySettings; }
+    typedef std::map<std::string, utils::ProxySettings> proxyList;
+    
+    void loadData();
+    void addNetwork(QString const & appName);
+    proxyList& getProxies() { return proxySettings; }
 signals:
     void onLoadData();
     void onAddNetwork(QString const & appName);
 private:
-    QVector<utils::ProxySettings> proxySettings;
+    proxyList proxySettings;
     QDataModel(QObject *parent = 0) : QObject(parent) {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);
@@ -40,7 +42,7 @@ private:
 class DataModel
 {
 public:
-    typedef QVector<utils::ProxySettings> ProxyList;
+    
 
     static QDataModel* createInstance(QObject* parent)
     {        
