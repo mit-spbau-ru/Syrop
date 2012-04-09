@@ -29,7 +29,7 @@
 namespace utils{
 
 ProxySettings readProxySettings( string const & fname );
-map< string, ProxySettings > readAllProxySettings ( string const & dir);
+void readAllProxySettings ( string const & dir, map< string, ProxySettings > & allSettings );
 
 	
 template < class T >

@@ -25,34 +25,17 @@ namespace utils{
 				 
 		}
 
-        /**
-         * @param dir
-         */
-		map< string, ProxySettings > readAllProxySettings ( string dir )
+		void readAllProxySettings ( string const & dir, map< string, ProxySettings > &allSettings )
 		{
-<<<<<<< HEAD
 				files_t  allFiles;
 				filter_dir_files( dir, allFiles );
 				files_t::const_iterator afit = allFiles.begin();
-=======
-		        if (dir.at(dir.size() - 1) != '/')
-		            dir += "/";
-		            
-				vector < string > allFiles = list_dir_files( dir );
-				vector < string >::const_iterator afit = allFiles.begin();
->>>>>>> 843fc3b5f4be1caad2de6aaeaea49eb97be86855
 
 				map < string, ProxySettings > allSettings;
 				for ( ; afit != allFiles.end(); ++afit )
 				{
-<<<<<<< HEAD
 						allSettings.insert( make_pair ( afit->getName() , readProxySettings( afit->getName() )) );
-=======
-				// TODO :: catch exceptions here
-						allSettings[fileToNet( *afit )].loadData( dir + *afit );
->>>>>>> 843fc3b5f4be1caad2de6aaeaea49eb97be86855
 				}
-				return allSettings;
 		}
 
 	template < class T >	
