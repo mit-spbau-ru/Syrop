@@ -106,34 +106,19 @@ def sectionString (string):
 		return m.group(1)
 	return None
 
-#функция ожидает строку вида [user[:password]@]server[:port]
+#функция ожидает строку вида [user:password@]server[:port]
 def splitProxyString (conf):
 	params = {}
-	#если символ @ в строке, значит есть часть user[:password]
-	if '@' in conf:
-		#разбиваем строку на user[:password] и server[:port]
-		[userconfig, serverconfig] = conf.split('@')
-		#парсим user[:password]
-		if ':' in userconfig:
-			[user, password] = userconfig.split(':')
-			params['user'] = user
-			params['password'] = password
-		else:
-			params['user'] = userconfig
-		#парсим server[:port]
-		if ':' in serverconfig:
-			[server, port] = serverconfig.split(':')
-			params['server'] = server
-			params['port'] = port
-		else:
-			params['server'] = serverconfig
-	#если символа @ нет, то имеем только server[:port]
-	else:
-		if ':' in conf:
-			[server, port] = conf.split(':')
-			params['server'] = server
-			params['port'] = port
-		else:
-			params['server'] = conf
-	
+	m = re.match(r"^(([^:@]+)[:]([^:@]+)[@]){,1}([^:@]+){1}[:]([^:@]+){,1}$", conf.strip(None))
+
+	if m is not None:
+		if m.group(2) is not None:
+			params['user'] = m.group(2)
+		if m.group(3) is not None:
+			params['password'] = m.group(3)
+		if m.group(4) is not None:
+			params['address'] = m.group(4)
+		if m.group(5) is not None:
+			params['port'] = m.group(5)
+
 	return params

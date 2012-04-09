@@ -3,3 +3,8 @@ lib
 *.o
 *.d
 *.gch
+Makefile
+*.deb
+*.cmake
+CMakeFiles
+CMakeCache.txt
