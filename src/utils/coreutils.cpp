@@ -31,35 +31,40 @@ using std::make_pair;
 namespace utils
 {
 
-static bool test_plugin(FileInfo const &info)
-{
-	//plugin is a direcotiry with a python script
-	if (info.isDirectory())
+	namespace
 	{
-		//list files
-		files_t children;
-		
-		list_dir_entries( info.getFullName(), children );
-		for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
-			if ( it->getName() == (info.getName() + PLUGIN_EXTENSION) )
-				//main plugin file must have same name as plugin directory
-				return true;
-	}
-	return false;
-}
 
-//function adds plugins in a specified directory to map
-static void list_plugins(string const &dir, plugins_t &plugins)
-{
-	files_t children;
-	
-	list_dir_entries( dir, children );
-	for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
+	bool test_plugin(FileInfo const &info)
 	{
-		if (test_plugin(*it))
-			plugins[it->getName()] = it->getFullName() + "/" + it->getName() + PLUGIN_EXTENSION;
-	}	
-}
+		//plugin is a direcotiry with a python script
+		if (info.isDirectory())
+		{
+			//list files
+			files_t children;
+		
+			list_dir_entries( info.getFullName(), children );
+			for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
+				if ( it->getName() == (info.getName() + PLUGIN_EXTENSION) )
+					//main plugin file must have same name as plugin directory
+					return true;
+		}
+		return false;
+	}
+
+	//function adds plugins in a specified directory to map
+	void list_plugins(string const &dir, plugins_t &plugins)
+	{
+		files_t children;
+	
+		list_dir_entries( dir, children );
+		for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
+		{
+			if (test_plugin(*it))
+				plugins[it->getName()] = it->getFullName() + "/" + it->getName() + PLUGIN_EXTENSION;
+		}	
+	}
+
+	} // unnamed namespace
 
 /**
  * Function returns syrop directory in user home, if directory dosen't
