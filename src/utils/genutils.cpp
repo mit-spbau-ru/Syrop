@@ -20,8 +20,16 @@ namespace utils{
     void readAllProxySettings ( string const & dir, 
                                 map< string, ProxySettings > & allSettings )
     {
-        files_t allFiles; 
-        filter_dir_files( FileInfo(dir).getFullName() , allFiles ); // usr home dir
+        files_t allFiles;
+        string dirName = dir; 
+        size_t res =  dirName.find("~"); 
+        if ( res != std::string::npos )
+        {
+            dirName.erase ( res, 1 );
+            dirName.insert( res , user_home_dir() );
+        }
+
+        filter_dir_files( dirName , allFiles ); // usr home dir
 
         for ( files_t::const_iterator afit = allFiles.begin() ; afit != allFiles.end(); ++afit )
         {
