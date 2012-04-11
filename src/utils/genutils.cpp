@@ -17,11 +17,6 @@ namespace utils{
         return std::ifstream( fname.c_str() ,  std::ifstream::in );
     }
 
-    ProxySettings readProxySettings( string const & fname )
-    {
-        return ProxySettings ( fname );
-    }
-
     void readAllProxySettings ( string const & dir, 
                                 map< string, ProxySettings > & allSettings )
     {
