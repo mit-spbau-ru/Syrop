@@ -89,9 +89,13 @@ void list_dir_entries(std::string const &dir, files_t &names) // throws std::run
  * @param names vector of direcotry entries descriptions
  
  */
-void filter_dir_files(std::string const &dir, files_t &nets) // throws std::runtime_error
+void filter_dir_files(std::string const &dir, std::vector < std::string > &nets) // throws std::runtime_error
 {
 		files_t names;
+        for ( std::vector < std::string > :: const_iterator nit; 
+            nit != nets.end(); ++nit )
+            names.push_back( FileInfo(*nit) );
+                
 		list_dir_entries( dir, names );
 		files_t::const_iterator it = names.begin();
 		for ( ; it != names.end() ; ++it )
