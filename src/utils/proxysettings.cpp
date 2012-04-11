@@ -1,6 +1,5 @@
 #include <fstream>
 #include <stdexcept>
-#include "emptyobject.h"
 #include "proxysettings.h"
 
 namespace utils{
@@ -54,11 +53,13 @@ namespace utils{
 
 	void ProxySettings::loadData( string const &fileName )
 	{
-		std::ifstream file(fileName.c_str());
-		if (!file)
+		std::ifstream file (fileName.c_str(), std::ifstream::in );
+
+		if ( file.fail() )
     		throw std::runtime_error("Can't open \"" + fileName + "\" for reading");	
 
 		data = readData(file);	
+        
 	}
 
 	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 

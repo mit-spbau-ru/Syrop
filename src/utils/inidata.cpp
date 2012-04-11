@@ -2,7 +2,6 @@
 #include <string>
 #include <map>
 #include "inidata.h"
-#include "emptyobject.h"
 
 using std::string;
 using std::map;
@@ -25,18 +24,18 @@ namespace utils{
 	}
 
         // first call hasSection() is suggested to check if such an item exists in the map
-        attributes & IniData::operator[] ( string const &appName )
-        {
-                return data [ appName ];        
+    attributes & IniData::operator[] ( string const &appName )
+    {
+        return data [ appName ];        
 
-        }
+    }
 
         
-        // first call hasSection() is suggested to check if such an item exists in the map
-        attributes const & IniData::operator[] ( string const &appName ) const
-        {
-                return data.find( appName ) -> second;
-        }
+    // first call hasSection() is suggested to check if such an item exists in the map
+    attributes const & IniData::operator[] ( string const &appName ) const
+    {
+       return data.find( appName ) -> second;
+    }
 
 	
 	bool IniData::hasAttribute( string const &sec, string const &attr ) const

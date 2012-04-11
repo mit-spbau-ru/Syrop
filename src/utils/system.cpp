@@ -32,7 +32,7 @@
 
 #include "fileinfo.h"
 #include "system.h"
-
+#include <iostream>
 namespace utils {
 
 /**
@@ -91,11 +91,12 @@ void list_dir_entries(std::string const &dir, files_t &names) // throws std::run
  */
 void filter_dir_files(std::string const &dir, files_t &nets) // throws std::runtime_error
 {
-		files_t names;
+	    files_t names;
+                
 		list_dir_entries( dir, names );
 		files_t::const_iterator it = names.begin();
 		for ( ; it != names.end() ; ++it )
-				if ( it->isFile() ) nets.push_back( it->getName() );
+				if ( it->isFile() ) nets.push_back( it->getFullName() );
 }
 
 /**

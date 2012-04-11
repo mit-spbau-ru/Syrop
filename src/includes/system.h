@@ -45,7 +45,7 @@ namespace utils {
 	 * @param names vector of direcotry entries descriptions
 	 */
 
-    void filter_dir_files(std::string const &dir, files_t &nets);
+    void filter_dir_files(std::string const &dir, files_t  &nets);
 	
 	/**
 	 * Returns error message by errcode
