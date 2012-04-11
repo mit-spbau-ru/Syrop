@@ -28,7 +28,6 @@
 
 namespace utils{
 
-ProxySettings readProxySettings( string const & fname );
 void readAllProxySettings ( string const & dir, map< string, ProxySettings > & allSettings );
 
 string parent ( string const & path );
