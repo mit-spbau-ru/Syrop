@@ -65,12 +65,12 @@ namespace utils
 
 
 		const_iterator begin 	() const;
-       		const_iterator  end 	() const;
+  		const_iterator  end 	() const;
        
-        	iterator begin 	();
-       		iterator end 		();
+      	iterator begin 	();
+  		iterator end 		();
             
-      		friend std::ostream& operator<<( std::ostream &os, IniData const & idata );
+   		friend std::ostream& operator<<( std::ostream &os, IniData const & idata );
 	
 	private:
 		attributes_map data;

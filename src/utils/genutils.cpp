@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <boost/algorithm/string.hpp>
 #include "genutils.h"
-#include "proxysettings.h"
 #include "system.h"
 
 
@@ -18,35 +17,24 @@ namespace utils{
 	  return std::ifstream( fname.c_str() ,  std::ifstream::in ) != NULL;
 	}
 
-	string fileToNet( string const & fname )
-	{
-		std::vector < string > split_vec; 
-		boost::split( split_vec, fname, boost::is_any_of(".") );
-		return split_vec.front();				
-	}	
-
-	string netToFile( string const & fname )
-	{	
-		return fname + ".ini";						
-	}
 
 	ProxySettings readProxySettings( string const & fname )
 	{
 		return ProxySettings ( fname );
 	}
 
-	map< string, ProxySettings > readAllProxySettings ( string const & dir)
+    void readAllProxySettings ( string const & dir, 
+                                map< string, ProxySettings > & allSettings )
 	{
-		vector < string > allFiles; 
-        filter_dir_files( dir, allFiles );
-		vector < string >::const_iterator afit = allFiles.begin();
+		files_t allFiles; 
+        filter_dir_files( FileInfo(dir).getFullName() , allFiles ); // usr home dir
+		files_t::const_iterator afit = allFiles.begin();
 
-		map < string, ProxySettings > allSettings;
 		for ( ; afit != allFiles.end(); ++afit )
 		{
-			allSettings.insert( make_pair ( fileToNet( *afit ) , ProxySettings( *afit )) );
+			allSettings.insert( std::make_pair ( afit->getName()  , 
+                                                ProxySettings( afit->getFullName() )) );
 		}
-	return allSettings;
 	}
 
 	pair < string, string > getParentAndFile ( string const & fname )
