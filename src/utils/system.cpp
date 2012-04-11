@@ -94,8 +94,8 @@ void filter_dir_files(std::string const &dir, files_t &nets) // throws std::runt
 	    files_t names;
                 
 		list_dir_entries( dir, names );
-		files_t::const_iterator it = names.begin();
-		for ( ; it != names.end() ; ++it )
+		
+		for ( files_t::const_iterator it = names.begin();  it != names.end() ; ++it )
 				if ( it->isFile() ) nets.push_back( it->getFullName() );
 }
 
