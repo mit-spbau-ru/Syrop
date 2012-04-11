@@ -31,7 +31,6 @@ namespace utils{
 void readAllProxySettings ( string const & dir, map< string, ProxySettings > & allSettings );
 
 string parent ( string const & path );
-string getName ( string const & path );
 
 template < class T >
 void makeConfig(std::string const &fname);

@@ -38,13 +38,6 @@ namespace utils{
         string dir = fname;
         return dir.erase ( fname.find_last_of (name) ) ;
 	}
-    string getName ( string const & fname )
-    {
-        std::vector < string > split_vec; 
-        boost::split( split_vec, fname, boost::is_any_of("/") );
-        
-        return split_vec.back();
-	}
     
     template < class T >	
     void makeConfig(string const &fname, T const & configer )
@@ -53,10 +46,9 @@ namespace utils{
         {	
             std::ofstream file;
 			string p = parent( fname );
-            string name = getName( fname );
 		   
             create_dir( p );
-            file.open ( name.c_str() );
+            file.open ( fname.c_str() );
 			
             configer.generate(file);
 
