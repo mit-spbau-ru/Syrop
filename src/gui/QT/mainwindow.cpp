@@ -8,7 +8,6 @@
 
 #include <vector>
 
-
 using namespace utils;
 using namespace std;
 
@@ -61,7 +60,6 @@ void MainWindow::onLoad()
 
 void MainWindow::bindData()
 {
-     //QDataModel::ProxyList::iterator it = DataModel::getInstance()->getProxies(); 
     QDataModel::proxyList::iterator it = 
             DataModel::getInstance()->getProxies().begin();
     

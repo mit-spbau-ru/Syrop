@@ -31,7 +31,6 @@ void QDataModel::addNetwork(QString const & name)
 
 void QDataModel::removeNetwork(const QString &name)
 {
-    
     proxyList::iterator it = proxySettings.find(name.toStdString());
     utils::remove_file(WORKING_DIRECTORY + fileNameFromNet(name.toStdString()));
     proxySettings.erase(it);

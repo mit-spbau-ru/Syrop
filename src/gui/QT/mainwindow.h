@@ -22,8 +22,10 @@ private slots:
     // data model
     void onLoad();
     void onAddNetwork(QString const & title);
+    void onRemoveNetwok(QString const & title);
     // front end
     void addNetwork();
+    void removeCurrentNetwork();
     void changeCurrentNetwork(QString const &);
     void showAbout();
 private:
