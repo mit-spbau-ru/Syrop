@@ -13,7 +13,7 @@ namespace utils{
     using std::runtime_error;
 
     bool fileExists( string const &fname )
-    {
+    { // stat
         return std::ifstream( fname.c_str() ,  std::ifstream::in );
     }
 
@@ -26,16 +26,26 @@ namespace utils{
         if ( res != std::string::npos )
         {
             dirName.erase ( res, 1 );
-            dirName.insert( res , user_home_dir() );
+            dirName.insert( res, get_user_home_dir() );
         }
 
-        filter_dir_files( dirName , allFiles ); // usr home dir
+        filter_dir_files( dirName , allFiles ); 
 
         for ( files_t::const_iterator afit = allFiles.begin() ; afit != allFiles.end(); ++afit )
         {
             allSettings.insert( std::make_pair ( afit->getName()  , 
                                                 ProxySettings( afit->getFullName() )) );
         }
+    }
+
+    string netFromFileName( string const & name )
+    {
+        return FileInfo( name ).getName();        
+    }
+
+    string fileNameFromNet( string const & name )
+    {
+        return name;
     }
 
     string parent ( string const & fname )

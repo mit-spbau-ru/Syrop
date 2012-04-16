@@ -42,12 +42,12 @@ pair <string, string> getPair( string const &str )
 }
 
 
-IniData readData(std::istream &is)
+IniData readData( std::istream &is )
 {
 	IniData data;
 	string instr;
-
-	string curSec;	
+	string curSec;
+    	
 	while ( !is.eof() ){
 
 		getline(is,instr);
@@ -66,7 +66,7 @@ IniData readData(std::istream &is)
 
 }
 
-void writeData(std::ostream &os, IniData const &idata)
+void writeData( std::ostream &os, IniData const &idata )
 {
 	vector< string > secs = idata.getSectionsList();
 	
@@ -82,7 +82,5 @@ void writeData(std::ostream &os, IniData const &idata)
 	}
 
 }
-
-
 
 } //namespace utils

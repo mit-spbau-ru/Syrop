@@ -43,12 +43,13 @@ namespace utils{
         return data.end();
     }
 
-	void ProxySettings::saveData( IniData const &idata, string const &fileName  ) const
+    
+	void ProxySettings::save( string const &fileName  ) const
 	{
 		std::ofstream file(fileName.c_str());
 		if (!file)
 			throw std::runtime_error("Can't open \"" + fileName + "\" for writing");	
-		writeData(file, idata);	
+		writeData(file, data);	
 	}
 
 	void ProxySettings::loadData( string const &fileName )

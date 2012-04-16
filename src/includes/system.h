@@ -60,7 +60,7 @@ namespace utils {
 	 *
 	 * @return user home directory
 	 */
-	std::string user_home_dir();
+	std::string get_user_home_dir();
 	
 	/**
 	 * Creates directory and all parents
