@@ -11,9 +11,7 @@ string const QDataModel::WORKING_DIRECTORY  = "../res/";
 
 void QDataModel::loadData()
 {
-    utils::readAllProxySettings(WORKING_DIRECTORY, proxySettings);
-    
-    //proxySettings[name].save(utils::fileNameFromNet());
+    readAllProxySettings(WORKING_DIRECTORY, proxySettings);
     
     emit onLoadData();
 }
@@ -23,15 +21,19 @@ void QDataModel::loadData()
 // file bad if it couldn't be saved in file sysytem
 void QDataModel::addNetwork(QString const & name)
 {
-    ProxySettings p(name.toStdString());
-    proxySettings.insert(make_pair(name.toStdString(), p));
+    string stdName = name.toStdString();
+    ProxySettings p(stdName);
+    proxySettings.insert(make_pair(stdName, p));
+    p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
     
     emit onAddNetwork(name);
 }
 
 void QDataModel::removeNetwork(const QString &name)
 {
-    proxySettings::iterator it = proxySettings.find(name.toStdString());
+    
+    proxyList::iterator it = proxySettings.find(name.toStdString());
+    utils::remove_file(WORKING_DIRECTORY + fileNameFromNet(name.toStdString()));
     proxySettings.erase(it);
     
     emit onRemoveNetwork(name);

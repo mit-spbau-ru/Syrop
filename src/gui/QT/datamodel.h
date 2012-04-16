@@ -24,14 +24,19 @@ public:
     typedef std::map<std::string, std::string> proxyListFileNames;
     static std::string const WORKING_DIRECTORY;
     
+    // maybe const ?
+    proxyList& getProxies() { return proxySettings; }
+
+public slots:
     void loadData();
     void addNetwork(QString const & name);
     void removeNetwork(QString const & name);
-    proxyList& getProxies() { return proxySettings; }
+    
 signals:
     void onLoadData();
     void onAddNetwork(QString const & appName);
     void onRemoveNetwork(QString const & appName);
+    
 private:
     proxyList proxySettings;
     proxyListFileNames proxySettingsFileNames;
