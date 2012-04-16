@@ -1,6 +1,7 @@
 #include <fstream>
 #include <stdexcept>
 #include "proxysettings.h"
+#include "genutils.h"
 
 namespace utils{
 
