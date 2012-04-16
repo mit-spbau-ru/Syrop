@@ -38,6 +38,8 @@ void MainWindow::onLoad()
             this, SLOT(addNetwork()));
     connect(ui->actionAbout, SIGNAL(triggered(bool)),
             this, SLOT(showAbout()));
+    connect(ui->pushButtonNetworkRemove, SIGNAL(clicked()),
+            this, SLOT(removeCurrentNetwork()));
     // end front end connection
     
     // data model connections
@@ -45,13 +47,15 @@ void MainWindow::onLoad()
             this, SLOT(onLoad()));
     connect(DataModel::getInstance(), SIGNAL(onAddNetwork(QString)),
             this, SLOT(onAddNetwork(QString)));
+    connect(DataModel::getInstance(), SIGNAL(onRemoveNetwork(QString)),
+            this, SLOT(onRemoveNetwok(QString)));
     // end data model connection
     
     
     bindData();
     
     // select first network
-    if(DataModel::getInstance()->getProxies().size() > 0){
+    if(DataModel::getInstance()->getProxies().size() > 0) {
         ui->listWidgetNetworks->setCurrentRow(0);
     }
     
@@ -84,6 +88,17 @@ void MainWindow::addNetwork()
 {
     DialogAddNetwork* aDialog = new DialogAddNetwork(this);
     aDialog->show();
+}
+
+void MainWindow::onRemoveNetwok(const QString &title)
+{
+     delete ui->listWidgetNetworks->findItems(title, Qt::MatchFixedString).first();
+}
+
+void MainWindow::removeCurrentNetwork()
+{
+    QString name = this->ui->listWidgetNetworks->currentItem()->text();
+    DataModel::getInstance()->removeNetwork(name);   
 }
 
 void MainWindow::changeCurrentNetwork(QString const & title)
