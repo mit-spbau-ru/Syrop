@@ -5,7 +5,7 @@
 #include <boost/algorithm/string.hpp>
 #include "genutils.h"
 #include "system.h"
-
+#include <sys/stat.h>
 
 namespace utils{
 		
@@ -13,8 +13,9 @@ namespace utils{
     using std::runtime_error;
 
     bool fileExists( string const &fname )
-    { // stat
-        return std::ifstream( fname.c_str() ,  std::ifstream::in );
+    {   
+        struct stat s;
+        return ( stat( fname.c_str(), &s ) != -1 ); 
     }
 
     void readAllProxySettings ( string const & dir, 

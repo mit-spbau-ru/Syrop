@@ -29,7 +29,8 @@
 namespace utils{
 
 void readAllProxySettings ( string const & dir, map< string, ProxySettings > & allSettings );
-
+bool fileExists( string const &fname );
+                                                
 string parent ( string const & path );
 string netFromFileName( string const & name );
 string fileNameFromNet( string const & name );
