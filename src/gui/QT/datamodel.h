@@ -10,6 +10,7 @@
 #include <map>
 
 #include "proxysettings.h"
+#include "system.h"
 
 /**
  * Main data structure with events
@@ -20,6 +21,8 @@ class QDataModel : public QObject
     friend class DataModel;
 public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
+    typedef std::map<std::string, std::string> proxyListFileNames;
+    static std::string const WORKING_DIRECTORY;
     
     void loadData();
     void addNetwork(QString const & name);
@@ -31,9 +34,11 @@ signals:
     void onRemoveNetwork(QString const & appName);
 private:
     proxyList proxySettings;
+    proxyListFileNames proxySettingsFileNames;
     QDataModel(QObject *parent = 0) 
         : QObject(parent)
         , proxySettings(proxyList())
+        , proxySettingsFileNames(proxyListFileNames())
     {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);
@@ -47,7 +52,6 @@ class DataModel
 {
 public:
     
-
     static QDataModel* createInstance(QObject* parent)
     {        
         if(instance != 0) {
