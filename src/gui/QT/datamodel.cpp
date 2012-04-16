@@ -29,6 +29,13 @@ void QDataModel::addNetwork(QString const & name)
     emit onAddNetwork(name);
 }
 
+void QDataModel::updateNetwork(const QString &name)
+{
+    string stdName = name.toStdString();
+    proxySettings[stdName].save(WORKING_DIRECTORY + fileNameFromNet(stdName));
+    
+    emit onUpdateNetwork(name);
+}
 void QDataModel::removeNetwork(const QString &name)
 {
     proxyList::iterator it = proxySettings.find(name.toStdString());

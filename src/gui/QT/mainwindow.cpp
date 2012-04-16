@@ -42,6 +42,7 @@ void MainWindow::onLoad()
             this, SLOT(showAbout()));
     connect(ui->pushButtonNetworkRemove, SIGNAL(clicked()),
             this, SLOT(removeCurrentNetwork()));
+    //connect(ui->)
     // end front end connection
     
     // data model connections
@@ -51,6 +52,7 @@ void MainWindow::onLoad()
             this, SLOT(onAddNetwork(QString)));
     connect(DataModel::getInstance(), SIGNAL(onRemoveNetwork(QString)),
             this, SLOT(onRemoveNetwok(QString)));
+    
     // end data model connection
     
     
@@ -90,6 +92,8 @@ void MainWindow::onRemoveNetwok(const QString &title)
      delete ui->listWidgetNetworks->findItems(title, Qt::MatchFixedString).first();
 }
 
+void MainWindow::onUpdateNetwork(const QString&){}
+
 /*** Front end slots ***/
 void MainWindow::addNetwork()
 {
@@ -97,11 +101,16 @@ void MainWindow::addNetwork()
     aDialog->show();
 }
 
+void MainWindow::updateCurrentNetwork()
+{
+    DataModel::getInstance()->updateNetwork(currentNetworkName);
+}
+
 void MainWindow::removeCurrentNetwork()
 {
     QMessageBox mb(this);
     
-    QString name = this->ui->listWidgetNetworks->currentItem()->text();
+    QString& name = currentNetworkName;
     
     mb.setWindowTitle("Removing approval");
     mb.setText("Do you really want to remove network \"" + name + "\" ?");
@@ -131,6 +140,8 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     
     ui->buttonBoxSettings->setEnabled(true);
     ui->pushButtonNetworkRemove->setEnabled(true);
+    
+    currentNetworkName = ui->listWidgetNetworks->currentItem()->text();
     
 }
 

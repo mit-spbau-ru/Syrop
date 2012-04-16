@@ -21,7 +21,6 @@ class QDataModel : public QObject
     friend class DataModel;
 public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
-    typedef std::map<std::string, std::string> proxyListFileNames;
     static std::string const WORKING_DIRECTORY;
     
     // maybe const ?
@@ -31,15 +30,16 @@ public slots:
     void loadData();
     void addNetwork(QString const & name);
     void removeNetwork(QString const & name);
+    void updateNetwork(QString const & name);
     
 signals:
     void onLoadData();
-    void onAddNetwork(QString const & appName);
-    void onRemoveNetwork(QString const & appName);
+    void onAddNetwork(QString const & name);
+    void onRemoveNetwork(QString const & name);
+    void onUpdateNetwork(QString const & name);
     
 private:
     proxyList proxySettings;
-    proxyListFileNames proxySettingsFileNames;
     QDataModel(QObject *parent = 0) 
         : QObject(parent)
         , proxySettings(proxyList())
@@ -61,7 +61,7 @@ public:
         if(instance != 0) {
             throw std::runtime_error("Instance has been created before.");
         }
-        if(!parent) {
+        if(parent == 0) {
             throw std::invalid_argument("QDataModel must have non-null parent.");
         }
         instance = new QDataModel(parent);

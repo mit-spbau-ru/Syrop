@@ -23,8 +23,10 @@ private slots:
     void onLoad();
     void onAddNetwork(QString const & title);
     void onRemoveNetwok(QString const & title);
+    void onUpdateNetwork(QString const & title);
     // front end
     void addNetwork();
+    void updateCurrentNetwork();
     void removeCurrentNetwork();
     void changeCurrentNetwork(QString const &);
     void showAbout();
@@ -33,6 +35,7 @@ private:
      * Fill network list from DatamModel
      * and bind signals from list to tabs
      */
+    QString currentNetworkName;
     void bindData();
     Ui::MainWindow *ui;
 };
