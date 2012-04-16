@@ -22,7 +22,7 @@ void QDataModel::loadData()
 void QDataModel::addNetwork(QString const & name)
 {
     string stdName = name.toStdString();
-    ProxySettings p(stdName);
+    ProxySettings p;
     proxySettings.insert(make_pair(stdName, p));
     p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
     
