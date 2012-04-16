@@ -38,7 +38,6 @@ private:
     QDataModel(QObject *parent = 0) 
         : QObject(parent)
         , proxySettings(proxyList())
-        , proxySettingsFileNames(proxyListFileNames())
     {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);
