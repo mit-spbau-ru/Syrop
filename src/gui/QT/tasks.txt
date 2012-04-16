@@ -1,11 +1,11 @@
 *** TODO ***
-Отобразить содержимое proxySett
 Сохранение настроек
 Пересмотреть имена файлов (они не камэл) и имен QObj
 Tooltips над кнопками
 Сделать about окно как строчка copy в коде /core/coreutils.h
 
 *** DONE ***
+Отобразить содержимое proxySett
 Связать списко сетей и объекты proxySett
 Fixed singleton init
 Фикс высоты addNetwork

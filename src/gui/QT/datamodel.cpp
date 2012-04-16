@@ -16,6 +16,8 @@ void QDataModel::loadData()
 
 void QDataModel::addNetwork(QString const & name)
 {
+    
+    //ProxySettings.save();
     proxySettings.insert(make_pair(name.toStdString(), ProxySettings()));
     emit onAddNetwork(name);
 }
