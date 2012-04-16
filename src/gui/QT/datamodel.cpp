@@ -31,7 +31,9 @@ void QDataModel::addNetwork(QString const & name)
 
 void QDataModel::removeNetwork(const QString &name)
 {
-    proxySettings.erase(name.toStdString());
+    proxySettings::iterator it = proxySettings.find(name.toStdString());
+    proxySettings.erase(it);
+    
     emit onRemoveNetwork(name);
     
 }
