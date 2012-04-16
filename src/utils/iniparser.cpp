@@ -69,13 +69,13 @@ IniData readData(std::istream &is)
 void writeData(std::ostream &os, IniData const &idata)
 {
 	vector< string > secs = idata.getSectionsList();
-	vector< string >::const_iterator sit = secs.begin() ;
-	for ( ; sit != secs.end(); ++sit)
+	
+	for ( vector< string >::const_iterator sit = secs.begin() ; sit != secs.end(); ++sit)
 	{
 		os << "[" << *sit << "]" << std::endl;
 		attributes attrs = idata.getSection(*sit);
-		attributes::const_iterator ait = attrs.begin();
-		for ( ; ait != attrs.end(); ++ait)
+
+		for ( attributes::const_iterator ait = attrs.begin(); ait != attrs.end(); ++ait)
 		{
 			os << ait->first << "=" << ait->second << std::endl;
 		}
