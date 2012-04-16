@@ -72,7 +72,7 @@ namespace utils
  */
 std::string const& application_dir()
 {
-	static string const dirName(user_home_dir() + "/" + HOME);
+	static string const dirName(get_user_home_dir() + "/" + HOME);
 	create_dir(dirName);
 	return dirName;
 }
@@ -89,7 +89,7 @@ vector<string> const& search_pathes()
 	{
 		try
 		{
-			FileInfo info(user_home_dir() + "/" + HOME + PLUGINS);
+			FileInfo info(get_user_home_dir() + "/" + HOME + PLUGINS);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)
