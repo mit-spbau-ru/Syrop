@@ -35,15 +35,14 @@ namespace utils{
 
 		ProxySettings( string const &fileName )
 		{
-			loadData(fileName);
+			loadData( fileName );
 		}
 		
-		void loadData			( string const &fileName );
-		void saveData 			( IniData const &idata, string const &fileName ) const;
-
+		void loadData			( string const &netName );
+        void save 			    ( string const &netName ) const;
 		bool existsApp			( const std::string& appName );
 
-		attributes & operator[] 		( string const &appName );
+		attributes       & operator[] 	( string const &appName );
 		attributes const & operator[] 	( string const &appName ) const;		
 
 		typedef IniData::iterator 		iterator;

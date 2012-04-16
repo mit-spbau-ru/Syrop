@@ -104,7 +104,7 @@ void filter_dir_files(std::string const &dir, files_t &nets) // throws std::runt
  *
  * @throws std::runtime_error if there isn't variable HOME
  */
-std::string user_home_dir() // throws std::runtime_error
+std::string get_user_home_dir() // throws std::runtime_error
 {
 	char const * const home = getenv("HOME");
 	if (home == NULL)

@@ -31,7 +31,8 @@ namespace utils{
 void readAllProxySettings ( string const & dir, map< string, ProxySettings > & allSettings );
 
 string parent ( string const & path );
-
+string netFromFileName( string const & name );
+string fileNameFromNet( string const & name );
 template < class T >
 void makeConfig(std::string const &fname);
 
