@@ -47,7 +47,7 @@ namespace utils{
 	void ProxySettings::save( string const &fileName  ) const
 	{
         if ( fileExists( fileName ) ) 
-            throw std::runtime_error( fileName + "\" does not exists ");
+            throw std::runtime_error( fileName + "\" does not exist ");
 		std::ofstream file(fileName.c_str());
 		if (!file)
 			throw std::runtime_error("Can't open \"" + fileName + "\" for writing");	
