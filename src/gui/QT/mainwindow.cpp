@@ -6,6 +6,8 @@
 #include "applicationsettingstab.h"
 #include "dialogabout.h"
 
+#include <qmessagebox.h>
+
 #include <vector>
 
 using namespace utils;
@@ -83,6 +85,11 @@ void MainWindow::onAddNetwork(QString const & title)
     ui->listWidgetNetworks->addItem(title);
 }
 
+void MainWindow::onRemoveNetwok(const QString &title)
+{
+     delete ui->listWidgetNetworks->findItems(title, Qt::MatchFixedString).first();
+}
+
 /*** Front end slots ***/
 void MainWindow::addNetwork()
 {
@@ -90,15 +97,22 @@ void MainWindow::addNetwork()
     aDialog->show();
 }
 
-void MainWindow::onRemoveNetwok(const QString &title)
-{
-     delete ui->listWidgetNetworks->findItems(title, Qt::MatchFixedString).first();
-}
-
 void MainWindow::removeCurrentNetwork()
 {
+    QMessageBox mb(this);
+    
     QString name = this->ui->listWidgetNetworks->currentItem()->text();
-    DataModel::getInstance()->removeNetwork(name);   
+    
+    mb.setWindowTitle("Removing approval");
+    mb.setText("Do you really want to remove network \"" + name + "\" ?");
+    mb.addButton(QMessageBox::Yes);
+    mb.addButton(QMessageBox::No);
+    
+    if(mb.exec() != QMessageBox::Yes)
+        return;
+    
+    DataModel::getInstance()->removeNetwork(name);
+    
 }
 
 void MainWindow::changeCurrentNetwork(QString const & title)
