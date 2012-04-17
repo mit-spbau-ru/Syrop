@@ -18,6 +18,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+public slots:
+    void onCurrentNetwokEdited();
 private slots:
     // data model
     void onLoad();
@@ -38,6 +40,7 @@ private:
     QString currentNetworkName;
     void bindData();
     Ui::MainWindow *ui;
+    bool isCurrentNetworkEdited;
 };
 
 #endif // MAINWINDOW_H

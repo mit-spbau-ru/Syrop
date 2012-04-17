@@ -2,13 +2,17 @@
 #include "ui_applicationsettingstab.h"
 #include <QLineEdit>
 
+
 ApplicationSettingsTab::ApplicationSettingsTab(
-        QWidget *parent, 
+        MainWindow* mainWindow,
+        QWidget* parent, 
         utils::attributes& attributes)
     : QWidget(parent)
+    , mainWindow(mainWindow)
     , ui(new Ui::ApplicationSettingsTab)
     , attributes(attributes)
 {
+    
     ui->setupUi(this);
     this->setLayout(ui->verticalLayout);
     ui->widget->setLayout(ui->formLayout);
@@ -22,6 +26,8 @@ ApplicationSettingsTab::ApplicationSettingsTab(
         QString const value(it->second.data());
         
         QLineEdit* const le = new QLineEdit(this);
+        connect(le, SIGNAL(textEdited(QString)),
+                this, SLOT(onChange()));
         fields[it->first] = le;
         
         le->setText(value);
@@ -33,6 +39,10 @@ ApplicationSettingsTab::ApplicationSettingsTab(
     
 }
 
+void ApplicationSettingsTab::onChange()
+{
+    mainWindow->onCurrentNetwokEdited();
+}
 
 void ApplicationSettingsTab::saveChanges()
 {

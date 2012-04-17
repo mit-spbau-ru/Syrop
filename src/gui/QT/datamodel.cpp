@@ -30,6 +30,10 @@ void QDataModel::addNetwork(QString const & name)
         throw invalid_argument("There exists network with same name.");
     }
     ProxySettings p;
+    
+    //TODO: IT IS VERY BAD!
+    p.loadData(WORKING_DIRECTORY + "AptuNetwork");
+    
     proxySettings.insert(make_pair(stdName, p));
     p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
     

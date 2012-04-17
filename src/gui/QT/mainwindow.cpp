@@ -15,9 +15,10 @@ using namespace utils;
 using namespace std;
 
 /*** Init ***/
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) 
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , isCurrentNetworkEdited(false)
 {
     // Init data model
     DataModel::createInstance(this);
@@ -64,7 +65,6 @@ void MainWindow::onLoad()
         ui->listWidgetNetworks->setCurrentRow(0);
     }
     
-
 }
 
 void MainWindow::bindData()
@@ -86,6 +86,12 @@ void MainWindow::bindData()
 void MainWindow::onAddNetwork(QString const & title)
 {    
     ui->listWidgetNetworks->addItem(title);
+}
+
+void MainWindow::onCurrentNetwokEdited()
+{
+    isCurrentNetworkEdited = true;
+    this->ui->pushButtonSave->setEnabled(true);
 }
 
 void MainWindow::onRemoveNetwok(const QString &title)
@@ -112,23 +118,24 @@ void MainWindow::updateCurrentNetwork()
     }
     
     DataModel::getInstance()->updateNetwork(currentNetworkName);
+    isCurrentNetworkEdited = false;
+    ui->pushButtonSave->setEnabled(false);
 }
 
 void MainWindow::removeCurrentNetwork()
 {
     QMessageBox mb(this);
     
-    QString& name = currentNetworkName;
-    
     mb.setWindowTitle("Removing approval");
-    mb.setText("Do you really want to remove network \"" + name + "\" ?");
+    mb.setText("Are you sure you want to \nremove network \"" 
+               + currentNetworkName + "\"?");
     mb.addButton(QMessageBox::Yes);
     mb.addButton(QMessageBox::No);
     
     if(mb.exec() != QMessageBox::Yes)
         return;
     
-    DataModel::getInstance()->removeNetwork(name);
+    DataModel::getInstance()->removeNetwork(currentNetworkName);
     
 }
 
@@ -136,7 +143,21 @@ void MainWindow::removeCurrentNetwork()
 
 void MainWindow::changeCurrentNetwork(QString const & title)
 {
-
+    
+    if(isCurrentNetworkEdited){
+        QMessageBox mb(this);
+        
+        mb.setWindowTitle("Saving approval");
+        mb.setText("\"" + currentNetworkName + "\" has been edited.\n"
+                        + "Do you want to save changes?");
+        mb.addButton(QMessageBox::Yes);
+        mb.addButton(QMessageBox::No);
+        
+        if(mb.exec() == QMessageBox::Yes) {
+            updateCurrentNetwork();
+        }
+    }
+    
     ProxySettings& proxySettings = 
             DataModel::getInstance()->getProxies()
             .find(title.toStdString())->second;
@@ -147,6 +168,7 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     while(it != proxySettings.end()) {
         ui->tabWidget->addTab(
                     new ApplicationSettingsTab(
+                        this,
                         ui->tabWidget, 
                         it->second), 
                     QString(it->first.data()));
@@ -154,6 +176,8 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     }
         
     ui->pushButtonNetworkRemove->setEnabled(true);
+    ui->pushButtonSave->setEnabled(false);
+    isCurrentNetworkEdited = false;
     
     currentNetworkName = ui->listWidgetNetworks->currentItem()->text();
     
