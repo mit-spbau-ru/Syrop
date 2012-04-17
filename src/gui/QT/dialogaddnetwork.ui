@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>139</height>
+    <height>173</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -25,7 +25,7 @@
      <x>10</x>
      <y>10</y>
      <width>361</width>
-     <height>127</height>
+     <height>150</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -73,6 +73,17 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="labelError">
+      <property name="styleSheet">
+       <string notr="true">color:red;
+font-variant:bold;</string>
+      </property>
+      <property name="text">
+       <string>ERROR</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QDialogButtonBox" name="buttonBox">
@@ -133,6 +144,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditTitle</sender>
+   <signal>textEdited(QString)</signal>
+   <receiver>labelError</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>190</x>
+     <y>117</y>
     </hint>
    </hints>
   </connection>

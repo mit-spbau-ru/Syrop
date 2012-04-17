@@ -1,7 +1,10 @@
-#include <genutils.h>
+#include <stdexcept>
 #include <map>
 
+#include <genutils.h>
+
 #include "datamodel.h"
+
 
 using namespace utils;
 using namespace std;
@@ -21,7 +24,11 @@ void QDataModel::loadData()
 // file bad if it couldn't be saved in file sysytem
 void QDataModel::addNetwork(QString const & name)
 {
+    
     string stdName = name.toStdString();
+    if(proxySettings.find(stdName) != proxySettings.end()) {
+        throw invalid_argument("There exists network with same name.");
+    }
     ProxySettings p;
     proxySettings.insert(make_pair(stdName, p));
     p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
