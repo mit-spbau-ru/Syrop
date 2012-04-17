@@ -11,6 +11,9 @@ using namespace std;
 
 QDataModel* DataModel::instance = 0;
 string const QDataModel::WORKING_DIRECTORY  = "../res/";
+string const QDataModel::CONFIG_DIRECTORY  = "../config/";
+string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "../config/default";
+
 
 void QDataModel::loadData()
 {
@@ -19,9 +22,6 @@ void QDataModel::loadData()
     emit onLoadData();
 }
 
-// TODO: check file name and throw exceptin if bad 
-// or in proxySettings there exists same name
-// file bad if it couldn't be saved in file sysytem
 void QDataModel::addNetwork(QString const & name)
 {
     
@@ -32,7 +32,7 @@ void QDataModel::addNetwork(QString const & name)
     ProxySettings p;
     
     //TODO: IT IS VERY BAD!
-    p.loadData(WORKING_DIRECTORY + "AptuNetwork");
+    p.loadData(DEFAULT_NETWORK_CONFIG_PATH);
     
     proxySettings.insert(make_pair(stdName, p));
     p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
@@ -47,6 +47,7 @@ void QDataModel::updateNetwork(const QString &name)
     
     emit onUpdateNetwork(name);
 }
+
 void QDataModel::removeNetwork(const QString &name)
 {
     proxyList::iterator it = proxySettings.find(name.toStdString());
