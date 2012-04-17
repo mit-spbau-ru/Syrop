@@ -8,6 +8,7 @@
 
 #include <qmessagebox.h>
 
+#include <algorithm>
 #include <vector>
 
 using namespace utils;
@@ -42,7 +43,8 @@ void MainWindow::onLoad()
             this, SLOT(showAbout()));
     connect(ui->pushButtonNetworkRemove, SIGNAL(clicked()),
             this, SLOT(removeCurrentNetwork()));
-    //connect(ui->)
+    connect(ui->pushButtonSave, SIGNAL(clicked()),
+            this, SLOT(updateCurrentNetwork()));
     // end front end connection
     
     // data model connections
@@ -52,7 +54,6 @@ void MainWindow::onLoad()
             this, SLOT(onAddNetwork(QString)));
     connect(DataModel::getInstance(), SIGNAL(onRemoveNetwork(QString)),
             this, SLOT(onRemoveNetwok(QString)));
-    
     // end data model connection
     
     
@@ -89,7 +90,8 @@ void MainWindow::onAddNetwork(QString const & title)
 
 void MainWindow::onRemoveNetwok(const QString &title)
 {
-     delete ui->listWidgetNetworks->findItems(title, Qt::MatchFixedString).first();
+     delete ui->listWidgetNetworks->findItems(title, 
+                                              Qt::MatchFixedString).first();
 }
 
 void MainWindow::onUpdateNetwork(const QString&){}
@@ -103,6 +105,12 @@ void MainWindow::addNetwork()
 
 void MainWindow::updateCurrentNetwork()
 {
+    for(int i = 0; i < ui->tabWidget->count(); i++) {
+        ApplicationSettingsTab* tab = static_cast<ApplicationSettingsTab*>(
+                    ui->tabWidget->widget(i));
+        tab->saveChanges();
+    }
+    
     DataModel::getInstance()->updateNetwork(currentNetworkName);
 }
 
@@ -124,21 +132,27 @@ void MainWindow::removeCurrentNetwork()
     
 }
 
+
+
 void MainWindow::changeCurrentNetwork(QString const & title)
 {
-    ProxySettings const& proxySettings = 
+
+    ProxySettings& proxySettings = 
             DataModel::getInstance()->getProxies()
             .find(title.toStdString())->second;
     
     ui->tabWidget->clear();
-    ProxySettings::const_iterator it = proxySettings.begin();
+    ProxySettings::iterator it = proxySettings.begin();
+        
     while(it != proxySettings.end()) {
-        ui->tabWidget->addTab(new ApplicationSettingsTab(ui->tabWidget, it->second), 
-                              QString(it->first.data()));
+        ui->tabWidget->addTab(
+                    new ApplicationSettingsTab(
+                        ui->tabWidget, 
+                        it->second), 
+                    QString(it->first.data()));
         it++;
     }
-    
-    ui->buttonBoxSettings->setEnabled(true);
+        
     ui->pushButtonNetworkRemove->setEnabled(true);
     
     currentNetworkName = ui->listWidgetNetworks->currentItem()->text();

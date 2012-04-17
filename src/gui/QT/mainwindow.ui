@@ -61,14 +61,23 @@
         </widget>
        </item>
        <item>
-        <widget class="QDialogButtonBox" name="buttonBoxSettings">
-         <property name="enabled">
-          <bool>false</bool>
+        <widget class="QPushButton" name="pushButtonSave">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="standardButtons">
-          <set>QDialogButtonBox::SaveAll</set>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Save</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2"/>
        </item>
       </layout>
      </item>
