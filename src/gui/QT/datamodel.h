@@ -23,6 +23,7 @@ public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
     static std::string const WORKING_DIRECTORY;
     static std::string const CONFIG_DIRECTORY;
+    static std::string const APPS_DIRECTORY;
     static std::string const DEFAULT_NETWORK_CONFIG_PATH;
     
     // maybe const ?
@@ -42,9 +43,11 @@ signals:
     
 private:
     proxyList proxySettings;
+    proxyList appsList;
     QDataModel(QObject *parent = 0) 
         : QObject(parent)
         , proxySettings(proxyList())
+        , appsList(proxyList())
     {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);
