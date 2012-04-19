@@ -103,6 +103,7 @@ void MainWindow::onRemoveNetwok(const QString &title)
 void MainWindow::onUpdateNetwork(const QString&){}
 
 /*** Front end slots ***/
+
 void MainWindow::addNetwork()
 {
     DialogAddNetwork* aDialog = new DialogAddNetwork(this);
@@ -143,6 +144,13 @@ void MainWindow::removeCurrentNetwork()
 
 void MainWindow::changeCurrentNetwork(QString const & title)
 {
+    
+    if(title.isEmpty()){
+        currentNetworkName = "";
+        ui->pushButtonNetworkRemove->setEnabled(false);
+        ui->tabWidget->clear();
+        return;
+    }
     
     if(isCurrentNetworkEdited){
         QMessageBox mb(this);
