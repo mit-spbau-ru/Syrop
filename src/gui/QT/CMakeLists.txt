@@ -7,7 +7,7 @@ include ( ${QT_USE_FILE} )
 include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
 	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR} ${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR}
-	/home/jjxx/Desktop/Syrop/Git/Syrop/src/includes)
+	../../includes)
 set ( SyropGui_HDRS
 	
 	)
@@ -39,5 +39,5 @@ set ( SyropGui_MOCS
 QT4_WRAP_CPP(MOCS ${SyropGui_MOCS})
 
 add_executable ( SyropGui ${SyropGui_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
-target_link_libraries ( SyropGui  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} )
+target_link_libraries ( SyropGui  ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} syroputils )
 
