@@ -2,6 +2,7 @@
 #define DIALOGADDAPP_H
 
 #include <QDialog>
+#include "proxysettings.h"
 
 namespace Ui {
 class DialogAddApp;
@@ -12,11 +13,11 @@ class DialogAddApp : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogAddApp(QWidget *parent, QList<QString> const & apps);
+    explicit DialogAddApp(QWidget *parent, utils::ProxySettings & apps);
     ~DialogAddApp();
     
 private:
-    QList<QString> const & apps;
+    utils::ProxySettings & proxySettings;
     Ui::DialogAddApp *ui;
 };
 

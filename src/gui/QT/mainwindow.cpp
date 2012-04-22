@@ -148,26 +148,15 @@ void MainWindow::removeCurrentNetwork()
     
 }
 
-void MainWindow::addApplication() 
+void MainWindow::addApplication()
 {
-    QList<QString> apps;
     
-    QDataModel::proxyList::const_iterator it = DataModel::getInstance()->getApps().begin();
-    QDataModel::proxyList::const_iterator end = DataModel::getInstance()->getApps().end();
+    ProxySettings pr = DataModel::getInstance()->getProxies()
+                       .find(currentNetworkName.toStdString())->second;
     
-    ProxySettings& proxySettings = 
-            DataModel::getInstance()->getProxies()
-            .find(currentNetworkName.toStdString())->second;       
-    
-    while(it != end) {
-        if(!proxySettings.existsApp(it->first)){
-            apps.push_back(QString(it->first.data()));
-        }
-        it++;
-    }
-    
-    DialogAddApp d(this, apps);
+    DialogAddApp d(this, pr);
     d.exec();
+    
 }
 
 void MainWindow::removeApplication() {

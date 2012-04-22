@@ -1,21 +1,30 @@
 #include "dialogaddapp.h"
 #include "ui_dialogaddapp.h"
 #include "datamodel.h"
+#include "proxysettings.h"
 
-DialogAddApp::DialogAddApp(QWidget *parent,  const QList<QString> & apps) 
+using namespace utils;
+
+DialogAddApp::DialogAddApp(QWidget *parent, utils::ProxySettings& proxySettings) 
     : QDialog(parent)
-    , apps(apps)
+    , proxySettings(proxySettings)
     , ui(new Ui::DialogAddApp)
 {
     
     ui->setupUi(this);
     
-    QList<QString>::const_iterator it = apps.begin();
-    QList<QString>::const_iterator end = apps.end();
+    
+    QDataModel::proxyList::const_iterator it = DataModel::getInstance()->getApps().begin();
+    QDataModel::proxyList::const_iterator end = DataModel::getInstance()->getApps().end();
+    
+  
+    
     while(it != end) {
-        ui->comboBox->addItem(*it);
+        if(!proxySettings.existsApp(it->first))
+            ui->comboBox->addItem(QString(it->first.data()));
         it++;
     }
+    
     
 }
 
