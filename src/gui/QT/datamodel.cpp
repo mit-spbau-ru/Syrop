@@ -34,8 +34,7 @@ void QDataModel::addNetwork(QString const & name)
     
     ProxySettings p;
     p.loadData(DEFAULT_NETWORK_CONFIG_PATH);
-    p.save("/home/jjxx/Desktop/Syrop/blba.ini");
-    //p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
+    p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
     
     proxySettings.insert(make_pair(stdName, p));
     
