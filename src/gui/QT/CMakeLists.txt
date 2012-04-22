@@ -19,6 +19,7 @@ set ( SyropGui_SRCS
 	applicationsettingstab.cpp
 	dialogabout.cpp
 	datamodel.cpp
+	dialogaddapp.cpp
 	)
 
 set ( SyropGui_UIS
@@ -26,6 +27,7 @@ set ( SyropGui_UIS
 	dialogaddnetwork.ui
 	applicationsettingstab.ui
 	dialogabout.ui
+	dialogaddapp.ui
 	)
 QT4_WRAP_UI(UIS ${SyropGui_UIS})
 
@@ -35,6 +37,7 @@ set ( SyropGui_MOCS
 	applicationsettingstab.h
 	datamodel.h
 	dialogabout.h
+	dialogaddapp.h
 	)
 QT4_WRAP_CPP(MOCS ${SyropGui_MOCS})
 
