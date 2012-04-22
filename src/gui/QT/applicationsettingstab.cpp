@@ -41,7 +41,7 @@ ApplicationSettingsTab::ApplicationSettingsTab(
 
 void ApplicationSettingsTab::onChange()
 {
-    mainWindow->onCurrentNetwokEdited();
+    mainWindow->onCurrentNetworkEdited();
 }
 
 void ApplicationSettingsTab::saveChanges()

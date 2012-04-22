@@ -5,19 +5,17 @@
 
 using namespace utils;
 
-DialogAddApp::DialogAddApp(QWidget *parent, utils::ProxySettings& proxySettings) 
-    : QDialog(parent)
+DialogAddApp::DialogAddApp(MainWindow* mainWindow, utils::ProxySettings& proxySettings) 
+    : QDialog(mainWindow)
+    , mainWindow(mainWindow)
     , proxySettings(proxySettings)
     , ui(new Ui::DialogAddApp)
 {
     
     ui->setupUi(this);
     
-    
     QDataModel::proxyList::const_iterator it = DataModel::getInstance()->getApps().begin();
     QDataModel::proxyList::const_iterator end = DataModel::getInstance()->getApps().end();
-    
-  
     
     while(it != end) {
         if(!proxySettings.existsApp(it->first))
@@ -25,6 +23,22 @@ DialogAddApp::DialogAddApp(QWidget *parent, utils::ProxySettings& proxySettings)
         it++;
     }
     
+    connect(ui->buttonBox, SIGNAL(accepted()),
+            this, SLOT(onChoose()));
+    
+}
+
+void DialogAddApp::onChoose()
+{
+    std::string app = ui->comboBox->currentText().toStdString();
+    
+    QDataModel::proxyList const & apps = DataModel::getInstance()->getApps();
+    
+    utils::attributes a = apps.find(app)->second.begin()->second;
+    
+    proxySettings[app] = a;
+    
+    mainWindow->onAddApplication(ui->comboBox->currentText());
     
 }
 

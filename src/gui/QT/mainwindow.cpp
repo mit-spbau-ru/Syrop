@@ -93,7 +93,7 @@ void MainWindow::onAddNetwork(QString const & title)
     ui->listWidgetNetworks->addItem(title);
 }
 
-void MainWindow::onCurrentNetwokEdited()
+void MainWindow::onCurrentNetworkEdited()
 {
     isCurrentNetworkEdited = true;
     this->ui->pushButtonSave->setEnabled(true);
@@ -107,7 +107,20 @@ void MainWindow::onRemoveNetwok(const QString &title)
 
 void MainWindow::onUpdateNetwork(const QString&){}
 
-void MainWindow::onAddApplication(const QString &){}
+void MainWindow::onAddApplication(const QString & app){
+    
+    this->onCurrentNetworkEdited();
+    
+    
+    
+    ui->tabWidget->addTab(
+                new ApplicationSettingsTab(
+                    this,
+                    ui->tabWidget, 
+                    (*currentProxySettings)[app.toStdString()]), 
+                app);
+    
+}
 
 void MainWindow::onRemoveApplication(const QString &){}
 
@@ -150,11 +163,8 @@ void MainWindow::removeCurrentNetwork()
 
 void MainWindow::addApplication()
 {
-    
-    ProxySettings pr = DataModel::getInstance()->getProxies()
-                       .find(currentNetworkName.toStdString())->second;
-    
-    DialogAddApp d(this, pr);
+     
+    DialogAddApp d(this, *currentProxySettings);
     d.exec();
     
 }
@@ -186,15 +196,14 @@ void MainWindow::changeCurrentNetwork(QString const & title)
             updateCurrentNetwork();
         }
     }
-    
-    ProxySettings& proxySettings = 
-            DataModel::getInstance()->getProxies()
-            .find(title.toStdString())->second;
+                
+    currentProxySettings = &DataModel::getInstance()->getProxies()
+                            .find(title.toStdString())->second;
     
     ui->tabWidget->clear();
-    ProxySettings::iterator it = proxySettings.begin();
+    ProxySettings::iterator it = currentProxySettings->begin();
         
-    while(it != proxySettings.end()) {
+    while(it != currentProxySettings->end()) {
         ui->tabWidget->addTab(
                     new ApplicationSettingsTab(
                         this,
