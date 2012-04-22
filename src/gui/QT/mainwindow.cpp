@@ -5,6 +5,7 @@
 #include "dialogaddnetwork.h"
 #include "applicationsettingstab.h"
 #include "dialogabout.h"
+#include "dialogaddapp.h"
 
 #include <qmessagebox.h>
 
@@ -46,6 +47,10 @@ void MainWindow::onLoad()
             this, SLOT(removeCurrentNetwork()));
     connect(ui->pushButtonSave, SIGNAL(clicked()),
             this, SLOT(updateCurrentNetwork()));
+    connect(ui->pushButtonAddApp, SIGNAL(clicked()),
+            this, SLOT(addApplication()));
+    connect(ui->pushButtonRemoveApp, SIGNAL(clicked()),
+            this, SLOT(removeApplication()));
     // end front end connection
     
     // data model connections
@@ -102,12 +107,15 @@ void MainWindow::onRemoveNetwok(const QString &title)
 
 void MainWindow::onUpdateNetwork(const QString&){}
 
+void MainWindow::onAddApplication(const QString &){}
+
+void MainWindow::onRemoveApplication(const QString &){}
+
 /*** Front end slots ***/
 
 void MainWindow::addNetwork()
 {
-    DialogAddNetwork* aDialog = new DialogAddNetwork(this);
-    aDialog->show();
+    (new DialogAddNetwork(this))->show();
 }
 
 void MainWindow::updateCurrentNetwork()
@@ -140,7 +148,24 @@ void MainWindow::removeCurrentNetwork()
     
 }
 
+void MainWindow::addApplication() 
+{
+    QList<QString> apps;
+    
+    QDataModel::proxyList::const_iterator it = DataModel::getInstance()->getApps().begin();
+    QDataModel::proxyList::const_iterator end = DataModel::getInstance()->getApps().end();
+    while(it != end) {
+        apps.push_back(QString(it->first.data()));
+        it++;
+    }
+    
+    DialogAddApp d(this, apps);
+    d.exec();
+}
 
+void MainWindow::removeApplication() {
+    
+}
 
 void MainWindow::changeCurrentNetwork(QString const & title)
 {

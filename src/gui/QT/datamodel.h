@@ -26,8 +26,8 @@ public:
     static std::string const APPS_DIRECTORY;
     static std::string const DEFAULT_NETWORK_CONFIG_PATH;
     
-    // maybe const ?
     proxyList& getProxies() { return proxySettings; }
+    proxyList const & getApps() const { return appsList; }
 
 public slots:
     void loadData();
