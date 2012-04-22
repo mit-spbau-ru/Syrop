@@ -27,8 +27,6 @@ private slots:
     void onAddNetwork(QString const & title);
     void onRemoveNetwok(QString const & title);
     void onUpdateNetwork(QString const & title);
-    
-    void onRemoveApplication(QString const & title);
     // front end
     void addNetwork();
     void updateCurrentNetwork();

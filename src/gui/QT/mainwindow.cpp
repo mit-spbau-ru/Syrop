@@ -122,8 +122,6 @@ void MainWindow::onAddApplication(const QString & app){
     
 }
 
-void MainWindow::onRemoveApplication(const QString &){}
-
 /*** Front end slots ***/
 
 void MainWindow::addNetwork()
@@ -169,8 +167,13 @@ void MainWindow::addApplication()
     
 }
 
-void MainWindow::removeApplication() {
-    
+void MainWindow::removeApplication() 
+{
+    int i = ui->tabWidget->currentIndex();
+    //string s = ui->tabWidget->tabText(i).toStdString();
+    //currentProxySettings->
+    ui->tabWidget->removeTab(i);
+    onCurrentNetworkEdited();
 }
 
 void MainWindow::changeCurrentNetwork(QString const & title)
@@ -183,7 +186,7 @@ void MainWindow::changeCurrentNetwork(QString const & title)
         return;
     }
     
-    if(isCurrentNetworkEdited){
+    if(isCurrentNetworkEdited) {
         QMessageBox mb(this);
         
         mb.setWindowTitle("Saving approval");
@@ -214,6 +217,8 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     }
         
     ui->pushButtonNetworkRemove->setEnabled(true);
+    ui->pushButtonAddApp->setEnabled(true);
+    ui->pushButtonRemoveApp->setEnabled(true);
     ui->pushButtonSave->setEnabled(false);
     isCurrentNetworkEdited = false;
     
