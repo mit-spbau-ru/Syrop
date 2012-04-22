@@ -55,9 +55,6 @@
          <property name="elideMode">
           <enum>Qt::ElideNone</enum>
          </property>
-         <property name="movable">
-          <bool>true</bool>
-         </property>
         </widget>
        </item>
        <item>

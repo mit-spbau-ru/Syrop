@@ -17,7 +17,7 @@ DialogAddNetwork::DialogAddNetwork(QWidget *parent)
 
 void DialogAddNetwork::onSubmitChanges()
 {
-    try{
+    try {
         DataModel::getInstance()->addNetwork(ui->lineEditTitle->text());
         this->close();
     } catch (const std::exception& e) {

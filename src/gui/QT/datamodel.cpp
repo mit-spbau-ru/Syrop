@@ -14,6 +14,7 @@ string const QDataModel::WORKING_DIRECTORY  = "../res/";
 string const QDataModel::CONFIG_DIRECTORY  = "../config/";
 string const QDataModel::APPS_DIRECTORY  = "../config/apps/";
 string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "../config/default";
+string const QDataModel::DEFAULT_SETTINGS_NAME = "default";
 
 
 void QDataModel::loadData()

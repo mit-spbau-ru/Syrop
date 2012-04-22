@@ -25,6 +25,7 @@ public:
     static std::string const CONFIG_DIRECTORY;
     static std::string const APPS_DIRECTORY;
     static std::string const DEFAULT_NETWORK_CONFIG_PATH;
+    static std::string const DEFAULT_SETTINGS_NAME;
     
     proxyList& getProxies() { return proxySettings; }
     proxyList const & getApps() const { return appsList; }

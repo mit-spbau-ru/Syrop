@@ -28,6 +28,7 @@ private slots:
     void onRemoveNetwok(QString const & title);
     void onUpdateNetwork(QString const & title);
     // front end
+    void onTabChange(int);
     void addNetwork();
     void updateCurrentNetwork();
     void removeCurrentNetwork();

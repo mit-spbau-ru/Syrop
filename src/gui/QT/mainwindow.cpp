@@ -51,6 +51,9 @@ void MainWindow::onLoad()
             this, SLOT(addApplication()));
     connect(ui->pushButtonRemoveApp, SIGNAL(clicked()),
             this, SLOT(removeApplication()));
+    
+    connect(ui->tabWidget, SIGNAL(currentChanged(int)),
+            this, SLOT(onTabChange(int)));
     // end front end connection
     
     // data model connections
@@ -176,12 +179,19 @@ void MainWindow::removeApplication()
     onCurrentNetworkEdited();
 }
 
+void MainWindow::onTabChange(int i)
+{
+    ui->pushButtonRemoveApp->setEnabled(i != 0);
+}
+
 void MainWindow::changeCurrentNetwork(QString const & title)
 {
     
     if(title.isEmpty()) {
         currentNetworkName = "";
         ui->pushButtonNetworkRemove->setEnabled(false);
+        ui->pushButtonRemoveApp->setEnabled(false);
+        ui->pushButtonAddApp->setEnabled(false);
         ui->tabWidget->clear();
         return;
     }
@@ -205,8 +215,20 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     
     ui->tabWidget->clear();
     ProxySettings::iterator it = currentProxySettings->begin();
+    
+    
+    ui->tabWidget->addTab(
+                new ApplicationSettingsTab(
+                    this,
+                    ui->tabWidget, 
+                    (*currentProxySettings)[QDataModel::DEFAULT_SETTINGS_NAME]),
+                QString(QDataModel::DEFAULT_SETTINGS_NAME.data()));
         
     while(it != currentProxySettings->end()) {
+        if(it->first == QDataModel::DEFAULT_SETTINGS_NAME) {
+            it++;
+            continue;
+        }
         ui->tabWidget->addTab(
                     new ApplicationSettingsTab(
                         this,
@@ -218,7 +240,6 @@ void MainWindow::changeCurrentNetwork(QString const & title)
         
     ui->pushButtonNetworkRemove->setEnabled(true);
     ui->pushButtonAddApp->setEnabled(true);
-    ui->pushButtonRemoveApp->setEnabled(true);
     ui->pushButtonSave->setEnabled(false);
     isCurrentNetworkEdited = false;
     
