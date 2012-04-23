@@ -102,15 +102,15 @@ vector<string> const& search_pathes()
 	{
 		try
 		{
-			FileInfo info(get_user_home_dir() + "/" + HOME + PLUGINS);
+			FileInfo info(SETUP + PLUGINS);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)
 		{}
-		
+
 		try
 		{
-			FileInfo info(SETUP + PLUGINS);
+			FileInfo info(get_user_home_dir() + "/" + HOME + PLUGINS);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)
