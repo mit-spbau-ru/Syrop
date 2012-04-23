@@ -30,7 +30,7 @@
 
 namespace utils {
 
-	IniData readData( std::istream &is );
+	void readData( std::istream &is, IniData &idata );
 	void writeData(std::ostream &os, IniData const &idata);
 
 } // namespace utils

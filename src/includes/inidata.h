@@ -30,7 +30,7 @@
 
 namespace utils
 {
-
+                           
 	using std::string;
 	using std::map;
 	using std::pair;
@@ -43,9 +43,9 @@ namespace utils
 
 	public:
 
-		void addSection			            ( string const &sec );
+        void addSection			            ( string const &sec );
 		
-		void addAttribute		            ( string const &sec, pair <string, string> const &params );
+        void addAttribute		            ( string const &sec, pair <string, string> const &params );
 		void removeSection		            ( string const &sec );
 		void removeAttribute		        ( string const &attr );
 

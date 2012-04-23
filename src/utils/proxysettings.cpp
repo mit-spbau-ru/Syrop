@@ -24,27 +24,33 @@ namespace utils{
 		return data [ appName ];
 	}
 
+    // returns a const iterator to the beginning of the data stored
 	ProxySettings :: const_iterator  ProxySettings::begin () const
 	{
 		 return data.begin();
 	}
 
+    // returns a const iterator to the end of the data stored
 	ProxySettings :: const_iterator  ProxySettings::end () const
 	{
 		 return data.end();
 	}
 
+    // returns an iterator to the beginning of the data stored
 	ProxySettings :: iterator  ProxySettings::begin ()
     {
 		return data.begin();
     }
 
+    // returns an iterator to the end of the data stored
     ProxySettings ::iterator  ProxySettings::end ()
     {
         return data.end();
     }
 
-    
+
+    // get a file name and if the file exists write data settings
+    // in it    
 	void ProxySettings::save( string const &fileName  ) const
 	{
         if ( !fileExists( fileName ) ) 
@@ -52,9 +58,10 @@ namespace utils{
 		std::ofstream file(fileName.c_str());
 		if (!file)
 			throw std::runtime_error("Can't open \"" + fileName + "\" for writing");	
-		writeData(file, data);	
+		writeData( file, data );	
 	}
 
+    // get a file name and if the file exists read data settings 
 	void ProxySettings::loadData( string const &fileName )
 	{
 		std::ifstream file (fileName.c_str(), std::ifstream::in );
@@ -62,7 +69,7 @@ namespace utils{
 		if ( file.fail() )
     		throw std::runtime_error("Can't open \"" + fileName + "\" for reading");	
 
-		data = readData(file);	
+		readData( file, data );	
         
 	}
 
