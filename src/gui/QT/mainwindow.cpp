@@ -184,7 +184,7 @@ void MainWindow::removeApplication()
 
 void MainWindow::onTabChange(int i)
 {
-    ui->pushButtonRemoveApp->setEnabled(i != 0);
+    ui->pushButtonRemoveApp->setEnabled(i > 0);
 }
 
 void MainWindow::checkAddAppPosibility()
@@ -205,6 +205,7 @@ void MainWindow::changeCurrentNetwork(QString const & title)
         ui->pushButtonNetworkRemove->setEnabled(false);
         ui->pushButtonRemoveApp->setEnabled(false);
         ui->pushButtonAddApp->setEnabled(false);
+        ui->pushButtonSave->setEnabled(false);
         ui->tabWidget->clear();
         return;
     }
