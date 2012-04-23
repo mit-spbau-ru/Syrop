@@ -45,6 +45,7 @@ private:
     QString currentNetworkName;
     utils::ProxySettings* currentProxySettings;
     void bindData();
+    void checkAddAppPosibility();
     Ui::MainWindow *ui;
     bool isCurrentNetworkEdited;
 };

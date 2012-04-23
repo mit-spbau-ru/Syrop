@@ -120,7 +120,7 @@ void MainWindow::onAddApplication(const QString & app){
                     ui->tabWidget, 
                     (*currentProxySettings)[app.toStdString()]), 
                 app);
-    
+    checkAddAppPosibility();
 }
 
 /*** Front end slots ***/
@@ -168,10 +168,8 @@ void MainWindow::removeCurrentNetwork()
 
 void MainWindow::addApplication()
 {
-     
     DialogAddApp d(this, *currentProxySettings);
-    d.exec();
-    
+    d.exec();   
 }
 
 void MainWindow::removeApplication() 
@@ -181,11 +179,22 @@ void MainWindow::removeApplication()
     //currentProxySettings->
     ui->tabWidget->removeTab(i);
     onCurrentNetworkEdited();
+    ui->pushButtonAddApp->setEnabled(true);
 }
 
 void MainWindow::onTabChange(int i)
 {
     ui->pushButtonRemoveApp->setEnabled(i != 0);
+}
+
+void MainWindow::checkAddAppPosibility()
+{
+    // plus one because of default
+    if((DataModel::getInstance()->getApps().size() + 1) 
+            == ui->tabWidget->count()) {
+        ui->pushButtonAddApp->setEnabled(false);
+    }
+
 }
 
 void MainWindow::changeCurrentNetwork(QString const & title)
@@ -250,6 +259,7 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     isCurrentNetworkEdited = false;
     
     currentNetworkName = ui->listWidgetNetworks->currentItem()->text();
+    checkAddAppPosibility();
     
 }
 
