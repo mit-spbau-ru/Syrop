@@ -1,11 +1,9 @@
 *** TODO ***
 Баг с невозможностью реально удалить
-Баг с несохраненными apps
-ProxySettings no-save
 Add app no more
 
 *** DONE ***
-
+Баг с несохраненными apps
 
 *** IGNORED ***
 

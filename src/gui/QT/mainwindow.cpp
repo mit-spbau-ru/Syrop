@@ -52,7 +52,6 @@ void MainWindow::onLoad()
             this, SLOT(addApplication()));
     connect(ui->pushButtonRemoveApp, SIGNAL(clicked()),
             this, SLOT(removeApplication()));
-    
     connect(ui->tabWidget, SIGNAL(currentChanged(int)),
             this, SLOT(onTabChange(int)));
     // end front end connection
@@ -133,7 +132,8 @@ void MainWindow::addNetwork()
 
 void MainWindow::restoreCurrentNetwork()
 {
-    DataModel::getInstance()->restoreNetwork(currentNetworkName.toStdString());
+    DataModel::getInstance()->restoreNetwork(
+                currentNetworkName.toStdString());
 }
 
 void MainWindow::updateCurrentNetwork()
