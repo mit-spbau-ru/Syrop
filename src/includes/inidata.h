@@ -42,32 +42,32 @@ namespace utils
 	class IniData{
 
 	public:
-		void addSection			( string const &sec );
-		
-		void addAttribute		( string const &sec, pair <string, string> const &params );
-		void removeSection		( string const &sec );
-		void removeAttribute		( string const &attr );
 
-		void dropAll			() { data.clear(); }
+		void addSection			            ( string const &sec );
 		
-		attributes getSection			( string const &sec ) const;
-        	attributes & operator[] 	( string const &appName );
-               	attributes const & operator[] 	( string const &appName ) const;
-		bool hasSection			( string const &sec ) const;
-		bool hasAttribute		( string const &sec, string const &attr ) const;
-		vector< string > getSectionsList() const;
-		string getAttribute		( string const &sec, string const &param_first ) const;
+		void addAttribute		            ( string const &sec, pair <string, string> const &params );
+		void removeSection		            ( string const &sec );
+		void removeAttribute		        ( string const &attr );
+
+		void dropAll			            () { data.clear(); }
+		
+		attributes         getSection		( string const &sec ) const;
+      	attributes       & operator[] 	    ( string const &appName );
+       	attributes const & operator[] 	    ( string const &appName ) const;
+
+		bool hasSection			            ( string const &sec ) const;
+		bool hasAttribute		            ( string const &sec, string const &attr ) const;
+		vector< string > getSectionsList    () const;
+		string getAttribute		            ( string const &sec, string const &param_first ) const;
 
 		typedef attributes_map::const_iterator const_iterator;
 
 		typedef attributes_map::iterator iterator; 
 
-
-
 		const_iterator begin 	() const;
-  		const_iterator  end 	() const;
+  		const_iterator end 	    () const;
        
-      	iterator begin 	();
+      	iterator begin 	    ();
   		iterator end 		();
             
    		friend std::ostream& operator<<( std::ostream &os, IniData const & idata );

@@ -99,17 +99,15 @@ namespace utils{
 	vector< string > IniData::getSectionsList() const
 	{
 		vector<string> secs;
-		attributes_map::const_iterator it = data.begin();
-		for ( ; it != data.end() ; ++it ) {
+		
+		for ( attributes_map::const_iterator it = data.begin();  it != data.end() ; ++it ) {
 			secs.push_back( it->first );
 		}
 		return secs;
 	}
 		std::ostream& operator<<( std::ostream &os, IniData const &idata ) 
 	{
-		attributes_map::const_iterator ait = idata.data.begin();
-
-		for ( ; ait != idata.data.end(); ++ait){
+	    for ( attributes_map::const_iterator ait = idata.data.begin(); ait != idata.data.end(); ++ait){
 			os <<  " " << ait -> first << std::endl; 
 			for (attributes::const_iterator sit = ait->second.begin() ; sit != ait->second.end() ; ++sit ) 
 			 	os << "   " << sit -> first  << " " << sit -> second << std::endl;			

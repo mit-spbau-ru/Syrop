@@ -1,8 +1,13 @@
 #ifndef APPLICATIONSETTINGSTAB_H
 #define APPLICATIONSETTINGSTAB_H
 
+#include "mainwindow.h"
+
 #include <QWidget>
 #include <inidata.h>
+#include <qmap.h>
+#include <qlineedit.h>
+
 
 namespace Ui { class ApplicationSettingsTab;}
 
@@ -13,11 +18,20 @@ class ApplicationSettingsTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ApplicationSettingsTab(QWidget *parent, utils::attributes const& attributes);
+    
+    explicit ApplicationSettingsTab(
+            MainWindow* mainWindow,
+            QWidget *parent, 
+            utils::attributes& attributes);
     ~ApplicationSettingsTab();
+    void saveChanges();
+private slots:
+    void onChange();
 private:
+    QMap<std::string, QLineEdit*> fields;
     Ui::ApplicationSettingsTab *ui;
-    utils::attributes attributes;
+    utils::attributes& attributes;
+    MainWindow* mainWindow;
     void bindData();
 };
 

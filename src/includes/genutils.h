@@ -28,10 +28,12 @@
 
 namespace utils{
 
-ProxySettings readProxySettings( string const & fname );
 void readAllProxySettings ( string const & dir, map< string, ProxySettings > & allSettings );
-std::pair < string, string> getParentAndFile ( string const & path );
-	
+bool fileExists( string const &fname );
+                                                
+string parent ( string const & path );
+string netFromFileName( string const & name );
+string fileNameFromNet( string const & name );
 template < class T >
 void makeConfig(std::string const &fname);
 

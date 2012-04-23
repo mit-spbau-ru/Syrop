@@ -5,64 +5,75 @@
 #include <boost/algorithm/string.hpp>
 #include "genutils.h"
 #include "system.h"
-
+#include <sys/stat.h>
 
 namespace utils{
 		
-	using std::string;
+    using std::string;
     using std::runtime_error;
 
-	bool fileExists( string const &fname )
-	{
-	  return std::ifstream( fname.c_str() ,  std::ifstream::in ) != NULL;
-	}
-
-
-	ProxySettings readProxySettings( string const & fname )
-	{
-		return ProxySettings ( fname );
-	}
+    bool fileExists( string const &fname )
+    {   
+        struct stat s;
+        return ( stat( fname.c_str(), &s ) != -1 ); 
+    }
 
     void readAllProxySettings ( string const & dir, 
                                 map< string, ProxySettings > & allSettings )
-	{
-		files_t allFiles; 
-        filter_dir_files( FileInfo(dir).getFullName() , allFiles ); // usr home dir
-		files_t::const_iterator afit = allFiles.begin();
+    {
+        files_t allFiles;
+        string dirName = dir; 
+        size_t res =  dirName.find("~"); 
+        if ( res != std::string::npos )
+        {
+            dirName.erase ( res, 1 );
+            dirName.insert( res, get_user_home_dir() );
+        }
 
-		for ( ; afit != allFiles.end(); ++afit )
-		{
-			allSettings.insert( std::make_pair ( afit->getName()  , 
+        filter_dir_files( dirName , allFiles ); 
+
+        for ( files_t::const_iterator afit = allFiles.begin() ; afit != allFiles.end(); ++afit )
+        {
+            allSettings.insert( std::make_pair ( afit->getName()  , 
                                                 ProxySettings( afit->getFullName() )) );
-		}
-	}
+        }
+    }
 
-	pair < string, string > getParentAndFile ( string const & fname )
-	{
+    string netFromFileName( string const & name )
+    {
+        return FileInfo( name ).getName();        
+    }
+
+    string fileNameFromNet( string const & name )
+    {
+        return name;
+    }
+
+    string parent ( string const & fname )
+    {
         std::vector < string > split_vec; 
-		boost::split( split_vec, fname, boost::is_any_of("/") );
-		string name = split_vec.back();
+        boost::split( split_vec, fname, boost::is_any_of("/") );
+        string name = split_vec.back();
         string dir = fname;
-		return make_pair ( dir.erase ( fname.find_last_of (name) ), name ) ;
+        return dir.erase ( fname.find_last_of (name) ) ;
 	}
-
-	template < class T >	
-	void makeConfig(string const &fname, T const & configer )
-	{
-		if (! fileExists(fname) )
-		{	
-			std::ofstream file;
-			
-            pair < string, string > p = getParentAndFile( fname );
+    
+    template < class T >	
+    void makeConfig(string const &fname, T const & configer )
+    {
+        if (! fileExists(fname) )
+        {	
+            std::ofstream file;
+			string p = parent( fname );
 		   
-			create_dir( p.first );
-			file.open ( p.second.c_str() );
+            create_dir( p );
+            file.open ( fname.c_str() );
 			
-			configer.generate(file);
+            configer.generate(file);
 
-			file.close ();
-		}
+            file.close ();
+        }
 
-	}
-
+    }
+                                                                
 } // namespace utils

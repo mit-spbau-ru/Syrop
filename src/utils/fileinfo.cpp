@@ -33,12 +33,7 @@ void FileInfo::read() // throws std::runtime_error
 {	
 	errno = 0;
 	//get full path name
-    size_t res =  myName.find("~"); 
-    if ( res != std::string::npos )
-    {                                    
-        myName.erase ( res, 1 );
-        myName.insert( res , user_home_dir() );
-    }
+
 	boost::shared_ptr<char> const fullPath(realpath(myName.c_str(), NULL), free);
 	int errCode = errno;
 	if (errCode == 0) {
