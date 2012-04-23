@@ -35,6 +35,7 @@ public slots:
     void addNetwork(QString const & name);
     void removeNetwork(QString const & name);
     void updateNetwork(QString const & name);
+    void restoreNetwork(std::string const & name);
     
 signals:
     void onLoadData();

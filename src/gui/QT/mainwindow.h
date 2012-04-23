@@ -31,6 +31,7 @@ private slots:
     void onTabChange(int);
     void addNetwork();
     void updateCurrentNetwork();
+    void restoreCurrentNetwork();
     void removeCurrentNetwork();
     void changeCurrentNetwork(QString const &);
     void addApplication();

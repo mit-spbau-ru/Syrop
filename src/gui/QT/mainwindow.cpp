@@ -6,6 +6,7 @@
 #include "applicationsettingstab.h"
 #include "dialogabout.h"
 #include "dialogaddapp.h"
+#include "genutils.h"
 
 #include <qmessagebox.h>
 
@@ -114,8 +115,6 @@ void MainWindow::onAddApplication(const QString & app){
     
     this->onCurrentNetworkEdited();
     
-    
-    
     ui->tabWidget->addTab(
                 new ApplicationSettingsTab(
                     this,
@@ -130,6 +129,11 @@ void MainWindow::onAddApplication(const QString & app){
 void MainWindow::addNetwork()
 {
     (new DialogAddNetwork(this))->show();
+}
+
+void MainWindow::restoreCurrentNetwork()
+{
+    DataModel::getInstance()->restoreNetwork(currentNetworkName.toStdString());
 }
 
 void MainWindow::updateCurrentNetwork()
@@ -205,9 +209,11 @@ void MainWindow::changeCurrentNetwork(QString const & title)
         mb.addButton(QMessageBox::Yes);
         mb.addButton(QMessageBox::No);
         
-        if(mb.exec() == QMessageBox::Yes) {
+        if(mb.exec() == QMessageBox::Yes)
             updateCurrentNetwork();
-        }
+        else
+            restoreCurrentNetwork();
+        
     }
                 
     currentProxySettings = &DataModel::getInstance()->getProxies()

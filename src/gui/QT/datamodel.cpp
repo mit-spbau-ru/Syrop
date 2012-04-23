@@ -25,6 +25,12 @@ void QDataModel::loadData()
     emit onLoadData();
 }
 
+void QDataModel::restoreNetwork(const string &name)
+{
+    proxySettings.find(name)->second.loadData(
+                WORKING_DIRECTORY + fileNameFromNet(name));
+}
+
 void QDataModel::addNetwork(QString const & name)
 {
     
