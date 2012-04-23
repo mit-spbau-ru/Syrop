@@ -1,5 +1,5 @@
 def backupSettings ():
-# this method will be invoked before setupSettings
+	pass
 
 def setupSettings (settings):
 	if "https" in settings:

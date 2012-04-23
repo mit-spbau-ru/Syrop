@@ -74,6 +74,19 @@ std::string const& application_dir()
 {
 	static string const dirName(user_home_dir() + "/" + HOME);
 	create_dir(dirName);
+	create_dir(dirName + PLUGINS);
+	create_dir(dirName + CONFIGS);
+	return dirName;
+}
+
+/**
+ * Function returns syrop directory with networks configuraton files,
+ * if directory dosen't exists function creates it
+ */
+std::string const& config_dir()
+{
+	static string const dirName(application_dir() + CONFIGS);
+
 	return dirName;
 }
 

@@ -26,6 +26,8 @@
 #include <map>
 #include <vector>
 
+#include "fileinfo.h"
+
 using std::string;
 using std::vector;
 using std::map;
@@ -49,6 +51,15 @@ namespace utils
 	 * @throws std::runtime_error if an error occrred
 	 */
 	std::string const& application_dir();
+
+	/**
+	 * Function returns application config dir. Directory will be
+	 * created if doesn't exist;
+	 *
+	 * @return string with directory name
+	 * @throws std::runtime_error if an error occrred
+	 */
+	std::string const& config_dir();
 
 	/**
 	 * Function returns standart plugin search path:

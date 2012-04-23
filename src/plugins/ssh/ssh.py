@@ -1,7 +1,7 @@
 import os
 
 def backupSettings ():
-# this method will be invoked before setupSettings
+	pass
 
 # creates the configuration file if necessary
 # and calls the substitution of new settings
