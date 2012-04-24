@@ -41,6 +41,7 @@ namespace utils{
         void loadData           ( string const &netName );
         void save               ( string const &netName ) const;
         bool existsApp          ( const std::string& appName );
+        void removeApp          ( const std::string& appName );
 
         attributes       & operator[]   ( string const &appName );
         attributes const & operator[]   ( string const &appName ) const;		

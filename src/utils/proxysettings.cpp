@@ -10,7 +10,14 @@ namespace utils{
 	{
 		return data.hasSection ( appName ) ;
 	}		
-
+    
+    void ProxySettings::removeApp( string const &appName )
+	{
+		if ( !data.hasSection ( appName ) )
+            throw std::runtime_error( "there is no \"" + appName + "\" application to erase" );
+        data.removeSection( appName ) ;
+	}		
+ 
 	// first call existsApp() is suggested to check if such an item exists in the map
 	attributes & ProxySettings::operator[] (string const &appName)
 	{
@@ -53,8 +60,6 @@ namespace utils{
     // in it    
 	void ProxySettings::save( string const &fileName  ) const
 	{
-        if ( !fileExists( fileName ) ) 
-            throw std::runtime_error( fileName + "\" does not exist ");
 		std::ofstream file(fileName.c_str());
 		if (!file)
 			throw std::runtime_error("Can't open \"" + fileName + "\" for writing");	
