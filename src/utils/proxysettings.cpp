@@ -73,8 +73,13 @@ namespace utils{
 
 		if ( file.fail() )
     		throw std::runtime_error("Can't open \"" + fileName + "\" for reading");	
-
-		readData( file, data );	
+        try {
+		    readData( file, data );	
+        }
+        catch ( std::runtime_error &e )
+        {
+            throw std::runtime_error ( "file \"" + fileName + "\" is not in ini format" );
+        }
         
 	}
 

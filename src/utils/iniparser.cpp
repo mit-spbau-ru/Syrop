@@ -51,7 +51,7 @@ pair <string, string> getPair( string const &str )
 void readData( std::istream &is, IniData & data )
 {	
     string instr;
-	string curSec;
+	string curSec = "";
     	
 	while ( !is.eof() ){
 
@@ -63,6 +63,8 @@ void readData( std::istream &is, IniData & data )
 			data.addSection(curSec);
 		}
 		else if ( !instr.empty() ) {
+            if (curSec == "") throw std::runtime_error("file is not in ini format") ;
+
 			std::pair<string, string> p = getPair(instr);
 			data.addAttribute( curSec,p );
 		}		
