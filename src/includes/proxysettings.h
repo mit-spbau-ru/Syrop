@@ -54,8 +54,6 @@ namespace utils{
         iterator        begin   ();
         iterator        end     ();
 
-        friend std::ostream& operator<<( std::ostream &os, ProxySettings const & ps );
-	
     private:
         void saveIniData    ( attributes const & apps, string const & name ) const;
 		

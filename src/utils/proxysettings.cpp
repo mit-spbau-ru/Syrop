@@ -78,10 +78,4 @@ namespace utils{
         
 	}
 
-	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 
-	{
-		os << ps.data;
-		return os;
-	}
-
 }

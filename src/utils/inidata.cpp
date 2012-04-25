@@ -92,17 +92,7 @@ namespace utils{
 
 
 
-//	attributes & IniData::operator [] ( string const & secName ) 
-//	{
-//		return data [ secName ]; 
-//	}
-
-//	attributes const & IniData::operator [] ( string const & secName) const
-//	{
-//		return data.find ( secName ) -> second ;
-//	}
-
-    // creates a list of all sections in the current data
+   // creates a list of all sections in the current data
 	vector< string > IniData::getSectionsList() const
 	{
 		vector<string> secs;
@@ -112,14 +102,6 @@ namespace utils{
 		}
 		return secs;
 	}
-		std::ostream& operator<<( std::ostream &os, IniData const &idata ) 
-	{
-	    for ( attributes_map::const_iterator ait = idata.data.begin(); ait != idata.data.end(); ++ait){
-			os <<  " " << ait -> first << std::endl; 
-			for (attributes::const_iterator sit = ait->second.begin() ; sit != ait->second.end() ; ++sit ) 
-			 	os << "   " << sit -> first  << " " << sit -> second << std::endl;			
-		}
-		return os;
-	}
+	
 	
 }
