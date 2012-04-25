@@ -6,7 +6,7 @@
 namespace utils{
 
 
-	bool ProxySettings::existsApp( string const &appName )
+	bool ProxySettings::existsApp( string const &appName ) const
 	{
 		return data.hasSection ( appName ) ;
 	}		
@@ -21,13 +21,21 @@ namespace utils{
 	// first call existsApp() is suggested to check if such an item exists in the map
 	attributes & ProxySettings::operator[] (string const &appName)
 	{
+        if ( ! existsApp(appName) )
+            if ( existsApp( "default" ) )  return data[ "default" ];
+            else throw std::runtime_error ("there are no appropriate settings for \"" +
+                appName + "\"") ;
 		return data [ appName ];	
 	}
 
 	
 	// first call existsApp() is suggested to check if such an item exists in the map
 	attributes const & ProxySettings::operator[] (string const &appName) const
-	{
+	{    
+        if ( ! existsApp(appName) )
+            if ( existsApp( "default" ) )  return data[ "default" ];
+            else throw std::runtime_error ("there are no appropriate settings for \"" +
+                appName + "\"") ;
 		return data [ appName ];
 	}
 
