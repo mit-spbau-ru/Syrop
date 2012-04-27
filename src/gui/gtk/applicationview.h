@@ -3,27 +3,23 @@
 
 #include <boost/xpressive/xpressive.hpp>
 #include <gtkmm.h>
-#include "inidata.h"
+#include <string>
 
-#define ROWSPACING   5
-#define COLSPACING   5
-#define BORDERWIDTH  2
-#define REGEX        "^\\s*(\\S+){1}\\s*:\\s*(\\d+){1}\\s*$"
+#include "inidata.h"
 
 namespace bxprs = boost::xpressive;
 
 class ApplicationView : public Gtk::Grid
 {
 public:
-	ApplicationView(utils::attributes const& attrs);
-	utils::attributes const & getAttributes();
+	ApplicationView(utils::attributes const & attrs);
+
+	void save(utils::IniData & data, std::string const & section) const;
 
 private:
+	std::string   const REGEX;
 	bxprs::sregex const PROXY_REGEX;
-
-	utils::attributes myAttributes;
-	bool myChangeFlag;
-
+	
 	Gtk::CheckButton myUseForAll;
 
 	Gtk::Label myHttpLabel;
@@ -44,4 +40,4 @@ private:
 	void on_check_clicked();
 };
 
-#endif /*__GUI_GTK_APPLICATION_VIEW_H__*/
+#endif //__GUI_GTK_APPLICATION_VIEW_H__
