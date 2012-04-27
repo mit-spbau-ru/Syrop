@@ -21,8 +21,8 @@ private slots:
     void onChoose();
     
 private:
-    utils::ProxySettings& proxySettings;
     MainWindow* mainWindow;
+    utils::ProxySettings& proxySettings;
     Ui::DialogAddApp* ui;
     
 };

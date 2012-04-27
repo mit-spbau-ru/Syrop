@@ -6,14 +6,16 @@
 
 namespace utils {
 
+// true if the string contains unempty operator []
 bool isSectionName( string const &str ) 
 {
 	size_t from = str.find('[');
 	size_t to = str.find(']');
 	
-	return (from != string::npos && to != string::npos);
+	return (from != string::npos && to != string::npos && from < to);
 }
 
+// cuts off the part of string within comments
 string cleanComments( string const &str )
 {
 	string newstr(str);
@@ -24,6 +26,8 @@ string cleanComments( string const &str )
 
 }
 
+// cuts the part of a string within [ ] brackets
+// check if the string is a section name first
 string extractName( string const &str ) 
 {
 	size_t from = str.find('[');
@@ -32,6 +36,8 @@ string extractName( string const &str )
 	return str.substr( from + 1, to - 1 );
 }
 
+// returns a pair of attribute - value of string
+// with regard to delimiter '='
 pair <string, string> getPair( string const &str ) 
 {
 	std::vector <string> splitVec;
@@ -41,12 +47,11 @@ pair <string, string> getPair( string const &str )
 	return std::make_pair(first, second);
 }
 
-
-IniData readData( std::istream &is )
-{
-	IniData data;
-	string instr;
-	string curSec;
+// reads data from input stream
+void readData( std::istream &is, IniData & data )
+{	
+    string instr;
+	string curSec = "";
     	
 	while ( !is.eof() ){
 
@@ -58,14 +63,15 @@ IniData readData( std::istream &is )
 			data.addSection(curSec);
 		}
 		else if ( !instr.empty() ) {
+            if (curSec == "") throw std::runtime_error("file is not in ini format") ;
+
 			std::pair<string, string> p = getPair(instr);
 			data.addAttribute( curSec,p );
 		}		
 	}
-	return data;
-
 }
 
+// writes data into stream file
 void writeData( std::ostream &os, IniData const &idata )
 {
 	vector< string > secs = idata.getSectionsList();

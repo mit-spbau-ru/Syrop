@@ -28,10 +28,11 @@ public:
 private slots:
     void onChange();
 private:
+    MainWindow* mainWindow;
     QMap<std::string, QLineEdit*> fields;
     Ui::ApplicationSettingsTab *ui;
     utils::attributes& attributes;
-    MainWindow* mainWindow;
+    
     void bindData();
 };
 

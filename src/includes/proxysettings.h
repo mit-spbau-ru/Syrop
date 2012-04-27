@@ -31,34 +31,33 @@ namespace utils{
 	class ProxySettings
 	{
 	public:
-		ProxySettings(){}
+        ProxySettings(){}
 
-		ProxySettings( string const &fileName )
+        ProxySettings( string const &fileName )
 		{
 			loadData( fileName );
 		}
 		
-		void loadData			( string const &netName );
-        void save 			    ( string const &netName ) const;
-		bool existsApp			( const std::string& appName );
+        void loadData           ( string const &fileName );
+        void save               ( string const &fileName ) const;
+        bool existsApp          ( const std::string& appName ) const;
+        void removeApp          ( const std::string& appName );
 
-		attributes       & operator[] 	( string const &appName );
-		attributes const & operator[] 	( string const &appName ) const;		
+        attributes       & operator[]   ( string const &appName );
+        attributes const & operator[]   ( string const &appName ) const;		
 
-		typedef IniData::iterator 		iterator;
-		typedef IniData::const_iterator const_iterator;
+        typedef IniData::iterator       iterator;
+        typedef IniData::const_iterator const_iterator;
 
-		const_iterator  begin 	() const;
-		const_iterator  end 	() const;
-		iterator        begin 	();
-	    iterator        end   	();
+        const_iterator  begin   () const;
+        const_iterator  end     () const;
+        iterator        begin   ();
+        iterator        end     ();
 
-		friend std::ostream& operator<<( std::ostream &os, ProxySettings const & ps );
-	
-	private:
-		void saveIniData 	( attributes const & apps, string const & name ) const;
+    private:
+        void saveIniData    ( attributes const & apps, string const & name ) const;
 		
-		IniData data;
+        IniData data;
 	};
 
 }
