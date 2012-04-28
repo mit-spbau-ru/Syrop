@@ -11,11 +11,11 @@ using namespace utils;
 using namespace std;
 
 QDataModel* DataModel::instance = 0;
-string const QDataModel::WORKING_DIRECTORY  = "~/.syrop/res/";
-string const QDataModel::CONFIG_DIRECTORY  = "~/.syrop/config/";
-string const QDataModel::APPS_DIRECTORY  = "~/.syrop/config/apps/";
-string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "~/.syrop/config/default";
-string const QDataModel::DEFAULT_SETTINGS_NAME = "~/.syrop/default";
+string const QDataModel::WORKING_DIRECTORY  = "../res/";
+string const QDataModel::CONFIG_DIRECTORY  = "../config/";
+string const QDataModel::APPS_DIRECTORY  = "../config/apps/";
+string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "../config/default";
+string const QDataModel::DEFAULT_SETTINGS_NAME = "default";
 
 
 void QDataModel::loadData()
