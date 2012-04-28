@@ -1,83 +1,109 @@
+#include <fstream>
+#include <stdexcept>
+#include <string>
+
 #include "networkview.h"
-#include "applicationview.h"
+#include "iniparser.h"
 
-NetworkView::NetworkView(utils::attributes_map const & map)
-: Gtk::VBox()
-, myRemoveAppButton("delete")
-, myAddAppButton   ("add")
-, myAttributes     (map)
+NetworkView::NetworkView(std::string const & name)
+: Gtk::VBox     ()
+, mySaveDialog  ("Do you want to save chages?")
+, myAddDialog   ("Enter new application name")
+, myName        (name)
+, myAddButton   ("add")
+, myRemoveButton("remove")
+, mySaveButton  ("save")
 {
-	myControl.pack_end(myAddAppButton,    false, false);
-	myControl.pack_end(myRemoveAppButton, false, false);
+	myControlLayout.pack_start(myAddButton,    false, false);
+	myControlLayout.pack_start(myRemoveButton, false, false);
+	myControlLayout.pack_start(mySaveButton,   false, false);
 
-	for (utils::attributes_map::const_iterator it = myAttributes.begin();
-					it != myAttributes.end(); ++it)
+	std::ifstream in( name.c_str() );
+	utils::IniData data( utils::readData(in) );
+	for (utils::IniData::const_iterator it = data.begin(); it != data.end(); ++it)
 	{
-		boost::shared_ptr<ApplicationView> ptr(new ApplicationView(it->second));
-		myViews.push_back(ptr);
-		myPages.append_page( *ptr, Glib::ustring(it->first) );
+		view_ptr_t view( new ApplicationView(it->second) );
+		myTabs.insert( make_pair(it->first, view) );
+		view->show();
+		myApplications.append_page(*view, it->first);
 	}
+	in.close();
+	change_buttons_state();
 
-	pack_start(myPages, true, true);
-	pack_end(myControl, false, false);
+	pack_start(myApplications,  true,  true);
+	pack_end  (myControlLayout, false, false);
 
-	myAddAppButton.signal_clicked().connect(sigc::mem_fun(*this,
-						&NetworkView::on_add_clicked
-						));
-	myRemoveAppButton.signal_clicked().connect(sigc::mem_fun(*this,
-						&NetworkView::on_remove_clicked
-						));
-	myAddDialog.signal_response().connect(sigc::mem_fun1(*this,
-						&NetworkView::on_dialog_close
-						));
+	myAddButton.signal_clicked().connect   (sigc::mem_fun(*this,
+							      &NetworkView::on_add_clicked
+							      ));
+	myRemoveButton.signal_clicked().connect(sigc::mem_fun(*this,
+							      &NetworkView::on_remove_clicked
+							      ));
+	mySaveButton.signal_clicked().connect  (sigc::mem_fun(*this,
+							      &NetworkView::on_save_clicked
+							      ));
 
+	myApplications.show_all_children();
+	myControlLayout.show_all_children();
 	show_all_children();
+}
+
+std::string const & NetworkView::getFullName() const
+{
+	return myName;
+}
+
+void NetworkView::save()
+{
+	if ( mySaveDialog.run() == Gtk::RESPONSE_YES ) force_save();
+	mySaveDialog.hide();
 }
 
 void NetworkView::on_add_clicked()
 {
-	myAddDialog.run();
-}
-
-template <typename PtrType>
-struct equal
-{
-	equal(PtrType const & ptr)
-	: myPointer(&ptr)
-		{}
-
-	template <typename SmartPointer>
-	bool operator()(SmartPointer const & sptr) const { return myPointer == sptr.get(); }
-
-	PtrType const * const myPointer;
-};
-
-void NetworkView::on_remove_clicked()
-{
-	int page = myPages.get_current_page();
-	equal<ApplicationView> eq(*static_cast<ApplicationView *>(myPages.get_nth_page(page)));
-	std::vector<boost::shared_ptr<ApplicationView> >::iterator it = std::find_if(myViews.begin(),
-										     myViews.end(),
-										     eq);
-	if (it != myViews.end())
+	if ( myAddDialog.run() == Gtk::RESPONSE_OK )
 	{
-		boost::shared_ptr<ApplicationView> ptr = *it;
-		myViews.erase(it);
-		myPages.remove_page(page);
-	}
-}
-
-void NetworkView::on_dialog_close(int resp)
-{
-	if (resp && (resp != Gtk::RESPONSE_DELETE_EVENT) ) {
-		boost::shared_ptr<ApplicationView> ptr(new ApplicationView(utils::attributes()));
-		myViews.push_back(ptr);
-		myPages.append_page( *ptr, Glib::ustring(myAddDialog.getNetworkName()) );
-		ptr->show();
+		view_ptr_t view( new ApplicationView( utils::attributes() ) );
+		myTabs.insert( make_pair(myAddDialog.getText(), view) );
+		view->show();
+		myApplications.prepend_page( *view, myAddDialog.getText() );
+		change_buttons_state();
 	}
 	myAddDialog.hide();
 }
 
-void NetworkView::saveConfig(std::string const & fname)
+void NetworkView::on_remove_clicked()
 {
+	int current = myApplications.get_current_page();
+	if (current >= 0)
+	{
+		Gtk::Widget * widget = myApplications.get_nth_page( current );
+		Glib::ustring label = myApplications.get_tab_label_text( *widget );
+		tabs_t::iterator it = myTabs.find( label.raw() );
+		if ( it == myTabs.end() ) throw std::logic_error( "Page with label " + label.raw() + " not found" );
+		myTabs.erase(it);
+		myApplications.remove_page( *widget );
+		myApplications.set_current_page(-1);
+		change_buttons_state();
+	}
+}
+
+void NetworkView::on_save_clicked()
+{
+	force_save();
+}
+
+void NetworkView::force_save()
+{
+	utils::IniData data;
+	for (tabs_t::const_iterator it = myTabs.begin(); it != myTabs.end(); ++it)
+		it->second->save(data, it->first);
+	std::ofstream out( myName.c_str() );
+	utils::writeData(out, data);
+	out.close();
+}
+
+void NetworkView::change_buttons_state()
+{
+	myRemoveButton.set_sensitive(myApplications.get_n_pages() > 0);
 }

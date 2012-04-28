@@ -19,11 +19,12 @@ include_directories(
 
 add_executable(syrop-gtk
 	       main.cpp
-               applicationview.cpp
-	       networkview.cpp
-	       newnetworkdialog.cpp
-	       networkslist.cpp
 	       mainwindow.cpp
+	       networkslist.cpp
+	       networkview.cpp
+	       inputdialog.cpp
+	       yesnodialog.cpp
+	       applicationview.cpp
 )
 
 target_link_libraries(syrop-gtk

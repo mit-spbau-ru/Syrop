@@ -38,9 +38,10 @@ namespace utils{
 			loadData( fileName );
 		}
 		
-        void loadData           ( string const &netName );
-        void save               ( string const &netName ) const;
-        bool existsApp          ( const std::string& appName );
+        void loadData           ( string const &fileName );
+        void save               ( string const &fileName ) const;
+        bool existsApp          ( const std::string& appName ) const;
+        void removeApp          ( const std::string& appName );
 
         attributes       & operator[]   ( string const &appName );
         attributes const & operator[]   ( string const &appName ) const;		
@@ -53,8 +54,6 @@ namespace utils{
         iterator        begin   ();
         iterator        end     ();
 
-        friend std::ostream& operator<<( std::ostream &os, ProxySettings const & ps );
-	
     private:
         void saveIniData    ( attributes const & apps, string const & name ) const;
 		

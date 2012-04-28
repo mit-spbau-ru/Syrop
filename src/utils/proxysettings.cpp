@@ -6,21 +6,34 @@
 namespace utils{
 
 
-	bool ProxySettings::existsApp( string const &appName )
+	bool ProxySettings::existsApp( string const &appName ) const
 	{
 		return data.hasSection ( appName ) ;
 	}		
-
+    
+    void ProxySettings::removeApp( string const &appName )
+	{
+		if ( !data.hasSection ( appName ) )
+            throw std::runtime_error( "there is no \"" + appName + "\" application to erase" );
+        data.removeSection( appName ) ;
+	}		
+ 
 	// first call existsApp() is suggested to check if such an item exists in the map
 	attributes & ProxySettings::operator[] (string const &appName)
 	{
+        if ( ! existsApp(appName) )
+            if ( existsApp( "default" ) )  return data[ "default" ];
+            else return attributes() ;
 		return data [ appName ];	
 	}
 
 	
 	// first call existsApp() is suggested to check if such an item exists in the map
 	attributes const & ProxySettings::operator[] (string const &appName) const
-	{
+	{    
+        if ( ! existsApp(appName) )
+            if ( existsApp( "default" ) )  return data[ "default" ];
+            else return attributes();
 		return data [ appName ];
 	}
 
@@ -53,8 +66,6 @@ namespace utils{
     // in it    
 	void ProxySettings::save( string const &fileName  ) const
 	{
-        if ( !fileExists( fileName ) ) 
-            throw std::runtime_error( fileName + "\" does not exist ");
 		std::ofstream file(fileName.c_str());
 		if (!file)
 			throw std::runtime_error("Can't open \"" + fileName + "\" for writing");	
@@ -68,15 +79,14 @@ namespace utils{
 
 		if ( file.fail() )
     		throw std::runtime_error("Can't open \"" + fileName + "\" for reading");	
-
-		readData( file, data );	
+        try {
+		    readData( file, data );	
+        }
+        catch ( std::runtime_error &e )
+        {
+            throw std::runtime_error ( "file \"" + fileName + "\" is not in ini format" );
+        }
         
-	}
-
-	std::ostream& operator<<( std::ostream &os, ProxySettings const & ps ) 
-	{
-		os << ps.data;
-		return os;
 	}
 
 }

@@ -70,8 +70,6 @@ namespace utils
         iterator begin 	    ();
         iterator end 		();
             
-        friend std::ostream& operator<<( std::ostream &os, IniData const & idata );
-	
     private:
         attributes_map data;
 		

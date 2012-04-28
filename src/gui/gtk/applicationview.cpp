@@ -1,51 +1,52 @@
 #include <sstream>
+
 #include "applicationview.h"
 
-#define setAttribute(it, ta, tp, map, attr) {                       \
-	it = map.find( #attr );                                     \
-	if ( it != map.end() )                                      \
-	{                                                           \
-		bxprs::smatch match;                                \
-		if (bxprs::regex_match(it->second,                  \
-					match,                      \
-					PROXY_REGEX))               \
-		{                                                   \
-			ta.set_text(match[1].str());                \
-			tp.set_text(match[2].str());                \
-		}                                                   \
-	}                                                           \
-}
-
 ApplicationView::ApplicationView(utils::attributes const & attrs)
-: Gtk::Grid()
+: Gtk::Grid   ()
+, REGEX       ("^\\s*(\\S+){1}\\s*:\\s*(\\d+){1}\\s*$")
 , PROXY_REGEX (bxprs::sregex::compile(REGEX))
-, myAttributes(attrs)
-, myChangeFlag(false)
 , myUseForAll ("same for other protocols")
-, myHttpLabel ("http:")
-, myHttpsLabel("https:")
-, myFtpLabel  ("ftp:")
-, mySocksLabel("socks:")
+, myHttpLabel ("HTTP:")
+, myHttpsLabel("HTTP:")
+, myFtpLabel  ("FTP:")
+, mySocksLabel("SOCKS:")
 , myHttpPort  (Gtk::Adjustment::create(3128, 1, 65000, 1, 10, 0))
 , myHttpsPort (Gtk::Adjustment::create(3128, 1, 65000, 1, 10, 0))
 , myFtpPort   (Gtk::Adjustment::create(3128, 1, 65000, 1, 10, 0))
 , mySocksPort (Gtk::Adjustment::create(3128, 1, 65000, 1, 10, 0))
 {
-	set_row_spacing(ROWSPACING);
-	set_column_spacing(COLSPACING);
-	set_border_width(BORDERWIDTH);
-	set_resize_mode(Gtk::RESIZE_PARENT);
-
-	myHttpPort.set_numeric(true);
-	myHttpsPort.set_numeric(true);
-	myFtpPort.set_numeric(true);
-	mySocksPort.set_numeric(true);
-
-	utils::attributes::const_iterator it;
-	setAttribute(it, myHttpEntry,  myHttpPort,  myAttributes, http);
-	setAttribute(it, myHttpsEntry, myHttpsPort, myAttributes, https);
-	setAttribute(it, myFtpEntry,   myFtpPort,   myAttributes, ftp);
-	setAttribute(it, mySocksEntry, mySocksPort, myAttributes, socks);
+	for (utils::attributes::const_iterator it = attrs.begin(); it != attrs.end(); ++it)
+	{
+		bxprs::smatch match;
+		if ( bxprs::regex_match(it->second, match, PROXY_REGEX) )
+		{
+			std::stringstream str;
+			int port;
+			str << match[2].str();
+			str >> port;
+			if (it->first == "http")
+			{
+				myHttpEntry.set_text ( match[1].str() );
+				myHttpPort.set_value ( port );
+			}
+			else if (it->first == "https")
+			{
+				myHttpsEntry.set_text( match[1].str() );
+				myHttpsPort.set_value( port );
+			}
+			else if (it->first == "ftp")
+			{
+				myFtpEntry.set_text  ( match[1].str() );
+				myFtpPort.set_value  ( port );
+			}
+			else if (it->first == "socks")
+			{
+				mySocksEntry.set_text( match[1].str() );
+				mySocksPort.set_value( port );
+			}
+		}
+	}
 
 	attach(myHttpLabel,   0, 0, 1, 1);
 	attach(myHttpEntry,   1, 0, 1, 1);
@@ -65,39 +66,12 @@ ApplicationView::ApplicationView(utils::attributes const & attrs)
 
 	attach(myUseForAll,   0, 1, 2, 1);
 	myUseForAll.signal_clicked().connect(sigc::mem_fun(*this,
-						&ApplicationView::on_check_clicked
-					     ));
-	myUseForAll.set_active();
+							   &ApplicationView::on_check_clicked
+					     		   ));
+	myUseForAll.set_active(false);
 
 	show_all_children();
 }
-#undef setAttribute
-
-#define getAttribute(ta, tp, map, attr) {                              \
-	std::stringstream str;                                         \
-	str << ta.get_text().raw() << ":" << tp.get_value_as_int();    \
-	map[ #attr ] = str.str();                                      \
-}
-
-utils::attributes const & ApplicationView::getAttributes()
-{
-	getAttribute(myHttpEntry,  myHttpPort,  myAttributes, http);
-	if (!myUseForAll.get_active())
-	{
-		getAttribute(myHttpsEntry, myHttpsPort, myAttributes, https);
-		getAttribute(myFtpEntry,   myFtpPort,   myAttributes, ftp);
-		getAttribute(mySocksEntry, mySocksPort, myAttributes, socks);
-	}
-	else
-	{
-		getAttribute(myHttpEntry,  myHttpPort,  myAttributes, https);
-		getAttribute(myHttpEntry,  myHttpPort,  myAttributes, ftp);
-		getAttribute(myHttpEntry,  myHttpPort,  myAttributes, socks);
-	}
-
-	return myAttributes;
-}
-#undef getAttribute
 
 void ApplicationView::on_check_clicked()
 {
@@ -110,4 +84,30 @@ void ApplicationView::on_check_clicked()
 	myHttpsPort.set_sensitive (state);
 	myFtpPort.set_sensitive   (state);
 	mySocksPort.set_sensitive (state);
+}
+
+void ApplicationView::save(utils::IniData & data, std::string const & section) const
+{
+	data.addSection(section);
+	std::string value(myHttpEntry.get_text().raw() + ":" + myHttpPort.get_text().raw());
+	data.addAttribute( section, make_pair( std::string("http"), value ) );
+
+
+	if ( !myUseForAll.get_active() )
+	{
+		value = myHttpsEntry.get_text().raw() + ":" + myHttpsPort.get_text().raw();
+		data.addAttribute( section, make_pair( std::string("https"), value ) );
+
+		value = myFtpEntry.get_text().raw() + ":" + myFtpPort.get_text().raw();
+		data.addAttribute( section, make_pair( std::string("ftp"), value ) );
+
+		value = mySocksEntry.get_text().raw() + ":" + mySocksPort.get_text().raw();
+		data.addAttribute( section, make_pair( std::string("socks"), value ) );
+	}
+	else
+	{
+		data.addAttribute( section, make_pair( std::string("https"), value ) );
+		data.addAttribute( section, make_pair( std::string("ftp"), value ) );
+		data.addAttribute( section, make_pair( std::string("socks"), value ) );
+	}
 }
