@@ -23,8 +23,7 @@ namespace utils{
 	{
         if ( ! existsApp(appName) )
             if ( existsApp( "default" ) )  return data[ "default" ];
-            else throw std::runtime_error ("there are no appropriate settings for \"" +
-                appName + "\"") ;
+            else return attributes() ;
 		return data [ appName ];	
 	}
 
@@ -34,8 +33,7 @@ namespace utils{
 	{    
         if ( ! existsApp(appName) )
             if ( existsApp( "default" ) )  return data[ "default" ];
-            else throw std::runtime_error ("there are no appropriate settings for \"" +
-                appName + "\"") ;
+            else return attributes();
 		return data [ appName ];
 	}
 
