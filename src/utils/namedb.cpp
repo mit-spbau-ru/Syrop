@@ -37,7 +37,7 @@ NamesDataBase::NamesDataBase(std::string const &file)
 		throw std::runtime_error( error_message(errno) );
 		
 	IniData data;
-    readData( in, data );
+	readData( in, data );
 	in.close();
 	
 	std::vector<std::string> const names = data.getSectionsList();
@@ -65,7 +65,7 @@ void NamesDataBase::write(std::string const &file)
 		ADD_ATTRIBUTE(data, it, it->config, dev)
 	}
 	
-	out << data;
+	writeData( out, data );
 	out.close();
 }
 #undef ADD_ATTRIBUTE

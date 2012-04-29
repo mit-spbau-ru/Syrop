@@ -4,6 +4,7 @@
 
 #include "networkview.h"
 #include "iniparser.h"
+#include "coreutils.h"
 
 NetworkView::NetworkView(std::string const & name)
 : Gtk::VBox     ()
@@ -19,7 +20,8 @@ NetworkView::NetworkView(std::string const & name)
 	myControlLayout.pack_start(mySaveButton,   false, false);
 
 	std::ifstream in( name.c_str() );
-	utils::IniData data( utils::readData(in) );
+	utils::IniData data;
+	utils::readData(in, data);
 	for (utils::IniData::const_iterator it = data.begin(); it != data.end(); ++it)
 	{
 		view_ptr_t view( new ApplicationView(it->second) );
@@ -61,6 +63,13 @@ void NetworkView::save()
 
 void NetworkView::on_add_clicked()
 {
+	utils::plugins_t plugins;
+	utils::list_plugins(utils::search_pathes(), plugins);
+	std::vector<std::string> apps;
+	for (utils::plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
+		apps.push_back(it->first);
+	myAddDialog.setItems(apps);
+
 	if ( myAddDialog.run() == Gtk::RESPONSE_OK )
 	{
 		view_ptr_t view( new ApplicationView( utils::attributes() ) );

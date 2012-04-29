@@ -88,26 +88,42 @@ void ApplicationView::on_check_clicked()
 
 void ApplicationView::save(utils::IniData & data, std::string const & section) const
 {
-	data.addSection(section);
-	std::string value(myHttpEntry.get_text().raw() + ":" + myHttpPort.get_text().raw());
-	data.addAttribute( section, make_pair( std::string("http"), value ) );
-
-
-	if ( !myUseForAll.get_active() )
+	if ( !myHttpEntry.get_text().raw().empty() || !myFtpEntry.get_text().raw().empty()
+		|| !mySocksEntry.get_text().raw().empty() || !myHttpsEntry.get_text().raw().empty() )
 	{
-		value = myHttpsEntry.get_text().raw() + ":" + myHttpsPort.get_text().raw();
-		data.addAttribute( section, make_pair( std::string("https"), value ) );
+		data.addSection(section);
+		std::string value;
+		if ( !myHttpEntry.get_text().raw().empty() )
+		{
+			value = myHttpEntry.get_text().raw() + ":" + myHttpPort.get_text().raw();
+			data.addAttribute( section, make_pair( std::string("http"), value ) );
+		}
 
-		value = myFtpEntry.get_text().raw() + ":" + myFtpPort.get_text().raw();
-		data.addAttribute( section, make_pair( std::string("ftp"), value ) );
+		if ( !myUseForAll.get_active() )
+		{
+			if ( !myHttpsEntry.get_text().raw().empty() )
+			{
+				value = myHttpsEntry.get_text().raw() + ":" + myHttpsPort.get_text().raw();
+				data.addAttribute( section, make_pair( std::string("https"), value ) );
+			}
 
-		value = mySocksEntry.get_text().raw() + ":" + mySocksPort.get_text().raw();
-		data.addAttribute( section, make_pair( std::string("socks"), value ) );
-	}
-	else
-	{
-		data.addAttribute( section, make_pair( std::string("https"), value ) );
-		data.addAttribute( section, make_pair( std::string("ftp"), value ) );
-		data.addAttribute( section, make_pair( std::string("socks"), value ) );
+			if ( !myFtpEntry.get_text().raw().empty() )
+			{
+				value = myFtpEntry.get_text().raw() + ":" + myFtpPort.get_text().raw();
+				data.addAttribute( section, make_pair( std::string("ftp"), value ) );
+			}
+
+			if ( !mySocksEntry.get_text().raw().empty() )
+			{
+				value = mySocksEntry.get_text().raw() + ":" + mySocksPort.get_text().raw();
+				data.addAttribute( section, make_pair( std::string("socks"), value ) );
+			}
+		}
+		else if ( !value.empty() )
+		{
+			data.addAttribute( section, make_pair( std::string("https"), value ) );
+			data.addAttribute( section, make_pair( std::string("ftp"), value ) );
+			data.addAttribute( section, make_pair( std::string("socks"), value ) );
+		}
 	}
 }

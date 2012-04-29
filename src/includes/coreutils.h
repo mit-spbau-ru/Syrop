@@ -50,7 +50,7 @@ namespace utils
 	 * @return string with directory name
 	 * @throws std::runtime_error if an error occrred
 	 */
-	std::string const& application_dir();
+	std::string const & application_dir();
 
 	/**
 	 * Function returns application config dir. Directory will be
@@ -59,7 +59,7 @@ namespace utils
 	 * @return string with directory name
 	 * @throws std::runtime_error if an error occrred
 	 */
-	std::string const& config_dir();
+	std::string const & config_dir();
 
 	/**
 	 * Function returns standart plugin search path:
@@ -69,7 +69,7 @@ namespace utils
 	 * @return vector of a string with path
 	 * @throws std::runtime_error if an system error occurred
 	 */
-	vector<string> const &search_pathes(); // throws std::runtime_error
+	vector<string> const & search_pathes(); // throws std::runtime_error
 	
 	/**
 	 * Return map of plugins in a diretories specified in the path argument
@@ -78,7 +78,7 @@ namespace utils
 	 * @param plugins set of pairs (plugin name, main plugin file)
 	 * @throws std::runtime_error if an system error occurred
 	 */
-	void list_plugins(vector<string> const &path, plugins_t &plugins); // throws std::runtime_error
+	void list_plugins(vector<string> const & path, plugins_t & plugins); // throws std::runtime_error
 
 } // namespace utils
 
