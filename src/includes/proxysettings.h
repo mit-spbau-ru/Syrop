@@ -31,7 +31,7 @@ namespace utils{
 	class ProxySettings
 	{
 	public:
-        ProxySettings(){}
+        ProxySettings() {}
 
         ProxySettings( string const &fileName )
 		{
@@ -43,7 +43,6 @@ namespace utils{
         bool existsApp          ( const std::string& appName ) const;
         void removeApp          ( const std::string& appName );
 
-        attributes       & operator[]   ( string const &appName );
         attributes const & operator[]   ( string const &appName ) const;		
 
         typedef IniData::iterator       iterator;
