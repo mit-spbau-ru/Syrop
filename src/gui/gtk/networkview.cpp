@@ -21,7 +21,7 @@ NetworkView::NetworkView(std::string const & name)
 
 	std::ifstream in( name.c_str() );
 	utils::IniData data;
-	utils::readData(in, data);
+	in >> data;
 	for (utils::IniData::const_iterator it = data.begin(); it != data.end(); ++it)
 	{
 		view_ptr_t view( new ApplicationView(it->second) );
@@ -108,7 +108,7 @@ void NetworkView::force_save()
 	for (tabs_t::const_iterator it = myTabs.begin(); it != myTabs.end(); ++it)
 		it->second->save(data, it->first);
 	std::ofstream out( myName.c_str() );
-	utils::writeData(out, data);
+	out << data;
 	out.close();
 }
 
