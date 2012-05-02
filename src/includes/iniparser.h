@@ -30,8 +30,8 @@
 
 namespace utils {
 
-    void readData( std::istream &is, IniData &idata );  
-    void writeData(std::ostream &os, IniData const &idata);
+    std::ostream & operator << ( std::ostream &os, IniData const & idata );
+    std::istream & operator >> ( std::istream &is, IniData & data );
 
 } // namespace utils
 
