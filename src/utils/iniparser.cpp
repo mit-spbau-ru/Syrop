@@ -1,6 +1,7 @@
 #include "iniparser.h"
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/xpressive/xpressive.hpp>
 #include <sstream>
 #include <vector>
 
@@ -16,10 +17,9 @@ namespace utils {
  */
 bool isSection( string const &str ) 
 {
-    size_t from = str.find('[');
-    size_t to = str.find(']');
-	
-    return (from != string::npos && to != string::npos && from < to);
+    using namespace boost::xpressive;
+    static const sregex e = sregex::compile("^\\[.*\\]$");
+    return regex_match( str, e );
 }
 
 /**
@@ -46,14 +46,17 @@ string clean( string const &str )
  * check if the string is a section name first
  *
  * @param str a string to cut from
+ * @throws std::runtime_error if string is not in the proper format
  *
  */
 string extract( string const &str ) 
 {
-    size_t from = str.find('[');
-    size_t to = str.find(']');
-
-    return str.substr( from + 1, to - 1 );
+    using namespace boost::xpressive;
+    static const sregex e = sregex::compile("^\\[.*\\]$");
+    if ( regex_match( str, e ) ) 
+        return str.substr( 1, str.size() - 2 );
+    else
+        throw std::runtime_error( "string "+str+" is not section type\n" );
 }
 
 /**
@@ -62,15 +65,25 @@ string extract( string const &str )
  * with regard to delimiter '='
  *
  * @param str a string to be splitted into the pair
+ * @throws std::runtime_error if string is not in the proper format
  *
  */
-pair <string, string> getPair( string const &str ) 
+pair <string, string> splice( string const &str ) 
 {
-    std::vector <string> splitVec;
-    boost::split( splitVec, str, boost::is_any_of("=") );	
-    string first = splitVec[0];
-    string second = splitVec[1];
-    return std::make_pair(first, second);
+    using namespace boost::xpressive;
+    static const sregex e = sregex::compile("[a..zA..Z0..9{1,}]=[a..zA..Z0..9{1,}]");
+    if ( regex_match( str, e ) ) {
+
+        std::vector <string> splitVec;    
+        boost::split( splitVec, str, boost::is_any_of("=") );	
+        string first = splitVec[0];
+        string second = splitVec[1];
+        return std::make_pair(first, second);
+
+    }
+    else
+        throw std::runtime_error( "string "+str+" is not of appropriate type \
+                    attribute-setting\n" ); 
 }
 
 /**
@@ -87,7 +100,7 @@ std::istream & operator >> ( std::istream &is, IniData & data )
     string instr;
     string curSec = "";
     	
-    while ( !is.eof() ){
+    while ( is ){
 
         getline(is,instr);
         instr = clean(instr);
@@ -99,7 +112,7 @@ std::istream & operator >> ( std::istream &is, IniData & data )
         else if ( !instr.empty() ) {
             if (curSec == "") throw std::runtime_error("file is not in ini format") ;
 
-            std::pair<string, string> p = getPair(instr);
+            std::pair<string, string> p = splice(instr);
             data.addAttribute( curSec,p );
         }		
     }
