@@ -68,8 +68,8 @@ void NetworkView::on_add_clicked()
 	std::vector<std::string> apps;
 	for (utils::plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
 	{
-		tabs_t::const_iterator it = myTabs.find(it->first);
-		if ( it == myTabs.end() ) apps.push_back(it->first);
+		tabs_t::const_iterator dummy = myTabs.find(it->first);
+		if ( dummy == myTabs.end() ) apps.push_back(it->first);
 	}
 	myAddDialog.setItems(apps);
 
@@ -80,6 +80,7 @@ void NetworkView::on_add_clicked()
 		view->show();
 		myApplications.prepend_page( *view, myAddDialog.getText() );
 		change_buttons_state();
+		myApplications.set_current_page(0);
 	}
 	myAddDialog.hide();
 }

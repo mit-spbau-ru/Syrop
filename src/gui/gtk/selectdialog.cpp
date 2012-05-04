@@ -1,3 +1,5 @@
+#include <boost/algorithm/string.hpp>
+
 #include "selectdialog.h"
 
 typedef std::vector<std::string> strings_t;
@@ -7,6 +9,7 @@ SelectDialog::SelectDialog(Glib::ustring const & title)
 , myLabel       (title)
 , myOkButton    ("Ok")
 , myCancelButton("Cancel")
+, myEntry       (true)
 {
 	myControlLayout.pack_end(myOkButton,      false, false);
 	myControlLayout.pack_end(myCancelButton,  false, false);
@@ -28,8 +31,10 @@ SelectDialog::SelectDialog(Glib::ustring const & title)
 
 void SelectDialog::setItems(strings_t const & items)
 {
+	myEntry.remove_all();
+	myEntry.get_entry()->set_text(" ");
 	for (strings_t::const_iterator it = items.begin(); it != items.end(); ++it)
-		myEntry.append( Glib::ustring(*it) );
+		myEntry.prepend( Glib::ustring(*it) );
 }
 
 std::string SelectDialog::getText() const
@@ -39,7 +44,12 @@ std::string SelectDialog::getText() const
 
 void SelectDialog::on_ok_button_clicked()
 {
-	response(Gtk::RESPONSE_OK);
+	std::string trimmed( myEntry.get_active_text().raw() );
+	boost::trim(trimmed);
+	myEntry.set_active_text(trimmed);
+	
+	if ( !trimmed.empty() ) response(Gtk::RESPONSE_OK);
+	else response(Gtk::RESPONSE_CANCEL);
 }
 
 void SelectDialog::on_cancel_button_clicked()

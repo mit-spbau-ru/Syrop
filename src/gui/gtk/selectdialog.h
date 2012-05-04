@@ -17,8 +17,8 @@ private:
 	Gtk::Label myLabel;
 	Gtk::Button myOkButton;
 	Gtk::Button myCancelButton;
-	Gtk::HBox myControlLayout;
 	Gtk::ComboBoxText myEntry;
+	Gtk::HBox myControlLayout;
 
 	void on_ok_button_clicked();
 	void on_cancel_button_clicked();	
