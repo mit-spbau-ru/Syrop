@@ -67,7 +67,10 @@ void NetworkView::on_add_clicked()
 	utils::list_plugins(utils::search_pathes(), plugins);
 	std::vector<std::string> apps;
 	for (utils::plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
-		apps.push_back(it->first);
+	{
+		tabs_t::const_iterator it = myTabs.find(it->first);
+		if ( it == myTabs.end() ) apps.push_back(it->first);
+	}
 	myAddDialog.setItems(apps);
 
 	if ( myAddDialog.run() == Gtk::RESPONSE_OK )
