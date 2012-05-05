@@ -36,7 +36,7 @@ namespace utils {
     bool isSection( string const &str );
     string clean( string const &str );
     string extract( string const &str );
-    pair <string, string> getPair( string const &str );
+    pair <string, string> splice( string const &str );
 
 } // namespace utils
 

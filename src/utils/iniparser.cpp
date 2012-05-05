@@ -8,7 +8,8 @@
 namespace utils {
 
 using namespace boost::xpressive;
-const sregex eSection = sregex::compile("^[\\ ]*\\[.*\\][\\ ]*$");
+const sregex eSection = sregex::compile("^\\s*\\[(\\S+){1}\\]\\s*$");
+const sregex eAttribute = sregex::compile("^\\s*(\\S+){1}\\s*=\\s*(\\S+){1}\\s*$");
 /**
  * 
  * checks if a string is represented in a section name format
@@ -52,8 +53,10 @@ string clean( string const &str )
  */
 string extract( string const &str ) 
 {
-    if ( regex_match( str, eSection ) ) 
-        return str.substr( 1, str.size() - 2 );
+    smatch match;
+    if ( regex_match( str, match, eSection ) ) {
+        return match[1];
+    }
     else
         throw std::runtime_error( "string "+str+" is not section type\n" );
 }
@@ -69,16 +72,10 @@ string extract( string const &str )
  */
 pair <string, string> splice( string const &str ) 
 {
-    using namespace boost::xpressive;
-    static const sregex e = sregex::compile("^[\\ ]*\\s(\\S+){1}\\s=\\s(\\S+){1}\\s[\\ ]*$");
-    if ( regex_match( str, e ) ) {
+    smatch match;
+    if ( regex_match( str, match, eAttribute ) ) {
 
-        std::vector <string> splitVec;    
-        boost::split( splitVec, str, boost::is_any_of("=") );	
-        string first = splitVec[0];
-        string second = splitVec[1];
-        return std::make_pair(first, second);
-
+        return std::make_pair(match[1], match[2]);
     }
     else
         throw std::runtime_error( "string "+str+" is not of appropriate type \
