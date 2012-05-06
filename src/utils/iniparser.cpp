@@ -8,7 +8,8 @@
 namespace utils {
 
 using namespace boost::xpressive;
-const sregex eSection = sregex::compile("^\\s*\\[(\\S+){1}\\]\\s*$");
+
+const sregex eSection = sregex::compile("^\\s*\\[\\s*(\\S+){1}\\s*\\]\\s*$");
 const sregex eAttribute = sregex::compile("^\\s*(\\S+){1}\\s*=\\s*(\\S+){1}\\s*$");
 /**
  * 
