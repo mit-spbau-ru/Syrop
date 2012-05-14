@@ -18,14 +18,8 @@ socks_host=192.168.0.2
 socks_port=3128
 ssl_port=3128
 ssl_proxy=192.168.0.2
-[app2]
-ftp=192.168.0.3:3128adsad
-http=192.168.0.3:80
-no_proxy=localhost
-socks=192.168.0.3:4400
-ssl=192.168.0.3:3128
 [default]
-ftp=192.168.0.4:31288asddsa
-no_proxy=localhostasdasd
+ftp=192.168.0.4:31288a
+no_proxy=localhosta
 socks_host=192.168.0.4:3128
 ssl=192.168.0.4:3128

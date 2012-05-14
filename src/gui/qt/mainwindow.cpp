@@ -177,10 +177,8 @@ void MainWindow::addApplication()
 void MainWindow::removeApplication() 
 {
     int i = ui->tabWidget->currentIndex();
-    // string s = ui->tabWidget->tabText(i).toStdString();
-    // currentProxySettings->
-    // PLEASE SHOW ME HOW DELETE
-    
+    string s = ui->tabWidget->tabText(i).toStdString();
+    currentProxySettings->remove(s);
     ui->tabWidget->removeTab(i);
     onCurrentNetworkEdited();
     ui->pushButtonAddApp->setEnabled(true);
@@ -198,7 +196,6 @@ void MainWindow::checkAddAppPosibility()
             == ui->tabWidget->count()) {
         ui->pushButtonAddApp->setEnabled(false);
     }
-
 }
 
 void MainWindow::changeCurrentNetwork(QString const & title)

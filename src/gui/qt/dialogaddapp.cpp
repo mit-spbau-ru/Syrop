@@ -17,7 +17,7 @@ DialogAddApp::DialogAddApp(MainWindow* mainWindow, utils::ProxySettings& proxySe
     QDataModel::proxyList::const_iterator end = DataModel::getInstance()->getApps().end();
     
     while(it != end) {
-        if(!proxySettings.existsApp(it->first))
+        if(!proxySettings.exists(it->first))
             ui->comboBox->addItem(QString(it->first.data()));
         it++;
     }
@@ -32,7 +32,7 @@ void DialogAddApp::onChoose()
     std::string app = ui->comboBox->currentText().toStdString();
     QDataModel::proxyList const & apps = DataModel::getInstance()->getApps();
     utils::attributes a = apps.find(app)->second.begin()->second;
-    proxySettings[app] = a;
+    proxySettings.add(app, a);
     mainWindow->onAddApplication(ui->comboBox->currentText());
 }
 
