@@ -14,7 +14,7 @@ class DialogAddApp : public QDialog
     Q_OBJECT
     
 public:
-    explicit DialogAddApp(MainWindow* mainWindow, utils::ProxySettings & apps);
+    explicit DialogAddApp(MainWindow* mainWindow, utils::ProxySettings& apps);
     ~DialogAddApp();
 
 private slots:
