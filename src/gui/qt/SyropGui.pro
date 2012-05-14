@@ -15,20 +15,23 @@ SOURCES += main.cpp \
     dialogaddnetwork.cpp \
     applicationsettingstab.cpp \
     dialogabout.cpp \
-    datamodel.cpp
+    datamodel.cpp \
+    dialogaddapp.cpp
 
 HEADERS  += \
     mainwindow.h \
     dialogaddnetwork.h \
     applicationsettingstab.h \
     datamodel.h \
-    dialogabout.h
+    dialogabout.h \
+    dialogaddapp.h
 
 FORMS    += \
     mainwindow.ui \
     dialogaddnetwork.ui \
     applicationsettingstab.ui \
-    dialogabout.ui
+    dialogabout.ui \
+    dialogaddapp.ui
 
 INCLUDEPATH += $$PWD/../../includes
 DEPENDPATH += $$PWD/../../includes

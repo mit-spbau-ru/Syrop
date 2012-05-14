@@ -1,0 +1,18 @@
+[app1]
+ftp_port = 3128adadassdf
+ftp_proxy = 192.168.0.2asdasd
+http_port = 3128
+http_proxy = 192.168.0.2
+no_proxy = localhost
+socks_host = 192.168.0.2
+socks_port = 3128
+ssl_port = 3128
+ssl_proxy = 192.168.0.2
+[default]
+ftp_port = 3128
+ftp_proxy = 192.168.0.2
+no_proxy = localhost
+socks_host = 192.168.0.2
+socks_port = 3128
+ssl_port = 3128
+ssl_proxy = 192.168.0.2

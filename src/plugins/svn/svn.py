@@ -3,7 +3,7 @@
 import ConfigParser, os, re
 
 def backupSettings ():
-# this method will be invoked before setupSettings
+	pass
 
 def setupSettings (settings):
 	#проверяем что есть нужные настройки

@@ -22,15 +22,20 @@ class QDataModel : public QObject
 public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
     static std::string const WORKING_DIRECTORY;
+    static std::string const CONFIG_DIRECTORY;
+    static std::string const APPS_DIRECTORY;
+    static std::string const DEFAULT_NETWORK_CONFIG_PATH;
+    static std::string const DEFAULT_SETTINGS_NAME;
     
-    // maybe const ?
     proxyList& getProxies() { return proxySettings; }
+    proxyList const & getApps() const { return appsList; }
 
 public slots:
     void loadData();
     void addNetwork(QString const & name);
     void removeNetwork(QString const & name);
     void updateNetwork(QString const & name);
+    void restoreNetwork(std::string const & name);
     
 signals:
     void onLoadData();
@@ -40,9 +45,11 @@ signals:
     
 private:
     proxyList proxySettings;
+    proxyList appsList;
     QDataModel(QObject *parent = 0) 
         : QObject(parent)
         , proxySettings(proxyList())
+        , appsList(proxyList())
     {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);

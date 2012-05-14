@@ -1,5 +1,8 @@
 project(syrop CXX)
 
+find_package(Boost COMPONENTS python REQUIRED)
+find_package(PythonLibs REQUIRED)
+
 set(SYROP_BIN ${CMAKE_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${SYROP_BIN}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${SYROP_BIN}/bin)
@@ -13,7 +16,7 @@ set(CMAKE_INSTALL_PREFIX /usr)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Syrop auto proxy configurating tools")
 set(CPACK_PACKAGE_VERSION 1.0.0)
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "krinkin.m.u@gmail.com")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-python1.48.0 (>= 1.48.0-1), libc6 (>= 2.3.6-6~), libc6 (>= 2.4), libgcc1 (>= 1:4.1.1), libpython2.7 (>= 2.7), libstdc++6 (>= 4.1.1)")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-python${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}, libc6 (>= 2.3.6-6~), libc6 (>= 2.4), libgcc1 (>= 1:4.1.1), libpython2.7 (>= 2.7), libstdc++6 (>= 4.1.1)")
 
 set(CPACK_BINARY_DEB ON)
 set(CPACK_BINARY_RPM OFF)

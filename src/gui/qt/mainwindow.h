@@ -18,6 +18,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+public slots:
+    void onCurrentNetworkEdited();
+    void onAddApplication(QString const & title);
 private slots:
     // data model
     void onLoad();
@@ -25,10 +28,14 @@ private slots:
     void onRemoveNetwok(QString const & title);
     void onUpdateNetwork(QString const & title);
     // front end
+    void onTabChange(int);
     void addNetwork();
     void updateCurrentNetwork();
+    void restoreCurrentNetwork();
     void removeCurrentNetwork();
     void changeCurrentNetwork(QString const &);
+    void addApplication();
+    void removeApplication();
     void showAbout();
 private:
     /**
@@ -36,8 +43,11 @@ private:
      * and bind signals from list to tabs
      */
     QString currentNetworkName;
+    utils::ProxySettings* currentProxySettings;
     void bindData();
+    void checkAddAppPosibility();
     Ui::MainWindow *ui;
+    bool isCurrentNetworkEdited;
 };
 
 #endif // MAINWINDOW_H

@@ -74,6 +74,19 @@ std::string const& application_dir()
 {
 	static string const dirName(get_user_home_dir() + "/" + HOME);
 	create_dir(dirName);
+	create_dir(dirName + PLUGINS);
+	create_dir(dirName + CONFIGS);
+	return dirName;
+}
+
+/**
+ * Function returns syrop directory with networks configuraton files,
+ * if directory dosen't exists function creates it
+ */
+std::string const& config_dir()
+{
+	static string const dirName(application_dir() + CONFIGS);
+
 	return dirName;
 }
 
@@ -89,15 +102,15 @@ vector<string> const& search_pathes()
 	{
 		try
 		{
-			FileInfo info(get_user_home_dir() + "/" + HOME + PLUGINS);
+			FileInfo info(SETUP + PLUGINS);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)
 		{}
-		
+
 		try
 		{
-			FileInfo info(SETUP + PLUGINS);
+			FileInfo info(get_user_home_dir() + "/" + HOME + PLUGINS);
 			pathes.push_back(info.getFullName());
 		}
 		catch (std::runtime_error const &e)

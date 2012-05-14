@@ -30,8 +30,13 @@
 
 namespace utils {
 
-	IniData readData( std::istream &is );
-	void writeData(std::ostream &os, IniData const &idata);
+    std::ostream & operator << ( std::ostream &os, IniData const & idata );
+    std::istream & operator >> ( std::istream &is, IniData & data );
+
+    bool isSection( string const &str );
+    string clean( string const &str );
+    string extract( string const &str );
+    pair <string, string> splice( string const &str );
 
 } // namespace utils
 

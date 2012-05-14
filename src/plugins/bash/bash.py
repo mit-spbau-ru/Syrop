@@ -3,7 +3,7 @@
 import os
 
 def backupSettings ():
-# this method will be invoked before setupSettings
+	pass
 
 def setupSettings (settings):
 	# получаем имя файла настройки ~/.bashrc

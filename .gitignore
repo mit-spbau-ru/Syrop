@@ -13,3 +13,4 @@ install_manifest.txt
 _CPack_Packages
 *.swp
 *~
+syrop-gtk

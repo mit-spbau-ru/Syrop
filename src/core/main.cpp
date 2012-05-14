@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 				create_dir(configDir);
 				create_file(configName);
 			}
-			settings.loadData(configName);
+			settings.load(configName);
 			apply_parameters(runner, settings);
 		}
 		//roll back settings
