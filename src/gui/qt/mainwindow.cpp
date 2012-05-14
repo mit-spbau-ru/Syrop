@@ -173,12 +173,14 @@ void MainWindow::addApplication()
     d.exec();   
 }
 
+// TODO: remove app
 void MainWindow::removeApplication() 
 {
     int i = ui->tabWidget->currentIndex();
     // string s = ui->tabWidget->tabText(i).toStdString();
     // currentProxySettings->
     // PLEASE SHOW ME HOW DELETE
+    
     ui->tabWidget->removeTab(i);
     onCurrentNetworkEdited();
     ui->pushButtonAddApp->setEnabled(true);

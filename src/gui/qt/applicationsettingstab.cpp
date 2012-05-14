@@ -6,13 +6,12 @@
 ApplicationSettingsTab::ApplicationSettingsTab(
         MainWindow* mainWindow,
         QWidget* parent, 
-        const utils::attributes& attributes)
+        utils::attributes& attributes)
     : QWidget(parent)
     , mainWindow(mainWindow)
     , ui(new Ui::ApplicationSettingsTab)
     , attributes(attributes)
 {
-    
     ui->setupUi(this);
     this->setLayout(ui->verticalLayout);
     ui->widget->setLayout(ui->formLayout);
@@ -36,7 +35,6 @@ ApplicationSettingsTab::ApplicationSettingsTab(
     
     ui->widget->setFixedHeight(ui->formLayout->sizeHint().height());
     ui->scrollArea->setWidget(ui->widget);
-    
 }
 
 void ApplicationSettingsTab::onChange()

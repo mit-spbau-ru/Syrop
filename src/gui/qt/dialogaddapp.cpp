@@ -32,7 +32,7 @@ void DialogAddApp::onChoose()
     std::string app = ui->comboBox->currentText().toStdString();
     QDataModel::proxyList const & apps = DataModel::getInstance()->getApps();
     utils::attributes a = apps.find(app)->second.begin()->second;
-    //proxySettings[app] = a;
+    proxySettings[app] = a;
     mainWindow->onAddApplication(ui->comboBox->currentText());
 }
 
