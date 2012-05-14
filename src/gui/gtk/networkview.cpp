@@ -8,6 +8,7 @@
 
 NetworkView::NetworkView(std::string const & name)
 : Gtk::VBox     ()
+, myChangeFlag  (false)
 , mySaveDialog  ("Do you want to save chages?")
 , myAddDialog   ("Enter new application name")
 , myName        (name)
@@ -55,9 +56,20 @@ std::string const & NetworkView::getFullName() const
 	return myName;
 }
 
+bool NetworkView::changed() const
+{
+	return myChangeFlag;
+}
+
 void NetworkView::save()
 {
-	if ( mySaveDialog.run() == Gtk::RESPONSE_YES ) force_save();
+	bool flag = changed();
+	for (tabs_t::const_iterator it = myTabs.begin(); it != myTabs.end(); ++it)
+	{
+		if ( flag |= it->second->changed() ) break;
+	}
+	
+	if ( flag && mySaveDialog.run() == Gtk::RESPONSE_YES ) force_save();
 	mySaveDialog.hide();
 }
 
@@ -81,6 +93,7 @@ void NetworkView::on_add_clicked()
 		myApplications.prepend_page( *view, myAddDialog.getText() );
 		change_buttons_state();
 		myApplications.set_current_page(0);
+		myChangeFlag = true;
 	}
 	myAddDialog.hide();
 }
@@ -98,6 +111,7 @@ void NetworkView::on_remove_clicked()
 		myApplications.remove_page( *widget );
 		myApplications.set_current_page(-1);
 		change_buttons_state();
+		myChangeFlag = true;
 	}
 }
 
@@ -114,6 +128,7 @@ void NetworkView::force_save()
 	std::ofstream out( myName.c_str() );
 	out << data;
 	out.close();
+	myChangeFlag = false;
 }
 
 void NetworkView::change_buttons_state()
