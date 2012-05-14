@@ -1,5 +1,7 @@
 project(syrop CXX)
 
+cmake_minimum_required(VERSION 2.6)
+
 find_package(Boost COMPONENTS python REQUIRED)
 find_package(PythonLibs REQUIRED)
 

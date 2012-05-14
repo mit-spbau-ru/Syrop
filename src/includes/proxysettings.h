@@ -44,6 +44,7 @@ namespace utils{
         void removeApp          ( const std::string& appName );
 
         attributes const & operator[]   ( string const &appName ) const;		
+        attributes       & operator[]   ( string const &appName ) ;		
 
         typedef IniData::iterator       iterator;
         typedef IniData::const_iterator const_iterator;
