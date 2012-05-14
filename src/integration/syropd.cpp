@@ -1,9 +1,7 @@
-/*
-    sudo apt-get install libglib2.0-dev
-    sudo apt-get install libdbus-glib-1-dev
-    g++ -o syropd $(pkg-config --cflags glib-2.0 dbus-glib-1) syropd.cpp $(pkg-config --libs glib-2.0 dbus-glib-1)
-*/
-
+/* 
+g++ `pkg-config --libs --cflags glib-2.0 dbus-glib-1 dbus-1` listen.cpp -o listen
+g++ -o listen $(pkg-config --cflags glib-2.0 dbus-glib-1) listen.cpp $(pkg-config --libs glib-2.0 dbus-glib-1)
+ */
 #include <syslog.h>
 #include <string>
 #include <string.h>
@@ -11,6 +9,8 @@
 #include <glib.h>
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-lowlevel.h>
+#include <unistd.h>
+
 
 static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *message, void *user_data);
 bool isNewDefaultConnection(DBusMessageIter *iter);
@@ -64,7 +64,7 @@ static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *m
             DBusMessageIter iter;
             dbus_message_iter_init(message, &iter);
 
-            /* Default connection has been changed (?) */
+            /* Default connection has been changed? */
             if (isNewDefaultConnection(&iter)) {
 
                 DBusMessage *msg;
@@ -105,17 +105,43 @@ static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *m
                     std::string SSID;
                     if (getSSID(&iter, SSID)) {
 
-                        //TODO: call syrop with SSID
-                        g_print("syrop --ssid=%s\n", SSID.c_str());
-                        syslog(LOG_NOTICE, "syrop --ssid=%s\n", SSID.c_str());
+                        pid_t pID = fork();
+
+
+                        if (pID == 0) {
+							//TODO: call syrop with detected SSID
+                            //g_print("%s\n", SSID.c_str());
+
+                            char* argv[] = {(char *) "syrop", (char *) "-a", const_cast<char*> (SSID.c_str()), (char *) 0};
+
+                            if (execv("/usr/bin/syrop", argv)) {
+                                syslog(LOG_ERR, "An unknown error has occured with SSID %s\n successfully", argv[1]);
+                            } else {
+                                syslog(LOG_NOTICE, "Syrop has started with SSID %s\n successfully", argv[1]);
+                            }
+
+                            exit(EXIT_SUCCESS);
+                        } else if (pID < 0) {
+                            syslog(LOG_ERR, "Failed to fork");
+                        }
+
+
+
 
                     }
                 } else {
+                    std::string SSID = "0000000";
 
                     //TODO: call syrop without parameters
-                    g_print("syrop\n");
-                    syslog(LOG_NOTICE, "syrop\n");
+                    //g_print("syrop\n");
 
+                    char* argv[] = {(char *) "syrop", (char *) "-c", (char *) "-a", const_cast<char*> (SSID.c_str()), (char *) 0};
+
+                    if (execv("/usr/bin/syrop", argv)) {
+                        syslog(LOG_ERR, "An unknown error has occured with SSID %s\n successfully", argv[1]);
+                    } else {
+                        syslog(LOG_NOTICE, "Syrop has started with a new SSID %s\n successfully", argv[1]);
+                    }
                 }
             }
 
