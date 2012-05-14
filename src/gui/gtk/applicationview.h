@@ -15,7 +15,7 @@ public:
 	ApplicationView(utils::attributes const & attrs);
 
 	bool changed() const;
-	void save(utils::IniData & data, std::string const & section) const;
+	void save(utils::IniData & data, std::string const & section);
 
 private:
 	std::string   const REGEX;

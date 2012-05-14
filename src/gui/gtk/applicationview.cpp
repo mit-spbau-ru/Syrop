@@ -126,7 +126,7 @@ bool ApplicationView::changed() const
 	return myChangeFlag;
 }
 
-void ApplicationView::save(utils::IniData & data, std::string const & section) const
+void ApplicationView::save(utils::IniData & data, std::string const & section)
 {
 	if ( !myHttpEntry.get_text().raw().empty() || !myFtpEntry.get_text().raw().empty()
 		|| !mySocksEntry.get_text().raw().empty() || !myHttpsEntry.get_text().raw().empty() )
@@ -165,5 +165,6 @@ void ApplicationView::save(utils::IniData & data, std::string const & section) c
 			data.addAttribute( section, make_pair( std::string("ftp"), value ) );
 			data.addAttribute( section, make_pair( std::string("socks"), value ) );
 		}
+		myChangeFlag = false;
 	}
 }
