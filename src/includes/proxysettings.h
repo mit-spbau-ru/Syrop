@@ -43,7 +43,8 @@ namespace utils{
         bool exists             ( const std::string& appName )  const;
         void remove             ( const std::string& appName );
         void add                ( string const &appName );
-        
+        void add                ( string const &appName, attributes const &attrs );
+
         attributes const & operator []   ( string const &appName )const;		
 
         typedef IniData::iterator       iterator;

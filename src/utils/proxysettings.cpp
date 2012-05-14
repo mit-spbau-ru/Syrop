@@ -22,31 +22,50 @@ namespace utils{
      * removes a specified application from the data object stored in the class
      * 
      * @param appName name of the application to remove
-     * @throws std::runtime_error if there is no such in application stored
      *
      */
 	void ProxySettings::remove( string const &appName )
 	{
-		if ( !data.hasSection ( appName ) )
-			throw std::runtime_error( "there is no \"" + appName + "\" application to erase" );
-		data.removeSection( appName ) ;
+		if ( data.hasSection ( appName ) )
+		    data.removeSection( appName ) ;
 	}
     		
 	 /**
      *
      * adds a specified application from the data object stored in the class
-     * 
+     * with empty attributes
+     *
      * @param appName name of the application to remove
-     * @throws std::runtime_error if there is no such in application stored
      *
      */
 	void ProxySettings::add( string const &appName )
 	{
-		if ( data.hasSection ( appName ) )
-			throw std::runtime_error( "\"" + appName + "\" already exists" );
-		data.addSection( appName ) ;
+		if ( !data.hasSection ( appName ) )
+		    data.addSection( appName ) ;
+        
 	}
 
+     /**
+     *
+     * adds a specified application from the data object stored in the class
+     * with specified attributes
+     *
+     * @param appName name of the application to remove
+     *
+     */
+    void ProxySettings::add( string const &appName, attributes const &attrs )
+    {
+        if ( !data.hasSection ( appName ) )
+        {
+		    data.addSection( appName ) ;
+            for ( attributes::const_iterator it = attrs.begin(); it != attrs.end(); ++it ) 
+                 data.addAttribute( appName, *it );
+        }
+        else
+        {
+            data[ appName ] = attrs;
+        } 
+    }
 	/**
 	 * first call exists() is suggested to check if such an item exists in the map
      *
