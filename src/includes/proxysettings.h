@@ -39,12 +39,11 @@ namespace utils{
 		}
 		
         void load               ( string const &fileName );
-        void save               ( string const &fileName ) const;
-        bool existsApp          ( const std::string& appName ) const;
+        void save               ( string const &fileName )      const;
+        bool existsApp          ( const std::string& appName )  const;
         void removeApp          ( const std::string& appName );
 
-        attributes const & operator[]   ( string const &appName ) const;		
-        attributes       & operator[]   ( string const &appName ) ;		
+        attributes const & operator[]   ( string const &appName )const;		
 
         typedef IniData::iterator       iterator;
         typedef IniData::const_iterator const_iterator;

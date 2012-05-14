@@ -49,23 +49,7 @@ namespace utils{
 		return data [ appName ];
 	}
 
- 	/**
-	 * first call existsApp() is suggested to check if such an item exists in the map
-     *
-     * @param appName name of the application 
-     *
-	 */
-	attributes & ProxySettings::operator[] (string const &appName) 
-	{
-		static attributes attrs;
-		if ( ! existsApp(appName) )
-		{
-			if ( existsApp( "default" ) )  return data[ "default" ];
-			else return attrs;
-		}
-		return data [ appName ];
-	}
-    
+ 	   
      /**
 	 * returns a const iterator to the beginning of the data stored
 	 */
