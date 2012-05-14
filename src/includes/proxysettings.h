@@ -46,6 +46,7 @@ namespace utils{
         void add                ( string const &appName, attributes const &attrs );
 
         attributes const & operator []   ( string const &appName )const;		
+        attributes       & operator []   ( string const &appName )const;		
 
         typedef IniData::iterator       iterator;
         typedef IniData::const_iterator const_iterator;
