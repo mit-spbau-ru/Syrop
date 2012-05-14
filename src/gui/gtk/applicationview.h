@@ -14,11 +14,13 @@ class ApplicationView : public Gtk::Grid
 public:
 	ApplicationView(utils::attributes const & attrs);
 
-	void save(utils::IniData & data, std::string const & section) const;
+	bool changed() const;
+	void save(utils::IniData & data, std::string const & section);
 
 private:
 	std::string   const REGEX;
 	bxprs::sregex const PROXY_REGEX;
+	bool myChangeFlag;
 	
 	Gtk::CheckButton myUseForAll;
 
@@ -38,6 +40,7 @@ private:
 	Gtk::SpinButton mySocksPort;
 
 	void on_check_clicked();
+	void on_change();
 };
 
 #endif //__GUI_GTK_APPLICATION_VIEW_H__
