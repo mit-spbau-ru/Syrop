@@ -4,6 +4,7 @@
 
 #include "networkview.h"
 #include "iniparser.h"
+#include "coreutils.h"
 
 NetworkView::NetworkView(std::string const & name)
 : Gtk::VBox     ()
@@ -19,7 +20,8 @@ NetworkView::NetworkView(std::string const & name)
 	myControlLayout.pack_start(mySaveButton,   false, false);
 
 	std::ifstream in( name.c_str() );
-	utils::IniData data( utils::readData(in) );
+	utils::IniData data;
+	in >> data;
 	for (utils::IniData::const_iterator it = data.begin(); it != data.end(); ++it)
 	{
 		view_ptr_t view( new ApplicationView(it->second) );
@@ -61,6 +63,16 @@ void NetworkView::save()
 
 void NetworkView::on_add_clicked()
 {
+	utils::plugins_t plugins;
+	utils::list_plugins(utils::search_pathes(), plugins);
+	std::vector<std::string> apps;
+	for (utils::plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
+	{
+		tabs_t::const_iterator dummy = myTabs.find(it->first);
+		if ( dummy == myTabs.end() ) apps.push_back(it->first);
+	}
+	myAddDialog.setItems(apps);
+
 	if ( myAddDialog.run() == Gtk::RESPONSE_OK )
 	{
 		view_ptr_t view( new ApplicationView( utils::attributes() ) );
@@ -68,6 +80,7 @@ void NetworkView::on_add_clicked()
 		view->show();
 		myApplications.prepend_page( *view, myAddDialog.getText() );
 		change_buttons_state();
+		myApplications.set_current_page(0);
 	}
 	myAddDialog.hide();
 }
@@ -99,7 +112,7 @@ void NetworkView::force_save()
 	for (tabs_t::const_iterator it = myTabs.begin(); it != myTabs.end(); ++it)
 		it->second->save(data, it->first);
 	std::ofstream out( myName.c_str() );
-	utils::writeData(out, data);
+	out << data;
 	out.close();
 }
 

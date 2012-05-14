@@ -5,9 +5,6 @@ add_executable(syrop
 	       main.cpp
 )
 
-find_package(Boost COMPONENTS python REQUIRED)
-find_package(PythonLibs REQUIRED)
-
 include_directories(
 	${Boost_INCLUDE_DIRS}
 	${PYTHON_INCLUDE_DIRS}

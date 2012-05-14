@@ -8,7 +8,7 @@
 
 #include "applicationview.h"
 #include "yesnodialog.h"
-#include "inputdialog.h"
+#include "selectdialog.h"
 
 class NetworkView : public Gtk::VBox
 {
@@ -23,7 +23,7 @@ public:
 
 private:
 	YesNoDialog mySaveDialog;
-	InputDialog myAddDialog;
+	SelectDialog myAddDialog;
 	std::string myName;
 	Gtk::Button myAddButton;
 	Gtk::Button myRemoveButton;
