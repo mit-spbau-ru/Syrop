@@ -46,8 +46,7 @@ DEPENDPATH += $$PWD/../../includes
 
 OTHER_FILES += \
     tasks.txt \
-    tasksHistory.txt \
-    IHateYou.txt
+    tasksHistory.txt
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../build/ars/release/ -lsyroputils
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../build/ars/debug/ -lsyroputils
