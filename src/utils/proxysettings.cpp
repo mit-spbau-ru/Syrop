@@ -12,7 +12,7 @@ namespace utils{
      * @param appName name of the application
      *
      */
-    bool ProxySettings::existsApp( string const &appName ) const
+    bool ProxySettings::exists( string const &appName ) const
     {
         return data.hasSection ( appName ) ;
     }		
@@ -22,18 +22,52 @@ namespace utils{
      * removes a specified application from the data object stored in the class
      * 
      * @param appName name of the application to remove
-     * @throws std::runtime_error if there is no such in application stored
      *
      */
-	void ProxySettings::removeApp( string const &appName )
+	void ProxySettings::remove( string const &appName )
+	{
+		if ( data.hasSection ( appName ) )
+		    data.removeSection( appName ) ;
+	}
+    		
+	 /**
+     *
+     * adds a specified application from the data object stored in the class
+     * with empty attributes
+     *
+     * @param appName name of the application to remove
+     *
+     */
+	void ProxySettings::add( string const &appName )
 	{
 		if ( !data.hasSection ( appName ) )
-			throw std::runtime_error( "there is no \"" + appName + "\" application to erase" );
-		data.removeSection( appName ) ;
-	}		
-	
+		    data.addSection( appName ) ;
+        
+	}
+
+     /**
+     *
+     * adds a specified application from the data object stored in the class
+     * with specified attributes
+     *
+     * @param appName name of the application to remove
+     *
+     */
+    void ProxySettings::add( string const &appName, attributes const &attrs )
+    {
+        if ( !data.hasSection ( appName ) )
+        {
+		    data.addSection( appName ) ;
+            for ( attributes::const_iterator it = attrs.begin(); it != attrs.end(); ++it ) 
+                 data.addAttribute( appName, *it );
+        }
+        else
+        {
+            data[ appName ] = attrs;
+        } 
+    }
 	/**
-	 * first call existsApp() is suggested to check if such an item exists in the map
+	 * first call exists() is suggested to check if such an item exists in the map
      *
      * @param appName name of the application 
      *
@@ -41,31 +75,15 @@ namespace utils{
 	attributes const & ProxySettings::operator[] (string const &appName) const
 	{
 		static const attributes attrs;
-		if ( ! existsApp(appName) )
+		if ( ! exists(appName) )
 		{
-			if ( existsApp( "default" ) )  return data[ "default" ];
+			if ( exists( "default" ) )  return data[ "default" ];
 			else return attrs;
 		}
 		return data [ appName ];
 	}
 
- 	/**
-	 * first call existsApp() is suggested to check if such an item exists in the map
-     *
-     * @param appName name of the application 
-     *
-	 */
-	attributes & ProxySettings::operator[] (string const &appName) 
-	{
-		static attributes attrs;
-		if ( ! existsApp(appName) )
-		{
-			if ( existsApp( "default" ) )  return data[ "default" ];
-			else return attrs;
-		}
-		return data [ appName ];
-	}
-    
+ 	   
      /**
 	 * returns a const iterator to the beginning of the data stored
 	 */

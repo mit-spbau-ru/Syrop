@@ -22,6 +22,7 @@ public:
 	void save();
 
 private:
+	bool myChangeFlag;
 	YesNoDialog mySaveDialog;
 	SelectDialog myAddDialog;
 	std::string myName;
@@ -37,6 +38,7 @@ private:
 	void on_save_clicked();
 
 	void force_save();
+	bool changed() const;
 	void change_buttons_state();
 };
 

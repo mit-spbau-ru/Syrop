@@ -6,6 +6,7 @@ ApplicationView::ApplicationView(utils::attributes const & attrs)
 : Gtk::Grid   ()
 , REGEX       ("^\\s*(\\S+){1}\\s*:\\s*(\\d+){1}\\s*$")
 , PROXY_REGEX (bxprs::sregex::compile(REGEX))
+, myChangeFlag(false)
 , myUseForAll ("same for other protocols")
 , myHttpLabel ("HTTP:")
 , myHttpsLabel("HTTP:")
@@ -68,7 +69,34 @@ ApplicationView::ApplicationView(utils::attributes const & attrs)
 	myUseForAll.signal_clicked().connect(sigc::mem_fun(*this,
 							   &ApplicationView::on_check_clicked
 					     		   ));
-	myUseForAll.set_active(false);
+
+	myHttpEntry.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
+	myHttpPort.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
+
+	myHttpsEntry.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
+	myHttpsPort.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
+
+	myFtpEntry.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
+	myFtpPort.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
+
+	mySocksEntry.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
+	mySocksPort.signal_changed().connect(sigc::mem_fun(*this,
+							   &ApplicationView::on_change
+							   ));
 
 	show_all_children();
 }
@@ -84,9 +112,21 @@ void ApplicationView::on_check_clicked()
 	myHttpsPort.set_sensitive (state);
 	myFtpPort.set_sensitive   (state);
 	mySocksPort.set_sensitive (state);
+
+	on_change();
 }
 
-void ApplicationView::save(utils::IniData & data, std::string const & section) const
+void ApplicationView::on_change()
+{
+	myChangeFlag = true;
+}
+
+bool ApplicationView::changed() const
+{
+	return myChangeFlag;
+}
+
+void ApplicationView::save(utils::IniData & data, std::string const & section)
 {
 	if ( !myHttpEntry.get_text().raw().empty() || !myFtpEntry.get_text().raw().empty()
 		|| !mySocksEntry.get_text().raw().empty() || !myHttpsEntry.get_text().raw().empty() )
@@ -125,5 +165,6 @@ void ApplicationView::save(utils::IniData & data, std::string const & section) c
 			data.addAttribute( section, make_pair( std::string("ftp"), value ) );
 			data.addAttribute( section, make_pair( std::string("socks"), value ) );
 		}
+		myChangeFlag = false;
 	}
 }
