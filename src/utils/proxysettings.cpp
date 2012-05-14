@@ -90,7 +90,7 @@ namespace utils{
      * @param appName name of the application 
      *
 	 */
-	attributes & ProxySettings::operator[] (string const &appName) const
+	attributes & ProxySettings::operator[] (string const &appName) 
 	{
 		static attributes attrs;
 		if ( ! exists(appName) )
