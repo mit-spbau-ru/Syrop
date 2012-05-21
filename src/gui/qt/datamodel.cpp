@@ -66,7 +66,17 @@ void QDataModel::removeNetwork(const QString &name)
     emit onRemoveNetwork(name);
 }
 
+//TODO: real load
+QString QDataModel::loadNetworkSettings(const QString &name)
+{
+    return "Test str" + name;
+}
 
+//TODO: real save
+void QDataModel::saveNetworkSettings(const QString &, const QString &)
+{
+//    QString s = name + value;
+}
 
 
 

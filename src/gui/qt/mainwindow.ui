@@ -149,6 +149,16 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="pushButtonNetworkSettings">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>settings</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="pushButtonNetworkRemove">
            <property name="enabled">
             <bool>false</bool>

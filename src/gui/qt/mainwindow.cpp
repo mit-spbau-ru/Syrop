@@ -5,6 +5,7 @@
 #include "dialogaddnetwork.h"
 #include "applicationsettingstab.h"
 #include "dialogabout.h"
+#include "dialogeditnetwork.h"
 #include "dialogaddapp.h"
 #include "genutils.h"
 
@@ -46,6 +47,8 @@ void MainWindow::onLoad()
             this, SLOT(showAbout()));
     connect(ui->pushButtonNetworkRemove, SIGNAL(clicked()),
             this, SLOT(removeCurrentNetwork()));
+    connect(ui->pushButtonNetworkSettings, SIGNAL(clicked()),
+            this, SLOT(editCurrentNetworkSettings()));
     connect(ui->pushButtonSave, SIGNAL(clicked()),
             this, SLOT(updateCurrentNetwork()));
     connect(ui->pushButtonAddApp, SIGNAL(clicked()),
@@ -136,7 +139,6 @@ void MainWindow::restoreCurrentNetwork()
                 currentNetworkName.toStdString());
 }
 
-// TODO: there is no real save - tab has copy.
 void MainWindow::updateCurrentNetwork()
 {
     for(int i = 0; i < ui->tabWidget->count(); i++) {
@@ -170,10 +172,17 @@ void MainWindow::removeCurrentNetwork()
 void MainWindow::addApplication()
 {
     DialogAddApp d(this, *currentProxySettings);
-    d.exec();   
+    d.exec();
 }
 
-// TODO: remove app
+void MainWindow::editCurrentNetworkSettings()
+{
+    DialogEditNetwork d(this, currentNetworkName);
+    d.exec();
+    //DialogAddApp d(this, *currentProxySettings);
+    //d.exec();
+}
+
 void MainWindow::removeApplication() 
 {
     int i = ui->tabWidget->currentIndex();
@@ -204,6 +213,7 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     if(title.isEmpty()) {
         currentNetworkName = "";
         ui->pushButtonNetworkRemove->setEnabled(false);
+        ui->pushButtonNetworkSettings->setEnabled(false);
         ui->pushButtonRemoveApp->setEnabled(false);
         ui->pushButtonAddApp->setEnabled(false);
         ui->pushButtonSave->setEnabled(false);
@@ -256,6 +266,7 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     }
         
     ui->pushButtonNetworkRemove->setEnabled(true);
+    ui->pushButtonNetworkSettings->setEnabled(true);
     ui->pushButtonAddApp->setEnabled(true);
     ui->pushButtonSave->setEnabled(false);
     isCurrentNetworkEdited = false;
