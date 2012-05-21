@@ -18,7 +18,9 @@ DialogEditNetwork::DialogEditNetwork(QWidget *parent, const QString &networkName
     ui->plainTextEditNetworkSettings->setPlainText(
                 DataModel::getInstance()->loadNetworkSettings(networkName));
     connect(ui->plainTextEditNetworkSettings, SIGNAL(textChanged()),
-            this, SLOT(onChanged()));   
+            this, SLOT(onChanged()));  
+    connect(ui->buttonBox, SIGNAL(accepted()),
+            this, SLOT(onSave()));
 }
 
 void DialogEditNetwork::onChanged()

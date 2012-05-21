@@ -22,10 +22,13 @@ class QDataModel : public QObject
 public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
     static std::string const WORKING_DIRECTORY;
+    static std::string const NETWORK_SETTINGS_DIRECTORY;
     static std::string const CONFIG_DIRECTORY;
     static std::string const APPS_DIRECTORY;
     static std::string const DEFAULT_NETWORK_CONFIG_PATH;
     static std::string const DEFAULT_SETTINGS_NAME;
+    
+    static QString getNetworkSettingsFilePath(const QString&);
     
     proxyList& getProxies() { return proxySettings; }
     proxyList const & getApps() const { return appsList; }

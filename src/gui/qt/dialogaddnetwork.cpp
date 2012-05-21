@@ -1,7 +1,7 @@
 #include "dialogaddnetwork.h"
 #include "ui_dialogaddnetwork.h"
 
-#include <exception>
+
 
 DialogAddNetwork::DialogAddNetwork(QWidget *parent) 
     : QDialog(parent)

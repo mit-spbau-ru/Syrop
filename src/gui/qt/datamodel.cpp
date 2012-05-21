@@ -1,10 +1,12 @@
 #include <stdexcept>
 #include <map>
-
 #include <genutils.h>
+#include <qfile.h>
+#include <qtextstream.h>
 
 #include "datamodel.h"
 #include "coreutils.h"
+
 
 
 using namespace utils;
@@ -12,6 +14,7 @@ using namespace std;
 
 QDataModel* DataModel::instance = 0;
 string const QDataModel::WORKING_DIRECTORY  = "../res/";
+string const QDataModel::NETWORK_SETTINGS_DIRECTORY  = "../res/settings/";
 string const QDataModel::CONFIG_DIRECTORY   = "../config/";
 string const QDataModel::APPS_DIRECTORY     = "../config/apps/";
 string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "../config/default";
@@ -22,7 +25,6 @@ void QDataModel::loadData()
 {
     readAllProxySettings(WORKING_DIRECTORY, proxySettings);
     readAllProxySettings(APPS_DIRECTORY, appsList);
-    
     emit onLoadData();
 }
 
@@ -33,13 +35,11 @@ void QDataModel::restoreNetwork(const string &name)
 }
 
 void QDataModel::addNetwork(QString const & name)
-{
-    
+{    
     string stdName = name.toStdString();
-    if(proxySettings.find(stdName) != proxySettings.end()) {
+    if(proxySettings.find(stdName) != proxySettings.end())
         throw invalid_argument("There exists network with same name.");
-    }
-    
+
     ProxySettings p;
     p.load(DEFAULT_NETWORK_CONFIG_PATH);
     p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
@@ -66,16 +66,39 @@ void QDataModel::removeNetwork(const QString &name)
     emit onRemoveNetwork(name);
 }
 
-//TODO: real load
-QString QDataModel::loadNetworkSettings(const QString &name)
+QString QDataModel::getNetworkSettingsFilePath(QString const& name)
 {
-    return "Test str" + name;
+    return QString((NETWORK_SETTINGS_DIRECTORY + name.toStdString()).c_str());
 }
 
-//TODO: real save
-void QDataModel::saveNetworkSettings(const QString &, const QString &)
+QString QDataModel::loadNetworkSettings(const QString &name)
 {
-//    QString s = name + value;
+    QFile file(QDataModel::getNetworkSettingsFilePath(name));
+    
+    if(!file.exists())
+        return "";
+    if (!file.open(QIODevice::ReadOnly))
+        throw runtime_error("Can't open file");
+    
+    QString sum;
+    try {
+        QTextStream stream (&file);
+        sum = stream.readAll();
+    } catch (...) {
+        file.close();
+        throw runtime_error("Can't read file");
+    }
+    file.close();
+    return sum;
+}
+
+void QDataModel::saveNetworkSettings(const QString &name, const QString &content)
+{
+    QFile file(QDataModel::getNetworkSettingsFilePath(name));
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream out(&file);
+    out << content;
+    file.close();
 }
 
 
