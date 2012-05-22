@@ -1,5 +1,8 @@
+#include <fstream>
+
 #include "networkslist.h"
 #include "coreutils.h"
+#include "iniparser.h"
 
 NetworkList::NetworkList(utils::files_t const &configs)
 : Gtk::VBox      ()
@@ -7,6 +10,7 @@ NetworkList::NetworkList(utils::files_t const &configs)
 , myConfirmDialog("Are you really want to delete this network?")
 , myAddButton    ("add")
 , myRemoveButton ("remove")
+, myMappingButton("mapping")
 {
 	Gtk::TreeModelColumn<Glib::ustring> nameColumn;
 	Gtk::TreeModelColumn<Glib::ustring> pathColumn;
@@ -18,8 +22,9 @@ NetworkList::NetworkList(utils::files_t const &configs)
 	myView.set_model(myListStore);
 	myView.append_column("Networks", nameColumn);
 
-	myControlLayout.pack_start(myAddButton,    true, true);
-	myControlLayout.pack_end  (myRemoveButton, true, true);
+	myControlLayout.pack_end(myMappingButton, true, true);
+	myControlLayout.pack_end(myRemoveButton,  true, true);
+	myControlLayout.pack_end(myAddButton,     true, true);
 
 	pack_start(myView,          true,  true);
 	pack_end  (myControlLayout, false, true);
@@ -29,6 +34,9 @@ NetworkList::NetworkList(utils::files_t const &configs)
 						));
 	myRemoveButton.signal_clicked().connect(sigc::mem_fun(*this,
 						&NetworkList::on_remove_button_clicked
+						));
+	myMappingButton.signal_clicked().connect(sigc::mem_fun(*this,
+						&NetworkList::on_mapping_button_clicked
 						));
 	myView.signal_row_activated().connect(sigc::mem_fun(*this,
 						&NetworkList::on_row_activated
@@ -74,6 +82,34 @@ void NetworkList::on_remove_button_clicked()
 		change_buttons_state();
 	}
 	myConfirmDialog.hide();
+}
+
+void NetworkList::on_mapping_button_clicked()
+{
+	static const std::string mappingFile( utils::application_dir() + "/mappings.conf" );
+	
+	Gtk::ListStore::iterator it = myView.get_selection()->get_selected();
+	if ( it )
+	{
+		Glib::ustring name;
+		it->get_value(0, name);
+		myMappingDialog.set_title( name.raw() );
+		
+		utils::IniData data;
+		std::ifstream in( mappingFile.c_str() );
+		in >> data;
+		in.close();
+		myMappingDialog.setContent(data[name]);
+	
+		if (myMappingDialog.run() == Gtk::RESPONSE_OK)
+		{
+			myMappingDialog.saveContent(data[name]);
+			std::ofstream out( mappingFile.c_str() );
+			out << data;
+			out.close();
+		}
+		myMappingDialog.hide();
+	}
 }
 
 void NetworkList::on_row_activated(Gtk::TreeModel::Path const & path, Gtk::TreeViewColumn *)

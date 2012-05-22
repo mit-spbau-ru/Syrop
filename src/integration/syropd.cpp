@@ -1,16 +1,28 @@
-/* 
-g++ `pkg-config --libs --cflags glib-2.0 dbus-glib-1 dbus-1` listen.cpp -o listen
-g++ -o listen $(pkg-config --cflags glib-2.0 dbus-glib-1) listen.cpp $(pkg-config --libs glib-2.0 dbus-glib-1)
- */
-#include <syslog.h>
-#include <string>
-#include <string.h>
-#include <cstdlib>
-#include <glib.h>
-#include <dbus/dbus.h>
-#include <dbus/dbus-glib-lowlevel.h>
-#include <unistd.h>
+/*****************************************************************************************
+ * Copyright (c) 2012 K. Krasheninnikova, M. Krinkin, S. Martynov, A. Smal, A. Velikiy   *
+ *                                                                                       *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this  *
+ * software and associated documentation files (the "Software"), to deal in the Software *
+ * without restriction, including without limitation the rights to use, copy, modify,    *
+ * merge, publish, distribute, sublicense, and/or sell copies of the Software, and to    *
+ * permit persons to whom the Software is furnished to do so, subject to the following   *
+ * conditions:                                                                           *
+ *                                                                                       *
+ * The above copyright notice and this permission notice shall be included in all copies *
+ * or substantial portions of the Software.                                              *
+ *                                                                                       *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+ *****************************************************************************************/
 
+#include "syropd.h"
+
+std::string const dbPath = "netdb.ini";
+utils::NamesDataBase netDB = new utils::NamesDataBase(dbPath);
 
 static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *message, void *user_data);
 bool isNewDefaultConnection(DBusMessageIter *iter);
@@ -105,43 +117,32 @@ static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *m
                     std::string SSID;
                     if (getSSID(&iter, SSID)) {
 
-                        pid_t pID = fork();
-
-
-                        if (pID == 0) {
-							//TODO: call syrop with detected SSID
-                            //g_print("%s\n", SSID.c_str());
-
-                            char* argv[] = {(char *) "syrop", (char *) "-a", const_cast<char*> (SSID.c_str()), (char *) 0};
-
-                            if (execv("/usr/bin/syrop", argv)) {
-                                syslog(LOG_ERR, "An unknown error has occured with SSID %s\n successfully", argv[1]);
-                            } else {
-                                syslog(LOG_NOTICE, "Syrop has started with SSID %s\n successfully", argv[1]);
-                            }
-
-                            exit(EXIT_SUCCESS);
-                        } else if (pID < 0) {
-                            syslog(LOG_ERR, "Failed to fork");
-                        }
-
-
-
+                        netDB.reload();
+                        std::string profile = netDB.getProfileBySsid(SSID);
 
                     }
                 } else {
-                    std::string SSID = "0000000";
+                    std::string profile = "default";
+                }
 
-                    //TODO: call syrop without parameters
-                    //g_print("syrop\n");
 
-                    char* argv[] = {(char *) "syrop", (char *) "-c", (char *) "-a", const_cast<char*> (SSID.c_str()), (char *) 0};
+                pid_t pID = fork();
+
+                if (pID == 0) {
+                    //TODO: call syrop with detected SSID
+                    //g_print("%s\n", SSID.c_str());
+
+                    char* argv[] = {(char *) "syrop", (char *) "-a", const_cast<char*> (profile.c_str()), (char *) 0};
 
                     if (execv("/usr/bin/syrop", argv)) {
                         syslog(LOG_ERR, "An unknown error has occured with SSID %s\n successfully", argv[1]);
                     } else {
-                        syslog(LOG_NOTICE, "Syrop has started with a new SSID %s\n successfully", argv[1]);
+                        syslog(LOG_NOTICE, "Syrop has started with SSID %s\n successfully", argv[1]);
                     }
+
+                    exit(EXIT_SUCCESS);
+                } else if (pID < 0) {
+                    syslog(LOG_ERR, "Failed to fork");
                 }
             }
 

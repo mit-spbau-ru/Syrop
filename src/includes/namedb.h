@@ -27,73 +27,82 @@
 
 #include "inidata.h"
 
-namespace utils
-{
+namespace utils {
 
-	struct NetworkAttributes
-	{
-		/* empty string is meanning that attribute value is unknown */
-		std::string config;   //ini file section name = network config
-		std::string essid;    //wireless network essid
-		std::string gwip;     //default gateway ip
-		std::string netmask;  //subnetwork mask
-		std::string dev;      //network device
-	};
+    struct NetworkAttributes {
+        /* empty string is meanning that attribute value is unknown */
+        std::string config;     //ini file section name = network config
+        std::string essid;      //wireless network essid
+        std::string gwip;       //default gateway ip
+        std::string netmask;    //subnetwork mask
+        std::string dev;        //network device
+        std::string profile;    //network profile
+    };
 
-	typedef std::vector<NetworkAttributes> networks_t;
+    typedef std::vector<NetworkAttributes> networks_t;
 
-	class NamesDataBase
-	{
-	public:
-		/**
-		 * Opens ini file, and reads network attributes
-		 *
-		 * @param file file name
-		 */
-		NamesDataBase(std::string const &file);
-		
-		/**
-		 * Creates an empty database of network parameters
-		 */
-		NamesDataBase()
-			{}
-		
-		/**
-		 * Add network description to a database
-		 *
-		 * @param attrs network description
-		 */
-		void addDescription(NetworkAttributes const &attrs) { myBase.push_back(attrs); }
-		
-		/**
-		 * Flush database to file
-		 *
-		 * @param file file name
-		 */
-		void write(std::string const &file);
-		
-		/**
-		 * Adds all known NetworkAttributes that satisfies checker test
-		 *
-		 * @param checker any entity that allow to write checker(attr) and return bool, where attr is
-		 * NetworkAttributes const&
-		 * @param result vector of NetworkAttributes where filtered attributes will be placed
-		 */
-		template <class QueryChecker>
-		void filter(QueryChecker const &checker, networks_t &result) const
-		{
-			for(networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it)
-			{
-				if ( checker(*it) )
-					result.push_back(*it);
-			}
-		}
-		
-	private:
-		networks_t myBase;
-		
-		void readNetworkAttributes(IniData const &data, std::string const &network);
-	};
+    class NamesDataBase {
+    public:
+        /**
+         * Opens ini file, and reads network attributes
+         *
+         * @param file file name
+         */
+        NamesDataBase(std::string const &file);
+        
+        void reload();
+
+        /**
+         * Creates an empty database of network parameters
+         */
+        //NamesDataBase() {
+        //}
+
+        /**
+         * Add network description to a database
+         *
+         * @param attrs network description
+         */
+        //void addDescription(NetworkAttributes const &attrs) {
+        //    myBase.push_back(attrs);
+        //}
+
+        /**
+         * Flush database to file
+         *
+         * @param file file name
+         */
+        //void write(std::string const &file);
+
+        /**
+         * Adds all known NetworkAttributes that satisfies checker test
+         *
+         * @param checker any entity that allow to write checker(attr) and return bool, where attr is
+         * NetworkAttributes const&
+         * @param result vector of NetworkAttributes where filtered attributes will be placed
+         */
+        template <class QueryChecker>
+        void filter(QueryChecker const &checker, networks_t &result) const {
+            for (networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it) {
+                if (checker(*it))
+                    result.push_back(*it);
+            }
+        }
+        
+        std::string getProfileBySsid(std::string const &SSID, networks_t &result) const {
+            for (networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it) {
+                if (it->essid == SSID)
+                    return it->profile;
+            }
+            return (std::string)"default";
+        }
+
+    private:
+        networks_t myBase;
+        std::string const filename;
+
+        void readNetworkAttributes(IniData const &data, std::string const &network);
+    };
 
 } // namespace utils
 

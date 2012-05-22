@@ -22,6 +22,7 @@ add_executable(syrop-gtk
 	       mainwindow.cpp
 	       networkslist.cpp
 	       networkview.cpp
+	       mappingdialog.cpp
 	       inputdialog.cpp
 	       yesnodialog.cpp
 	       selectdialog.cpp

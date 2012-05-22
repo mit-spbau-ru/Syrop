@@ -1,2 +1,2 @@
 Files:
-	syropd.cpp --- prototype of the syrop demon
+	syropd.[h|cpp] --- prototype of the syrop daemon
