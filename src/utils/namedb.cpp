@@ -28,21 +28,6 @@
 
 namespace utils {
 
-    NamesDataBase::NamesDataBase(std::string const &file): filename(file) {
-        errno = 0;
-        std::ifstream in(filename.c_str());
-        if (in.fail())
-            throw std::runtime_error(error_message(errno));
-
-        IniData data;
-        in >> data;
-        in.close();
-
-        std::vector<std::string> const names = data.getSectionsList();
-        for (std::vector<std::string>::const_iterator it = names.begin(); it != names.end(); ++it)
-            readNetworkAttributes(data, *it);
-    }
-    
     void NamesDataBase::reload() {
         errno = 0;
         std::ifstream in(filename.c_str());
@@ -55,52 +40,52 @@ namespace utils {
 
         myBase.clear();
         std::vector<std::string> const names = data.getSectionsList();
-        for (std::vector<std::string>::const_iterator it = names.begin(); it != names.end(); ++it)
-            readNetworkAttributes(data, *it);
-    }
+        for (std::vector<std::string>::const_iterator it = names.begin(); it != names.end(); ++it) {
+            NetworkAttributes attr;
+            attr.config = *it;
 
-/*
-#define ADD_ATTRIBUTE(data, it, section, attr) { \
-if ( !it->attr.empty() ) \
-	data.addAttribute( section, make_pair( #attr, it->attr) ); \
-}
-
-void NamesDataBase::write(std::string const &file) {
-        errno = 0;
-        std::ofstream out(file.c_str());
-        if (out.fail())
-            throw std::runtime_error(error_message(errno));
-        IniData data;
-        for (networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it) {
-            data.addSection(it->config);
-            ADD_ATTRIBUTE(data, it, it->config, essid)
-            ADD_ATTRIBUTE(data, it, it->config, gwip)
-            ADD_ATTRIBUTE(data, it, it->config, netmask)
-            ADD_ATTRIBUTE(data, it, it->config, dev)
+            /*
+            if (data.hasAttribute(attr.config, "essid"))
+                attr.essid = data.getAttribute(attr.config, "essid");
+            if (data.hasAttribute(attr.config, "gwip"))
+                attr.essid = data.getAttribute(attr.config, "gwip");
+            if (data.hasAttribute(attr.config, "network"))
+                attr.essid = data.getAttribute(attr.config, "network");
+            if (data.hasAttribute(attr.config, "dev"))
+                attr.essid = data.getAttribute(attr.config, "dev");
+            */
+            myBase.push_back(attr);
         }
 
-        out << data;
-        out.close();
+
     }
-#undef ADD_ATTRIBUTE
-*/
-#define GET_ATTRIBUTE(src, dst, section, attr) { \
-if ( src.hasAttribute(section, #attr) ) \
-	dst.attr = src.getAttribute(section, #attr); \
-}
 
-void NamesDataBase::readNetworkAttributes(IniData const &data, std::string const &network) {
-        NetworkAttributes attr;
-        attr.config = network;
-
-        GET_ATTRIBUTE(data, attr, network, essid)
-        GET_ATTRIBUTE(data, attr, network, gwip)
-        GET_ATTRIBUTE(data, attr, network, netmask)
-        GET_ATTRIBUTE(data, attr, network, dev)
-        GET_ATTRIBUTE(data, attr, network, profile)
-
-        myBase.push_back(attr);
+    /*
+    #define ADD_ATTRIBUTE(data, it, section, attr) { \
+    if ( !it->attr.empty() ) \
+            data.addAttribute( section, make_pair( #attr, it->attr) ); \
     }
+
+    void NamesDataBase::write(std::string const &file) {
+            errno = 0;
+            std::ofstream out(file.c_str());
+            if (out.fail())
+                throw std::runtime_error(error_message(errno));
+            IniData data;
+            for (networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it) {
+                data.addSection(it->config);
+                ADD_ATTRIBUTE(data, it, it->config, essid)
+                ADD_ATTRIBUTE(data, it, it->config, gwip)
+                ADD_ATTRIBUTE(data, it, it->config, netmask)
+                ADD_ATTRIBUTE(data, it, it->config, dev)
+            }
+
+            out << data;
+            out.close();
+        }
+    #undef ADD_ATTRIBUTE
+     */
+
 #undef GET_ATTRIBUTE
 
 } // namespace utils
