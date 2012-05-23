@@ -36,7 +36,6 @@ namespace utils {
         std::string gwip;       //default gateway ip
         std::string netmask;    //subnetwork mask
         std::string dev;        //network device
-        std::string profile;    //network profile
     };
 
     typedef std::vector<NetworkAttributes> networks_t;
@@ -48,7 +47,7 @@ namespace utils {
          *
          * @param file file name
          */
-        NamesDataBase(std::string const &file);
+        NamesDataBase(std::string const &file) : filename(file) {}
         
         void reload();
 
@@ -89,19 +88,17 @@ namespace utils {
             }
         }
         
-        std::string getProfileBySsid(std::string const &SSID, networks_t &result) const {
+        std::string getConfigBySsid(std::string const &SSID) const {
             for (networks_t::const_iterator it = myBase.begin(); it != myBase.end(); ++it) {
                 if (it->essid == SSID)
-                    return it->profile;
+                    return it->config;
             }
             return (std::string)"default";
         }
 
     private:
         networks_t myBase;
-        std::string const filename;
-
-        void readNetworkAttributes(IniData const &data, std::string const &network);
+        std::string const filename;        
     };
 
 } // namespace utils
