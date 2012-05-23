@@ -21,7 +21,6 @@ class QDataModel : public QObject
     friend class DataModel;
 public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
-    static std::string const WORKING_DIRECTORY;
     static std::string const NETWORK_SETTINGS_DIRECTORY;
     static std::string const CONFIG_DIRECTORY;
     static std::string const APPS_DIRECTORY;

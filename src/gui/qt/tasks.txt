@@ -1,9 +1,11 @@
 ***  !TODO!   ***
 Взять код миши для проверки NetworkSettingsEdit
-Собрать пакет весь. Нужно юзать gtk 3.0 и собрать gui миши
-Протестировать приложение нап реальных данных
+Собрать пакет, весь. 
+Протестировать приложение на реальных данных
 
 ***   TODO    ***
+Сделать дефолтные настройки такиеже как и на gtk
+Убрать с гита мои тестовые настройки
 Косяк с моими путями к директориям
 Добавить картинки к кнопкам и подсказки
 Проблема формата networkSettings и проверка ввода
@@ -11,6 +13,7 @@
 
 
 ***   DONE    ***
+Нужно юзать gtk 3.0 и собрать gtk gui
 Проблема реального сохранения networkSettings
 Отключение кнопки edit также как и удалить
 Создать в модели тулзы для апдейта файла настроек сети
@@ -21,6 +24,22 @@
 Спросить о сохранении editSettings
 
 *** QUESTIONS ***
+
+В gtk приложении если параметры которые должны быть во вкладке известно.
+В моем случае нет. Предлагаю просто пустым значениям приписывать пустое значение 
+в файле ini. И все ок.
+
+Получил ошибку
+src/integration/CMakeFiles/syropd.dir/flags.make:6: *** missing separator. Stop.
+make[1]: *** [src/integration/CMakeFiles/syropd.dir/all] Error 2
+make: *** [all] Error 2
+В файле было 
+CXX_FLAGS =  Package dbus-glib-1 was not found in the pkg-config search path.
+Perhaps you should add the directory containing `dbus-glib-1.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'dbus-glib-1' found -I/home/jjxx/Desktop/Syrop/Git/Syrop/src/includes  
+Это нормальная рекацию на ошибку?
+
 
 Сейчас то что default храниться в файле отделнь не устравивает.
 Вместо этого будет функция кооторая по имени плагина будет возвращать

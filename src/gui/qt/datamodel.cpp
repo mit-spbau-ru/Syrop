@@ -13,7 +13,6 @@ using namespace utils;
 using namespace std;
 
 QDataModel* DataModel::instance = 0;
-string const QDataModel::WORKING_DIRECTORY  = "../res/";
 string const QDataModel::NETWORK_SETTINGS_DIRECTORY  = "../res/settings/";
 string const QDataModel::CONFIG_DIRECTORY   = "../config/";
 string const QDataModel::APPS_DIRECTORY     = "../config/apps/";
@@ -23,7 +22,8 @@ string const QDataModel::DEFAULT_SETTINGS_NAME = "default";
 
 void QDataModel::loadData()
 {
-    readAllProxySettings(WORKING_DIRECTORY, proxySettings);
+    string s = utils::config_dir();
+    readAllProxySettings(utils::config_dir(), proxySettings);
     readAllProxySettings(APPS_DIRECTORY, appsList);
     emit onLoadData();
 }
@@ -31,7 +31,7 @@ void QDataModel::loadData()
 void QDataModel::restoreNetwork(const string &name)
 {
     proxySettings.find(name)->second.load(
-                WORKING_DIRECTORY + fileNameFromNet(name));
+                utils::config_dir() + fileNameFromNet(name));
 }
 
 void QDataModel::addNetwork(QString const & name)
@@ -42,7 +42,7 @@ void QDataModel::addNetwork(QString const & name)
 
     ProxySettings p;
     p.load(DEFAULT_NETWORK_CONFIG_PATH);
-    p.save(WORKING_DIRECTORY + fileNameFromNet(stdName));
+    p.save(utils::config_dir() + fileNameFromNet(stdName));
     
     proxySettings.insert(make_pair(stdName, p));
     
@@ -52,7 +52,7 @@ void QDataModel::addNetwork(QString const & name)
 void QDataModel::updateNetwork(const QString &name)
 {
     string stdName = name.toStdString();
-    proxySettings[stdName].save(WORKING_DIRECTORY + fileNameFromNet(stdName));
+    proxySettings[stdName].save(utils::config_dir() + fileNameFromNet(stdName));
     
     emit onUpdateNetwork(name);
 }
@@ -60,7 +60,7 @@ void QDataModel::updateNetwork(const QString &name)
 void QDataModel::removeNetwork(const QString &name)
 {
     proxyList::iterator it = proxySettings.find(name.toStdString());
-    utils::remove_file(WORKING_DIRECTORY + fileNameFromNet(name.toStdString()));
+    utils::remove_file(utils::config_dir() + fileNameFromNet(name.toStdString()));
     proxySettings.erase(it);
     
     emit onRemoveNetwork(name);
