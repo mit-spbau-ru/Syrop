@@ -153,7 +153,7 @@ void remove_file(std::string const &name) //throws std::runtime_error
 
 bool file_exists(std::string const &name)
 {
-	ifstream in ( name.c_str() );
+	std::ifstream in ( name.c_str() );
 	if ( in.is_open() )
 	{
 		in.close();

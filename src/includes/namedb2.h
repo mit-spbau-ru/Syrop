@@ -25,7 +25,7 @@
 #include <algorithm>
 #include <string>
 
-#include "parser.h"
+#include "iniparser.h"
 
 namespace utils {
 

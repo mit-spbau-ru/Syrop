@@ -53,21 +53,21 @@ SelectDialog::SelectDialog(Glib::ustring const & title)
 void SelectDialog::setItems(strings_t const & items)
 {
 	myEntry.remove_all();
-	myEntry.get_entry()->set_text(" ");
+	myEntry.get_entry()->set_text("");
 	for (strings_t::const_iterator it = items.begin(); it != items.end(); ++it)
 		myEntry.prepend( Glib::ustring(*it) );
 }
 
 std::string SelectDialog::getText() const
 {
-	return myEntry.get_active_text().raw();
+	return myEntry.get_entry()->get_text().raw();
 }
 
 void SelectDialog::on_ok_button_clicked()
 {
 	std::string trimmed( myEntry.get_active_text().raw() );
 	boost::trim(trimmed);
-	myEntry.set_active_text(trimmed);
+	myEntry.get_entry()->set_text( trimmed.c_str() );
 	
 	if ( !trimmed.empty() ) response(Gtk::RESPONSE_OK);
 	else response(Gtk::RESPONSE_CANCEL);

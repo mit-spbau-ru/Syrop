@@ -121,7 +121,7 @@ void NetworkView::on_add_clicked()
 		}
 		else
 		{
-			Gtk::MessageDialog dialog(*this, "warning");
+			Gtk::MessageDialog dialog("warning");
 			dialog.set_secondary_text(
 						Glib::ustring("Tab " + appName
 								+ " already exists")
@@ -140,7 +140,8 @@ void NetworkView::on_remove_clicked()
 		Gtk::Widget * widget = myApplications.get_nth_page( current );
 		Glib::ustring label = myApplications.get_tab_label_text( *widget );
 		tabs_t::iterator it = myTabs.find( label.raw() );
-		if ( it == myTabs.end() ) throw std::logic_error( "Page with label " + label.raw() + " not found" );
+		if ( it == myTabs.end() )
+			throw std::logic_error( "Page with label " + label.raw() + " not found" );
 		myTabs.erase(it);
 		myApplications.remove_page( *widget );
 		myApplications.set_current_page(-1);
