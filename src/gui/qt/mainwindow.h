@@ -35,6 +35,7 @@ private slots:
     void removeCurrentNetwork();
     void changeCurrentNetwork(QString const &);
     void addApplication();
+    void editCurrentNetworkSettings();
     void removeApplication();
     void showAbout();
 private:

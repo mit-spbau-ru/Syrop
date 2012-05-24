@@ -22,7 +22,7 @@
 #include "syropd.h"
 
 std::string const dbPath = "netdb.ini";
-utils::NamesDataBase netDB = new utils::NamesDataBase(dbPath);
+utils::NamesDataBase* netDB;
 
 static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *message, void *user_data);
 bool isNewDefaultConnection(DBusMessageIter *iter);
@@ -30,6 +30,8 @@ const char* getWPPath(DBusMessageIter *iter);
 bool getSSID(DBusMessageIter *iter, std::string &SSID);
 
 int main(int argc, char **argv) {
+    //netDB = new utils::NamesDataBase(dbPath);
+    
     openlog("syropd", LOG_PID, LOG_USER);
     syslog(LOG_NOTICE, "Daemon successfully started\n");
     GMainLoop *loop;
@@ -77,6 +79,7 @@ static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *m
             dbus_message_iter_init(message, &iter);
 
             /* Default connection has been changed? */
+            std::string profile = "default";
             if (isNewDefaultConnection(&iter)) {
 
                 DBusMessage *msg;
@@ -117,14 +120,11 @@ static DBusHandlerResult signalFilter(DBusConnection *connection, DBusMessage *m
                     std::string SSID;
                     if (getSSID(&iter, SSID)) {
 
-                        netDB.reload();
-                        std::string profile = netDB.getProfileBySsid(SSID);
+                        netDB->reload();
+                        std::string profile = netDB->getConfigBySsid(SSID);
 
                     }
-                } else {
-                    std::string profile = "default";
                 }
-
 
                 pid_t pID = fork();
 
