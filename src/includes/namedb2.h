@@ -19,21 +19,29 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#include <gtkmm.h>
+#ifndef _INCLUDES_NAMES_DB_2_H_
+#define _INCLUDES_NAMES_DB_2_H_
 
-#include "mainwindow.h"
+#include <algorithm>
+#include <string>
 
-int main(int argc, char **argv)
-{
-	Gtk::Main kit(argc, argv);
+#include "parser.h"
 
-	utils::files_t configs;
-	utils::filter_dir_files(utils::config_dir(), configs);	
-	MainWindow wnd(configs);
-	wnd.property_default_height().set_value(400);
-	wnd.property_default_width().set_value (600);
+namespace utils {
 
-	Gtk::Main::run(wnd);
+	typedef IniData networks_t;
+	
+	/**
+	 * File mapping.conf should be in "user_home_dir/.syrop"
+	 */
+	const std::string MAPPING_FILE = "mappings.conf";
+	
+	template <typename QueryChecker>
+	networks_t::const_iterator find(networks_t const &base, QueryChecker const &query)
+	{
+		return std::find_if(base.begin(), base.end(), query);
+	}
 
-	return 0;
-}
+} // namespace utils
+
+#endif // _INCLUDES_NAMES_DB_2_H_

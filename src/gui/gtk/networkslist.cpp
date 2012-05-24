@@ -1,8 +1,30 @@
+/*****************************************************************************************
+ * Copyright (c) 2012 K. Krasheninnikova, M. Krinkin, S. Martynov, A. Smal, A. Velikiy   *
+ *                                                                                       *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this  *
+ * software and associated documentation files (the "Software"), to deal in the Software *
+ * without restriction, including without limitation the rights to use, copy, modify,    *
+ * merge, publish, distribute, sublicense, and/or sell copies of the Software, and to    *
+ * permit persons to whom the Software is furnished to do so, subject to the following   *
+ * conditions:                                                                           *
+ *                                                                                       *
+ * The above copyright notice and this permission notice shall be included in all copies *
+ * or substantial portions of the Software.                                              *
+ *                                                                                       *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,   *
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A         *
+ * PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT    *
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF  *
+ * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE  *
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
+ *****************************************************************************************/
+
 #include <fstream>
 
 #include "networkslist.h"
 #include "coreutils.h"
 #include "iniparser.h"
+#include "namedb2.h"
 
 NetworkList::NetworkList(utils::files_t const &configs)
 : Gtk::VBox      ()
@@ -58,13 +80,24 @@ void NetworkList::on_add_button_clicked()
 	if (myFileDialog.run() == Gtk::RESPONSE_OK)
 	{
 		std::string fullName( utils::config_dir() + "/" + myFileDialog.getText() );
-		utils::create_file( fullName);
-		utils::FileInfo conf( fullName );
-
-		Gtk::ListStore::iterator place = myListStore->append();
-		place->set_value(0, conf.getName() );
-		place->set_value(1, conf.getFullName() );
-		change_buttons_state();
+		if ( !file_exists(fullName) )
+		{
+			utils::create_file( fullName );
+			utils::FileInfo conf( fullName );
+			Gtk::ListStore::iterator place = myListStore->append();
+			place->set_value( 0, conf.getName() );
+			place->set_value( 1, conf.getFullName() );
+			change_buttons_state();
+		}
+		else
+		{
+			Gtk::MessageDialog dialog(*this, "warning");
+			dialog.set_secondary_text(
+						Glib::ustring("File " + fullName
+								+ " already exists")
+						);
+			dialog.run();
+		}
 	}
 	myFileDialog.hide();
 }
@@ -86,7 +119,7 @@ void NetworkList::on_remove_button_clicked()
 
 void NetworkList::on_mapping_button_clicked()
 {
-	static const std::string mappingFile( utils::application_dir() + "/mappings.conf" );
+	static const std::string mappingFile( utils::application_dir() + utils::MAPPING_FILE );
 	
 	Gtk::ListStore::iterator it = myView.get_selection()->get_selected();
 	if ( it )

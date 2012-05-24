@@ -30,9 +30,11 @@
 #include <cstring>
 #include <stdexcept>
 
+#include <iostream>
+#include <fstream>
+
 #include "fileinfo.h"
 #include "system.h"
-#include <iostream>
 namespace utils {
 
 /**
@@ -147,6 +149,17 @@ void remove_file(std::string const &name) //throws std::runtime_error
 {
 	if ( unlink( name.c_str() ) == -1 )
 		throw std::runtime_error(error_message(errno) + " at removeFile on " + name);
+}
+
+bool file_exists(std::string const &name)
+{
+	ifstream in ( name.c_str() );
+	if ( in.is_open() )
+	{
+		in.close();
+		return true;
+	}
+	return false;
 }
 
 } // namespace utils

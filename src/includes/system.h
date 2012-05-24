@@ -81,6 +81,13 @@ namespace utils {
 	 * @param name file name
 	 */
 	void remove_file(std::string const &name);
+	
+	/**
+	 * Check the file exists
+	 *
+	 * @param name file name
+	 */
+	bool file_exists(std::string const &name);
 
 } // namespace utils
 
