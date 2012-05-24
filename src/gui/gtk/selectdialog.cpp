@@ -20,6 +20,8 @@
  *****************************************************************************************/
 
 #include <boost/algorithm/string.hpp>
+#include <boost/bind.hpp>
+#include <algorithm>
 
 #include "selectdialog.h"
 

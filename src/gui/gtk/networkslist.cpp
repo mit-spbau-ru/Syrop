@@ -79,7 +79,7 @@ void NetworkList::on_add_button_clicked()
 {
 	if (myFileDialog.run() == Gtk::RESPONSE_OK)
 	{
-		std::string fullName( utils::config_dir() + "/" + myFileDialog.getText() );
+		std::string fullName( utils::config_dir() + myFileDialog.getText() );
 		if ( !utils::file_exists(fullName) )
 		{
 			utils::create_file( fullName );
@@ -91,7 +91,9 @@ void NetworkList::on_add_button_clicked()
 		}
 		else
 		{
-			Gtk::MessageDialog dialog("warning");
+			Gtk::MessageDialog dialog( "Warning:", true
+						, Gtk::MESSAGE_INFO
+						, Gtk::BUTTONS_OK, true );
 			dialog.set_secondary_text(
 						Glib::ustring("File " + fullName
 								+ " already exists")

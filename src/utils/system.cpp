@@ -30,11 +30,15 @@
 #include <cstring>
 #include <stdexcept>
 
+#include <algorithm>
+#include <boost/bind.hpp>
+
 #include <iostream>
 #include <fstream>
 
 #include "fileinfo.h"
 #include "system.h"
+
 namespace utils {
 
 /**
@@ -93,12 +97,13 @@ void list_dir_entries(std::string const &dir, files_t &names) // throws std::run
  */
 void filter_dir_files(std::string const &dir, files_t &nets) // throws std::runtime_error
 {
-	    files_t names;
-                
-		list_dir_entries( dir, names );
-		
-		for ( files_t::const_iterator it = names.begin();  it != names.end() ; ++it )
-				if ( it->isFile() ) nets.push_back( it->getFullName() );
+	files_t names;
+	list_dir_entries( dir, names );
+	
+	std::remove_copy_if( names.begin()
+				, names.end()
+				, std::back_inserter(nets)
+				, !boost::bind(&FileInfo::isFile, _1) );
 }
 
 /**

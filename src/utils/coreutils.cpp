@@ -19,7 +19,6 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#include <exception>
 #include <algorithm>
 
 #include <boost/bind.hpp>
@@ -50,12 +49,6 @@ namespace utils
 						boost::bind(&FileInfo::getName, _1)
 							== (info.getName() + PLUGIN_EXTENSION)
 						) != children.end();
-/*						
-				for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
-					if ( it->getName() == (info.getName() + PLUGIN_EXTENSION) )
-						//main plugin file must have same name as plugin directory
-						return true;
- */
 			}
 			return false;
 		}
@@ -135,8 +128,10 @@ vector<string> const& search_pathes()
 void list_plugins(vector<string> const& pathes, plugins_t &plugins)
 {
 	//for every path in a vector
-	for (vector<string>::const_iterator it = pathes.begin(); it != pathes.end(); ++it)
-		list_plugins(*it, plugins);
+	std::for_each( pathes.begin(), pathes.end(), boost::bind(
+				static_cast<void (*)(string const &dir, plugins_t &plugins)>(list_plugins)
+				, _1, boost::ref(plugins))
+		);
 }
 
 } // namespace utils

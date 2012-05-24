@@ -19,6 +19,8 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
+#include <boost/algorithm/string.hpp>
+
 #include "inputdialog.h"
 
 InputDialog::InputDialog(Glib::ustring const & title)
@@ -39,7 +41,7 @@ InputDialog::InputDialog(Glib::ustring const & title)
 
 	get_vbox()->pack_start(myLabel,         false, true);
 	get_vbox()->pack_end  (myControlLayout, false, true);
-	get_vbox()->pack_end  (myNetworkName,   false, true);
+	get_vbox()->pack_end  (myEntry,         false, true);
 
 	myControlLayout.show_all_children();
 	show_all_children();
@@ -47,12 +49,17 @@ InputDialog::InputDialog(Glib::ustring const & title)
 
 std::string InputDialog::getText() const
 {
-	return myNetworkName.get_text().raw();
+	return myEntry.get_text().raw();
 }
 
 void InputDialog::on_ok_button_clicked()
 {
-	response(Gtk::RESPONSE_OK);
+	std::string trimmed( myEntry.get_text().raw() );
+	boost::trim(trimmed);
+	myEntry.set_text( trimmed.c_str() );
+	
+	if ( !trimmed.empty() ) response(Gtk::RESPONSE_OK);
+	else response(Gtk::RESPONSE_CANCEL);
 }
 
 void InputDialog::on_cancel_button_clicked()

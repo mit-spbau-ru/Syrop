@@ -26,6 +26,8 @@
 #include "mappingdialog.h"
 
 using namespace boost::xpressive;
+using std::vector;
+using std::string;
 
 MappingDialog::MappingDialog()
 : Gtk::Dialog   ()
@@ -69,18 +71,32 @@ void MappingDialog::saveContent(utils::attributes & attrs)
 	static sregex const attributes = sregex::compile("^\\s*(\\S+){1}\\s*=\\s*(\\S+){1}\\s*$");
 	
 	Glib::RefPtr<Gtk::TextBuffer> text_buffer = myTextArea.get_buffer();
-	std::string text( text_buffer->get_text( text_buffer->begin(), text_buffer->end() ).raw() );
+	string text( text_buffer->get_text( text_buffer->begin(), text_buffer->end() ).raw() );
 	
-	std::vector<std::string> splitVec;
+	vector<string> splitVec;
 	boost::split(splitVec, text, boost::algorithm::is_any_of("\n"));
 	
-	for (std::vector<std::string>::const_iterator it = splitVec.begin(); it != splitVec.end(); ++it)
+	vector<string> errLines;
+	for (vector<string>::const_iterator it = splitVec.begin(); it != splitVec.end(); ++it)
 	{
 		smatch match;
 		if ( regex_match(*it, match, attributes) )
-		{
 			attrs[match[1].str()] = match[2].str();
-		}
+		else
+			errLines.push_back(*it);
+	}
+	
+	if ( !errLines.empty() )
+	{
+		Gtk::MessageDialog dialog( "Error:", true
+						, Gtk::MESSAGE_WARNING
+						, Gtk::BUTTONS_OK, true );
+		dialog.set_secondary_text(
+						Glib::ustring("Lines:\n"
+						+ boost::algorithm::join(errLines, "\n")
+						+ "\nhas unsupported format and didn't saved")
+					);
+		dialog.run();
 	}
 }
 

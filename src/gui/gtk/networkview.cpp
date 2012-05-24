@@ -121,7 +121,9 @@ void NetworkView::on_add_clicked()
 		}
 		else
 		{
-			Gtk::MessageDialog dialog("warning");
+			Gtk::MessageDialog dialog( "Warring:", true
+						, Gtk::MESSAGE_INFO
+						, Gtk::BUTTONS_OK, true );
 			dialog.set_secondary_text(
 						Glib::ustring("Tab " + appName
 								+ " already exists")

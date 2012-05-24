@@ -34,7 +34,7 @@ private:
 	Gtk::Button myOkButton;
 	Gtk::Button myCancelButton;
 	Gtk::Label myLabel;
-	Gtk::Entry myNetworkName;
+	Gtk::Entry myEntry;
 	Gtk::HBox myControlLayout;
 
 	void on_ok_button_clicked();
