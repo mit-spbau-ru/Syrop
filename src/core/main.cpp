@@ -98,7 +98,9 @@ void apply_parameters(PluginRunner &runner, ProxySettings const& settings)
 	list_plugins(pathes, plugins);
 	
 	for (plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
-		runner.setupSettings( it->second, settings[it->first] );
+		runner.setupSettings( it->second + "/" + it->first
+					+ utils::PLUGIN_EXTENSION
+					, settings[it->first] );
 }
 
 void cancel_parameters(PluginRunner &runner)
@@ -108,7 +110,8 @@ void cancel_parameters(PluginRunner &runner)
 	list_plugins(pathes, plugins);
 	
 	for (plugins_t::const_iterator it = plugins.begin(); it != plugins.end(); ++it)
-		runner.cleanupSettings( it->second );
+		runner.cleanupSettings( it->second + "/" + it->first
+					+ utils::PLUGIN_EXTENSION );
 }
 
 int main(int argc, char **argv)
