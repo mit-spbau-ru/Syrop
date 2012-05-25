@@ -179,8 +179,6 @@ void MainWindow::editCurrentNetworkSettings()
 {
     DialogEditNetwork d(this, currentNetworkName);
     d.exec();
-    //DialogAddApp d(this, *currentProxySettings);
-    //d.exec();
 }
 
 void MainWindow::removeApplication() 
