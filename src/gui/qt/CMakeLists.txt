@@ -2,6 +2,13 @@ project( SyropGui )
 
 set(CMAKE_BUILD_TYPE Release )
 set(SYROP_LIBRARIES syroputils)
+set(SYROP_LIBRARY_DIRS ../../../build/ars)
+set(SYROP_LIBRARIES syroputils)
+set(SYROP_EXECUTABLE syrop-qt)
+
+link_directories(
+    ${SYROP_LIBRARY_DIRS}
+)
 
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
@@ -20,6 +27,7 @@ set ( SyropGui_SRCS
 	dialogabout.cpp
 	datamodel.cpp
 	dialogaddapp.cpp
+    dialogeditnetwork.cpp
 	)
 
 set ( SyropGui_UIS
@@ -28,6 +36,7 @@ set ( SyropGui_UIS
 	applicationsettingstab.ui
 	dialogabout.ui
 	dialogaddapp.ui
+    dialogeditnetwork.ui
 	)
 QT4_WRAP_UI(UIS ${SyropGui_UIS})
 
@@ -38,13 +47,15 @@ set ( SyropGui_MOCS
 	datamodel.h
 	dialogabout.h
 	dialogaddapp.h
+    dialogeditnetwork.h
 	)
 QT4_WRAP_CPP(MOCS ${SyropGui_MOCS})
 
-add_executable ( SyropGui ${SyropGui_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
-target_link_libraries ( SyropGui  
+add_executable ( ${SYROP_EXECUTABLE} ${SyropGui_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
+
+target_link_libraries ( ${SYROP_EXECUTABLE} 
     ${QT_QTCORE_LIBRARY} 
     ${QT_QTGUI_LIBRARY} 
-    syroputils   
+	${SYROP_LIBRARIES}
 )
 
