@@ -6,34 +6,24 @@ def backupSettings ():
 	pass
 
 def setupSettings (settings):
+	cleanupSettings()
 	# получаем имя файла настройки ~/.bashrc
 	name = os.path.expanduser("~/.bashrc")
 	bashrc = open(name, "a")
 	# пишем все в конец файла и расставляем метки для удаления
 	bashrc.write("\n#syrop begin\n")
-	# если http_proxy уже установлен, но пропускаем его, но выводим сообщение
-	# пользователь пусть сам разбирается с уже установленными значениями
-	if not ("http_proxy" in os.environ):
-		if "http" in settings:
-			bashrc.write("http_proxy=" + settings["http"] + "\n")
-			bashrc.write("export http_proxy\n")
-	else:
-		print "WARN: http_proxy is set already in ", os.environ["http_proxy"]
+
+	if "http" in settings:
+		bashrc.write("http_proxy=" + settings["http"] + "\n")
+		bashrc.write("export http_proxy\n")
 	
-	# аналогично для https и ftp
-	if not ("https_proxy" in os.environ):
-		if "https" in settings:
-			bashrc.write("https_proxy=" + settings["https"] + "\n")
-			bashrc.write("export https_proxy\n")
-	else:
-		print "WARN: https_proxy is set already in ", os.environ["https_proxy"]
+	if "https" in settings:
+		bashrc.write("https_proxy=" + settings["https"] + "\n")
+		bashrc.write("export https_proxy\n")
 		
-	if not ("ftp_proxy" in os.environ):
-		if "ftp" in settings:
-			bashrc.write("ftp_proxy=" + settings["ftp"] + "\n")
-			bashrc.write("export ftp_proxy\n")
-	else:
-		print "WARN: ftp_proxy is set already in ", os.environ["ftp_proxy"]	
+	if "ftp" in settings:
+		bashrc.write("ftp_proxy=" + settings["ftp"] + "\n")
+		bashrc.write("export ftp_proxy\n")
 	# ставим конечную метку
 	bashrc.write("\n#syrop end\n")
 	bashrc.close()
