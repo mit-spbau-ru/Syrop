@@ -16,26 +16,21 @@ QDataModel* DataModel::instance = 0;
 string const QDataModel::NETWORK_SETTINGS_FILE  = 
     utils::application_dir() + utils::MAPPING_FILE;
 string const QDataModel::CONFIG_DIRECTORY   = "../config/";
-string const QDataModel::APPS_DIRECTORY     = "../config/apps/";
 string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "../config/default";
 string const QDataModel::DEFAULT_SETTINGS_NAME = "default";
-
 
 void QDataModel::loadData()
 {
     readAllProxySettings(utils::config_dir(), proxySettings);
-    readAllProxySettings(APPS_DIRECTORY, appsList);
+    utils::list_plugins(utils::search_pathes(), this->pluginsList);
     loadDataNetworkSettings();
     emit onLoadData();
 }
 
-// TODO: load ini file and 
 void QDataModel::loadDataNetworkSettings()
 {
-    ifstream i;
-    i.open(NETWORK_SETTINGS_FILE.c_str());
-    utils::operator >>(i, networksSettingsMapping);
-    i.close();
+    ifstream i(NETWORK_SETTINGS_FILE.c_str());
+    i >> networksSettingsMapping;
 }
 
 void QDataModel::restoreNetwork(const string &name)

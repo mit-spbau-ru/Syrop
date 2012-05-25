@@ -86,7 +86,7 @@ bool DialogEditNetwork::checkText()
 	}
     
     if(!errLines.empty()) {
-         string s = ("Error in line " + *errLines.begin());
+         string s("Error in line " + *errLines.begin());
          ui->labelErrorMessage->setText(QString(s.c_str()));
     }
     else
