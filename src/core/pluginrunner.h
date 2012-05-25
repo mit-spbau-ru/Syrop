@@ -51,8 +51,7 @@ namespace core
 			Py_Initialize();
 			myMain = bpy::import("__main__").attr("__dict__");
 			myMain["AppSettings"] = bpy::class_<wrapper>("AppSettings", bpy::no_init)
-								.def("__getitem__", &wrapper::get,
-									bpy::return_value_policy<bpy::copy_const_reference>())
+								.def("__getitem__", &wrapper::get)
 								.def("__contains__", &wrapper::in);
 		}
 		
@@ -91,7 +90,14 @@ namespace core
 			{}
 			
 			bool in(string const &prot) const { return (mySettings.find(prot) != mySettings.end()); }
-			string const& get(string const &prot) const { return mySettings.find(prot)->second; }
+            
+			string get(string const &prot) const 
+            {
+                attributes::const_iterator it = mySettings.find(prot);
+                if (it != mySettings.end())
+                    return it->second;
+                return string(); 
+            }
 			
 			attributes const mySettings;
 		};
