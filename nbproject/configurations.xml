@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="80">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df name="Syrop" root=".">
+      <df name="build">
+        <df name="ars">
+        </df>
+        <df name="bin">
+        </df>
+      </df>
+      <df name="CMakeFiles">
+        <df name="CMakeTmp">
+          <df name="CMakeFiles">
+            <df name="cmTryCompileExec.dir">
+            </df>
+          </df>
+        </df>
+        <df name="CompilerIdC">
+          <in>CMakeCCompilerId.c</in>
+        </df>
+        <df name="CompilerIdCXX">
+          <in>CMakeCXXCompilerId.cpp</in>
+          <in>a.out</in>
+        </df>
+        <in>CMakeCXXCompiler.cmake</in>
+        <in>CMakeDetermineCompilerABI_CXX.bin</in>
+        <in>CMakeOutput.log</in>
+        <in>CMakeSystem.cmake</in>
+      </df>
+      <df name="src">
+        <df name="CMakeFiles">
+          <in>CMakeDirectoryInformation.cmake</in>
+          <in>progress.marks</in>
+        </df>
+        <df name="core">
+          <df name="CMakeFiles">
+            <df name="syrop.dir">
+              <in>DependInfo.cmake</in>
+              <in>build.make</in>
+              <in>cmake_clean.cmake</in>
+              <in>depend.make</in>
+              <in>flags.make</in>
+              <in>link.txt</in>
+              <in>progress.make</in>
+            </df>
+            <in>CMakeDirectoryInformation.cmake</in>
+            <in>progress.marks</in>
+          </df>
+          <in>main.cpp</in>
+          <in>pluginrunner.cpp</in>
+          <in>pluginrunner.h</in>
+          <in>syrop.h</in>
+        </df>
+        <df name="gui">
+          <df name="config">
+          </df>
+          <df name="gtk">
+            <in>applicationview.cpp</in>
+            <in>applicationview.h</in>
+            <in>inputdialog.cpp</in>
+            <in>inputdialog.h</in>
+            <in>main.cpp</in>
+            <in>mainwindow.cpp</in>
+            <in>mainwindow.h</in>
+            <in>mappingdialog.cpp</in>
+            <in>mappingdialog.h</in>
+            <in>networkslist.cpp</in>
+            <in>networkslist.h</in>
+            <in>networkview.cpp</in>
+            <in>networkview.h</in>
+            <in>selectdialog.cpp</in>
+            <in>selectdialog.h</in>
+            <in>yesnodialog.cpp</in>
+            <in>yesnodialog.h</in>
+          </df>
+          <df name="qt">
+            <in>applicationsettingstab.cpp</in>
+            <in>applicationsettingstab.h</in>
+            <in>datamodel.cpp</in>
+            <in>datamodel.h</in>
+            <in>dialogabout.cpp</in>
+            <in>dialogabout.h</in>
+            <in>dialogaddapp.cpp</in>
+            <in>dialogaddapp.h</in>
+            <in>dialogaddnetwork.cpp</in>
+            <in>dialogaddnetwork.h</in>
+            <in>dialogeditnetwork.cpp</in>
+            <in>dialogeditnetwork.h</in>
+            <in>main.cpp</in>
+            <in>mainwindow.cpp</in>
+            <in>mainwindow.h</in>
+          </df>
+          <df name="res">
+            <df name="settings">
+            </df>
+          </df>
+        </df>
+        <df name="includes">
+          <in>coreutils.h</in>
+          <in>fileinfo.h</in>
+          <in>genutils.h</in>
+          <in>inidata.h</in>
+          <in>iniparser.h</in>
+          <in>namedb.h</in>
+          <in>namedb2.h</in>
+          <in>proxysettings.h</in>
+          <in>system.h</in>
+        </df>
+        <df name="integration">
+          <df name="CMakeFiles">
+            <df name="syropd.dir">
+              <in>DependInfo.cmake</in>
+              <in>build.make</in>
+              <in>cmake_clean.cmake</in>
+              <in>depend.make</in>
+              <in>flags.make</in>
+              <in>link.txt</in>
+              <in>progress.make</in>
+            </df>
+            <in>CMakeDirectoryInformation.cmake</in>
+            <in>progress.marks</in>
+          </df>
+          <in>CBusMessage.cpp</in>
+          <in>CBusMessage.h</in>
+          <in>CExecuter.cpp</in>
+          <in>CExecuter.h</in>
+          <in>daemonexception.cpp</in>
+          <in>daemonexception.h</in>
+          <in>main.cpp</in>
+          <in>main.h</in>
+        </df>
+        <df name="plugins">
+          <df name="bash">
+            <df name="CMakeFiles">
+              <in>CMakeDirectoryInformation.cmake</in>
+              <in>progress.marks</in>
+            </df>
+          </df>
+          <df name="CMakeFiles">
+            <in>CMakeDirectoryInformation.cmake</in>
+            <in>progress.marks</in>
+          </df>
+          <df name="default">
+            <df name="CMakeFiles">
+              <in>CMakeDirectoryInformation.cmake</in>
+              <in>progress.marks</in>
+            </df>
+          </df>
+          <df name="gconf">
+          </df>
+          <df name="ssh">
+            <df name="CMakeFiles">
+              <in>CMakeDirectoryInformation.cmake</in>
+              <in>progress.marks</in>
+            </df>
+          </df>
+          <df name="svn">
+            <df name="CMakeFiles">
+              <in>CMakeDirectoryInformation.cmake</in>
+              <in>progress.marks</in>
+            </df>
+          </df>
+        </df>
+        <df name="utils">
+          <df name="CMakeFiles">
+            <df name="syroputils.dir">
+              <in>CXX.includecache</in>
+              <in>DependInfo.cmake</in>
+              <in>build.make</in>
+              <in>cmake_clean.cmake</in>
+              <in>cmake_clean_target.cmake</in>
+              <in>depend.internal</in>
+              <in>depend.make</in>
+              <in>flags.make</in>
+              <in>link.txt</in>
+              <in>progress.make</in>
+            </df>
+            <in>CMakeDirectoryInformation.cmake</in>
+            <in>progress.marks</in>
+          </df>
+          <in>coreutils.cpp</in>
+          <in>fileinfo.cpp</in>
+          <in>genutils.cpp</in>
+          <in>inidata.cpp</in>
+          <in>iniparser.cpp</in>
+          <in>main.cpp</in>
+          <in>proxysettings.cpp</in>
+          <in>system.cpp</in>
+        </df>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>CMakeLists.txt</itemPath>
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath></executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>src/includes</pElem>
+            </incDir>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <item path="CMakeFiles/CompilerIdC/CMakeCCompilerId.c"
+            ex="true"
+            tool="0"
+            flavor="0">
+      </item>
+      <item path="CMakeFiles/CompilerIdCXX/CMakeCXXCompilerId.cpp"
+            ex="true"
+            tool="1"
+            flavor="0">
+      </item>
+      <folder path="Syrop/src/core">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/python2.7</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="Syrop/src/integration">
+        <ccTool>
+          <incDir>
+            <pElem>/usr/lib/x86_64-linux-gnu/dbus-1.0/include</pElem>
+            <pElem>/usr/include/glib-2.0</pElem>
+            <pElem>/usr/lib/x86_64-linux-gnu/glib-2.0/include</pElem>
+            <pElem>/usr/include/dbus-1.0</pElem>
+            <pElem>src/../includes</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <item path="src/gui/gtk/applicationview.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/applicationview.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/gtk/inputdialog.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/inputdialog.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/gtk/main.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/mainwindow.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/mainwindow.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/gtk/mappingdialog.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/mappingdialog.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/gtk/networkslist.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/networkslist.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/gtk/networkview.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/networkview.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/gtk/selectdialog.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/selectdialog.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/gtk/yesnodialog.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/gtk/yesnodialog.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/qt/applicationsettingstab.cpp"
+            ex="true"
+            tool="1"
+            flavor="0">
+      </item>
+      <item path="src/gui/qt/applicationsettingstab.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/qt/datamodel.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/qt/datamodel.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogabout.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogabout.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogaddapp.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogaddapp.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogaddnetwork.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogaddnetwork.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogeditnetwork.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/qt/dialogeditnetwork.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/gui/qt/main.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/qt/mainwindow.cpp" ex="true" tool="1" flavor="0">
+      </item>
+      <item path="src/gui/qt/mainwindow.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/includes/namedb.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/includes/namedb2.h" ex="true" tool="3" flavor="0">
+      </item>
+      <item path="src/utils/main.cpp" ex="true" tool="1" flavor="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
