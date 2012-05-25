@@ -1,5 +1,8 @@
 project(syrop-gui-gtk CXX)
 
+cmake_minimum_required(VERSION 2.8.1)
+cmake_policy(SET CMP0015 NEW)
+
 find_package(PkgConfig)
 pkg_check_modules(GTKMM gtkmm-3.0)
 
