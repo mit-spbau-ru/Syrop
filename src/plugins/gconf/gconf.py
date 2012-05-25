@@ -5,66 +5,59 @@ from subprocess import Popen
 from subprocess import PIPE
 
 def backupSettings ():
-	pass
-
+    for s in settings :
+        t = s.strip()
+	    # save the previous settings if proxy is used or not
+        olduse = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/use_"+t+"_proxy"], stdout=PIPE ).communicate()[0]
+        ret = subprocess.call ( "gconftool -s /system/"+t+"proxy/old_use_"+t+"_proxy -t bool " + str(olduse), shell = True )                 
+              
+            
+        if olduse :
+                # save the old host name
+                oldhost = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/host"], stdout=PIPE ).communicate()[0] 
+                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_host -t int " + oldhost, shell = True ) 
+ 
+                # save the old port number
+                oldport = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/port"], stdout=PIPE ).communicate()[0] 
+                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_port -t int " + oldport, shell = True )  
+                 
+                # save the old user name
+                olduser = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/authentification_user"], stdout=PIPE ).communicate()[0] 
+                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_user -t string " + olduser, shell = True ) 
+                
+                # save the old password
+                oldpwd = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/authentification_password"], stdout=PIPE ).communicate()[0] 
+                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_pwd -t string " + oldpwd, shell = True )   
 ###
 ### @param settings - dictionary of settings
 ### @param s - type of protocol
 ###
-def setupSettings (settings, s) :
-    t = s.strip()
-	# check if the settings for protocol s are specified 
-    if t in settings :
+def setupSettings ( settings ) :     
+	# iterate over protocols in settings 
+    for s in settings :
 
+        t = s.strip()
         # obtain settings
         params = splitProxyString(settings[t])
         
+        # set use of proxy
+        ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/use_"+t+"_proxy -t bool true ", shell = True )                  
         # if server name is specified ...
+
         if 'server' in params :
-            # save the previous settings if proxy is used or not
-            olduse = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/use_"+t+"_proxy"], stdout=PIPE ).communicate()[0]
-            ret = subprocess.call ( "gconftool -s /system/"+t+"proxy/old_use_"+t+"_proxy -t bool " + str(olduse), shell = True )                
-            
-            # set use of proxy
-            ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/use_"+t+"_proxy -t bool true ", shell = True )                
-            
-            # save the old host name
-            if olduse :
-                oldhost = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/host"], stdout=PIPE ).communicate()[0] 
-                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_host -t int " + oldhost, shell = True ) 
-                    
             # specify the new host name
             ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/host -t int " + params['server'], shell = True ) 
 
         # if port number is specified
         if 'port' in params :
-
-            # save the old port number
-            if olduse :
-                oldport = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/port"], stdout=PIPE ).communicate()[0] 
-                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_port -t int " + oldport, shell = True ) 
-
             # set the new port number
             ret = subprocess.call( "gconftool -s /system/"+t+"_proxy/port -t int " + params['port'], shell = True ) 
-
         
         if 'user' in params:
-    
-            # save the old user name
-            if olduse :
-                olduser = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/authentification_user"], stdout=PIPE ).communicate()[0] 
-                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_user -t string " + olduser, shell = True ) 
-
             # set the new user name
             ret = subprocess.call( "gconftool -s /system/"+t+"_proxy/authentification_user -t string " + params['user'], shell = True )
         
         if 'password' in params:
-            
-            # save the old password
-            if olduse :
-                oldpwd = Popen ( ["gconftool", "-g", "/system/"+t+"_proxy/authentification_password"], stdout=PIPE ).communicate()[0] 
-                ret = subprocess.call ( "gconftool -s /system/"+t+"_proxy/old_pwd -t string " + oldpwd, shell = True ) 
-
             # set the new password
             ret = subprocess.call( "gconftool -s /system/"+t+"_proxy/authentification_password -t string " + params['password'], shell = True )
   	
@@ -122,5 +115,5 @@ def splitProxyString (conf):
 # usage example :
 #
 #conf = {'http' : "us:pas@12.12.12.12:1"}
-#setupSettings(conf,"http")
+#setupSettings(conf)
 #cleanupSettings()
