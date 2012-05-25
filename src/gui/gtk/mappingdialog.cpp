@@ -21,6 +21,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/xpressive/xpressive.hpp>
+#include <algorithm>
 #include <vector>
 
 #include "mappingdialog.h"
@@ -74,16 +75,19 @@ void MappingDialog::saveContent(utils::attributes & attrs)
 	string text( text_buffer->get_text( text_buffer->begin(), text_buffer->end() ).raw() );
 	
 	vector<string> splitVec;
-	boost::split(splitVec, text, boost::algorithm::is_any_of("\n"));
-	
+	boost::split( splitVec, text, boost::algorithm::is_any_of("\n") );
 	vector<string> errLines;
-	for (vector<string>::const_iterator it = splitVec.begin(); it != splitVec.end(); ++it)
+	for (vector<string>::iterator it = splitVec.begin(); it != splitVec.end(); ++it)
 	{
-		smatch match;
-		if ( regex_match(*it, match, attributes) )
-			attrs[match[1].str()] = match[2].str();
-		else
-			errLines.push_back(*it);
+		boost::trim(*it);
+		if ( !it->empty() )
+		{
+			smatch match;
+			if ( regex_match(*it, match, attributes) )
+				attrs[match[1].str()] = match[2].str();
+			else
+				errLines.push_back(*it);
+		}
 	}
 	
 	if ( !errLines.empty() )
