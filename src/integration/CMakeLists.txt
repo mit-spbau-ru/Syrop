@@ -7,7 +7,10 @@ EXEC_PROGRAM(pkg-config ARGS --libs dbus-glib-1 OUTPUT_VARIABLE DbusGlib_LIBS)
 
 
 add_executable(syropd
-	       syropd.cpp
+               main.cpp
+	       daemonexception.cpp
+               CExecuter.cpp
+               CBusMessage.cpp
 )
 
 target_link_libraries(syropd
