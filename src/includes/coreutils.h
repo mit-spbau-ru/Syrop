@@ -43,6 +43,7 @@ namespace utils
 	const string SETUP = "/usr/share/syrop/";
 	const string PLUGIN_EXTENSION = ".py";
 	const string MAPPING_FILE = "mappings.conf";
+	const string FIELDS_FILE = "fields";
 
 	/**
 	 * Function returns application HOME dir. Directory will be

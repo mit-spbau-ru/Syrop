@@ -19,45 +19,40 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef __GUI_GTK_APPLICATION_VIEW_H__
-#define __GUI_GTK_APPLICATION_VIEW_H__
+#ifndef __GUI_GTK_AUTH_WIDGET_H__
+#define __GUI_GTK_AUTH_WIDGET_H__
 
 #include <boost/xpressive/xpressive.hpp>
-#include <boost/shared_ptr.hpp>
 
-#include <gtkmm.h>
-
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include "iniparser.h"
 #include "abstractwidget.h"
 
 namespace bxprs = boost::xpressive;
 
-class ApplicationView : public Gtk::VBox
+class AuthWidget : public AbstractWidget
 {
 public:
-	ApplicationView(utils::attributes const & attrs, std::string const & name);
+	AuthWidget(std::string const & title, std::string const & value = std::string());
 
-	bool changed() const;
-	void save(utils::IniData & data);
+	virtual void save(utils::attributes & data);
 
 private:
-	typedef std::vector<boost::shared_ptr<AbstractWidget> > widgets_t;
-	const std::string PROXY_TYPE;
-	const std::string TEXT_TYPE;
-	const std::string AUTH_TYPE;
+	std::string const REGEX_STRING;
+	bxprs::sregex const REGEX;
 	
-	std::string myPluginName;
+	std::string myTitle;
+
+	Gtk::Label myUserLabel;
+	Gtk::Label myPasswordLabel;
+
+	Gtk::CheckButton myShowPassword;
+
+	Gtk::Entry myUserEntry;
+	Gtk::Entry myPasswordEntry;
 	
-	widgets_t myProxyChildren;
-	widgets_t myTextChildren;
-	widgets_t myAuthChildren;
+	Gtk::HBox myUserLayout;
+	Gtk::HBox myPasswordLayout;
 	
-	void loadFields       ( utils::attributes const & attrs, utils::attributes const & fields);
-	void loadDefaultFields( utils::attributes const & attrs );
+	void show_password_clicked();
 };
 
-#endif //__GUI_GTK_APPLICATION_VIEW_H__
+#endif //__GUI_GTK_AUTH_WIDGET_H__

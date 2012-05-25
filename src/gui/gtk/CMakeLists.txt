@@ -31,6 +31,9 @@ add_executable(syrop-gtk
 	       yesnodialog.cpp
 	       selectdialog.cpp
 	       applicationview.cpp
+	       authwidget.cpp
+	       proxywidget.cpp
+	       textwidget.cpp
 )
 
 target_link_libraries(syrop-gtk

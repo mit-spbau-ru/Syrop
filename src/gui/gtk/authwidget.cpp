@@ -19,45 +19,54 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef __GUI_GTK_APPLICATION_VIEW_H__
-#define __GUI_GTK_APPLICATION_VIEW_H__
+#include "authwidget.h"
 
-#include <boost/xpressive/xpressive.hpp>
-#include <boost/shared_ptr.hpp>
-
-#include <gtkmm.h>
-
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include "iniparser.h"
-#include "abstractwidget.h"
-
-namespace bxprs = boost::xpressive;
-
-class ApplicationView : public Gtk::VBox
+AuthWidget::AuthWidget(std::string const & title, std::string const & value)
+: AbstractWidget (Gtk::ORIENTATION_VERTICAL)
+, REGEX_STRING   ("^\\s*(\\S+){1}\\s*:\\s*(\\S+){1}\\s*$")
+, REGEX          (bxprs::sregex::compile(REGEX_STRING))
+, myTitle        (title)
+, myUserLabel    ("user")
+, myPasswordLabel("password")
+, myShowPassword ("show password")
 {
-public:
-	ApplicationView(utils::attributes const & attrs, std::string const & name);
-
-	bool changed() const;
-	void save(utils::IniData & data);
-
-private:
-	typedef std::vector<boost::shared_ptr<AbstractWidget> > widgets_t;
-	const std::string PROXY_TYPE;
-	const std::string TEXT_TYPE;
-	const std::string AUTH_TYPE;
+	bxprs::smatch match;
+	if ( bxprs::regex_match(value, match, REGEX) )
+	{	
+		myUserEntry.set_text    ( match[1].str() );
+		myPasswordEntry.set_text( match[2].str() );
+	}
 	
-	std::string myPluginName;
+	myShowPassword.set_active(false);
+	myPasswordEntry.set_visibility(false);
+	myPasswordEntry.set_invisible_char('*');
 	
-	widgets_t myProxyChildren;
-	widgets_t myTextChildren;
-	widgets_t myAuthChildren;
+	myShowPassword.signal_clicked().connect( sigc::mem_fun(*this, &AuthWidget::show_password_clicked) );
+	myUserEntry.signal_changed().connect( sigc::mem_fun(*this, &AuthWidget::on_change) );
+	myPasswordEntry.signal_changed().connect( sigc::mem_fun(*this, &AuthWidget::on_change) );
 	
-	void loadFields       ( utils::attributes const & attrs, utils::attributes const & fields);
-	void loadDefaultFields( utils::attributes const & attrs );
-};
+	myUserLayout.pack_start( myUserLabel, false, false );
+	myUserLayout.pack_end  ( myUserEntry, false, true  );
+	
+	myPasswordLayout.pack_start( myPasswordLabel, false, false );
+	myPasswordLayout.pack_end  ( myPasswordEntry, false, true  );
+	
+	pack_start( myUserLayout,     false, true );
+	pack_start( myPasswordLayout, false, true );
+	pack_start( myShowPassword,   false, true );
+	
+	myUserLayout.show_all_children();
+	myPasswordLayout.show_all_children();
+	show_all_children();
+}
 
-#endif //__GUI_GTK_APPLICATION_VIEW_H__
+void AuthWidget::show_password_clicked()
+{
+	myPasswordEntry.set_visibility( myShowPassword.get_active() );
+}
+
+void AuthWidget::save(utils::attributes & data)
+{
+	data[myTitle] = myUserEntry.get_text().raw() + ":" + myPasswordEntry.get_text().raw();
+	on_save();
+}

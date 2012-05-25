@@ -46,7 +46,7 @@ NetworkView::NetworkView(std::string const & name)
 	in >> data;
 	for (utils::IniData::const_iterator it = data.begin(); it != data.end(); ++it)
 	{
-		view_ptr_t view( new ApplicationView(it->second) );
+		view_ptr_t view( new ApplicationView(it->second, it->first) );
 		myTabs.insert( make_pair(it->first, view) );
 		view->show();
 		myApplications.append_page(*view, it->first);
@@ -111,7 +111,7 @@ void NetworkView::on_add_clicked()
 		std::string appName = myAddDialog.getText();
 		if ( myTabs.find(appName) == myTabs.end() )
 		{
-			view_ptr_t view( new ApplicationView( utils::attributes() ) );
+			view_ptr_t view( new ApplicationView( utils::attributes(), appName ) );
 			myTabs.insert( make_pair(appName, view) );
 			view->show();
 			myApplications.prepend_page( *view, myAddDialog.getText() );
@@ -161,7 +161,7 @@ void NetworkView::force_save()
 {
 	utils::IniData data;
 	for (tabs_t::const_iterator it = myTabs.begin(); it != myTabs.end(); ++it)
-		it->second->save(data, it->first);
+		it->second->save(data);
 	std::ofstream out( myName.c_str() );
 	out << data;
 	out.close();

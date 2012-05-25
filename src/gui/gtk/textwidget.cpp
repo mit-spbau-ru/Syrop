@@ -19,45 +19,27 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef __GUI_GTK_APPLICATION_VIEW_H__
-#define __GUI_GTK_APPLICATION_VIEW_H__
+#include "textwidget.h"
 
-#include <boost/xpressive/xpressive.hpp>
-#include <boost/shared_ptr.hpp>
-
-#include <gtkmm.h>
-
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include "iniparser.h"
-#include "abstractwidget.h"
-
-namespace bxprs = boost::xpressive;
-
-class ApplicationView : public Gtk::VBox
+TextWidget::TextWidget(std::string const & title, std::string const & value)
+: AbstractWidget()
+, myLabel       (title.c_str())
 {
-public:
-	ApplicationView(utils::attributes const & attrs, std::string const & name);
-
-	bool changed() const;
-	void save(utils::IniData & data);
-
-private:
-	typedef std::vector<boost::shared_ptr<AbstractWidget> > widgets_t;
-	const std::string PROXY_TYPE;
-	const std::string TEXT_TYPE;
-	const std::string AUTH_TYPE;
+	myEntry.set_text(value.c_str());
 	
-	std::string myPluginName;
+	pack_start( myLabel, false, true );
+	pack_end  ( myEntry, false, true );
 	
-	widgets_t myProxyChildren;
-	widgets_t myTextChildren;
-	widgets_t myAuthChildren;
+	myEntry.signal_changed().connect( sigc::mem_fun(*this, &TextWidget::on_change) );
 	
-	void loadFields       ( utils::attributes const & attrs, utils::attributes const & fields);
-	void loadDefaultFields( utils::attributes const & attrs );
-};
+	show_all_children();
+}
 
-#endif //__GUI_GTK_APPLICATION_VIEW_H__
+void TextWidget::save(utils::attributes & data)
+{
+	if ( !myEntry.get_text().empty() )
+	{
+		data[myLabel.get_text().raw()] = myEntry.get_text().raw();
+		on_save();
+	}
+}

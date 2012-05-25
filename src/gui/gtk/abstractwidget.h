@@ -19,45 +19,33 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef __GUI_GTK_APPLICATION_VIEW_H__
-#define __GUI_GTK_APPLICATION_VIEW_H__
-
-#include <boost/xpressive/xpressive.hpp>
-#include <boost/shared_ptr.hpp>
+#ifndef __GUI_GTK_ABSTARCT_WIDGET_H__
+#define __GUI_GTK_ABSTARCT_WIDGET_H__
 
 #include <gtkmm.h>
-
-#include <fstream>
 #include <string>
-#include <vector>
 
-#include "iniparser.h"
-#include "abstractwidget.h"
+#include "inidata.h"
 
-namespace bxprs = boost::xpressive;
-
-class ApplicationView : public Gtk::VBox
+class AbstractWidget : public Gtk::Box
 {
 public:
-	ApplicationView(utils::attributes const & attrs, std::string const & name);
-
-	bool changed() const;
-	void save(utils::IniData & data);
-
+	virtual bool changed() const { return myChangeFlag; }
+	virtual void save   (utils::attributes & data) = 0;
+	
+	virtual ~AbstractWidget() {}
+	AbstractWidget(Gtk::Orientation orientation = Gtk::ORIENTATION_HORIZONTAL
+	, int spacing = 0)
+	: Gtk::Box(orientation, spacing)
+	, myChangeFlag(false)
+		{}
+	
+protected:
+	virtual void on_change() { myChangeFlag = true; }
+	virtual void on_save  () { myChangeFlag = false; }
+	
 private:
-	typedef std::vector<boost::shared_ptr<AbstractWidget> > widgets_t;
-	const std::string PROXY_TYPE;
-	const std::string TEXT_TYPE;
-	const std::string AUTH_TYPE;
-	
-	std::string myPluginName;
-	
-	widgets_t myProxyChildren;
-	widgets_t myTextChildren;
-	widgets_t myAuthChildren;
-	
-	void loadFields       ( utils::attributes const & attrs, utils::attributes const & fields);
-	void loadDefaultFields( utils::attributes const & attrs );
+	bool myChangeFlag;
 };
 
-#endif //__GUI_GTK_APPLICATION_VIEW_H__
+#endif //__GUI_GTK_ABSTARCT_WIDGET_H__
