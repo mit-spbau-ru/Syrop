@@ -31,18 +31,9 @@ DialogAddApp::DialogAddApp(MainWindow* mainWindow, utils::ProxySettings& proxySe
 
 void DialogAddApp::onChoose()
 {
-    std::string app = ui->comboBox->currentText().toStdString();
-    utils::plugins_t const & apps = DataModel::getInstance()->getApps();
-      
-    //string pluginPath = apps.find(app)->second;
-    string pluginPath = "/home/jjxx/.syrop/plugins/bash/fields";
-    
-    IniData data;
-    ifstream i(pluginPath.c_str());
-    i >> data;
-                            
+    std::string app = ui->comboBox->currentText().toStdString();                                
     proxySettings.add(app, utils::attributes());
-    mainWindow->onAddApplication(ui->comboBox->currentText());
+    mainWindow->onAddPlugin(ui->comboBox->currentText());
 }
 
 DialogAddApp::~DialogAddApp()

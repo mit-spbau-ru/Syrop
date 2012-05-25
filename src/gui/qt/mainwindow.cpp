@@ -113,7 +113,7 @@ void MainWindow::onRemoveNetwok(const QString &title)
 
 void MainWindow::onUpdateNetwork(const QString&){}
 
-void MainWindow::onAddApplication(const QString & app){
+void MainWindow::onAddPlugin(const QString & app){
     
     this->onCurrentNetworkEdited();
     
@@ -121,7 +121,8 @@ void MainWindow::onAddApplication(const QString & app){
                 new ApplicationSettingsTab(
                     this,
                     ui->tabWidget, 
-                    (*currentProxySettings)[app.toStdString()]), 
+                    (*currentProxySettings)[app.toStdString()],
+                    DataModel::getInstance()->loadPluginSettings(app)),
                 app);
     checkAddAppPosibility();
 }
@@ -242,12 +243,14 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     
         
     while(it != currentProxySettings->end()) {
+        QString qname (it->first.data());
         ui->tabWidget->addTab(
                     new ApplicationSettingsTab(
                         this,
                         ui->tabWidget, 
-                        it->second), 
-                    QString(it->first.data()));
+                        it->second,
+                        DataModel::getInstance()->loadPluginSettings(qname)), 
+                    qname);
         it++;
     }
         

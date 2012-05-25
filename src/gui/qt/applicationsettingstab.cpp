@@ -6,11 +6,13 @@
 ApplicationSettingsTab::ApplicationSettingsTab(
         MainWindow* mainWindow,
         QWidget* parent, 
-        utils::attributes& attributes)
+        utils::attributes& attributes,
+        utils::attributes const & pluginFields)
     : QWidget(parent)
     , mainWindow(mainWindow)
     , ui(new Ui::ApplicationSettingsTab)
     , attributes(attributes)
+    , pluginFields(pluginFields)
 {
     ui->setupUi(this);
     this->setLayout(ui->verticalLayout);
@@ -18,20 +20,36 @@ ApplicationSettingsTab::ApplicationSettingsTab(
     ui->formLayout->setMargin(10);
     ui->scrollArea->setFrameShape(QFrame::NoFrame);
     
-    for(utils::attributes::const_iterator it =  attributes.begin(); 
-        it != attributes.end(); ++it) 
-    {
-        QString const key(it->first.data());
-        QString const value(it->second.data());
+        for(utils::attributes::const_iterator it =  pluginFields.begin(); 
+            it != pluginFields.end(); ++it) 
+        {
+            QString const key(it->first.data());
+            QString const value(it->second.data());
+            
+            QLineEdit* const le = new QLineEdit(this);
+            connect(le, SIGNAL(textEdited(QString)),
+                    this, SLOT(onChange()));
+            fields[it->first] = le;
+            
+            le->setText(value);
+            ui->formLayout->addRow(key, le);
+        }
+    
+// TODO : set values    
+//    for(utils::attributes::const_iterator it =  attributes.begin(); 
+//        it != attributes.end(); ++it) 
+//    {
+//        QString const key(it->first.data());
+//        QString const value(it->second.data());
         
-        QLineEdit* const le = new QLineEdit(this);
-        connect(le, SIGNAL(textEdited(QString)),
-                this, SLOT(onChange()));
-        fields[it->first] = le;
+//        QLineEdit* const le = new QLineEdit(this);
+//        connect(le, SIGNAL(textEdited(QString)),
+//                this, SLOT(onChange()));
+//        fields[it->first] = le;
         
-        le->setText(value);
-        ui->formLayout->addRow(key, le);
-    }
+//        le->setText(value);
+//        ui->formLayout->addRow(key, le);
+//    }
     
     ui->widget->setFixedHeight(ui->formLayout->sizeHint().height());
     ui->scrollArea->setWidget(ui->widget);

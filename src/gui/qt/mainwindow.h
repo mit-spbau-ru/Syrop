@@ -20,7 +20,7 @@ public:
     ~MainWindow();
 public slots:
     void onCurrentNetworkEdited();
-    void onAddApplication(QString const & title);
+    void onAddPlugin(QString const & title);
 private slots:
     // data model
     void onLoad();

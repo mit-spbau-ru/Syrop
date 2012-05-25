@@ -80,6 +80,19 @@ void QDataModel::saveNetworkSettings(QString const & name, utils::attributes con
     i << networksSettingsMapping;
 }
 
+// TODO: real load
+utils::attributes QDataModel::loadPluginSettings(QString const &)
+{
+//    string pluginPath = pluginsList.find(name.toStdString())->second;
+    string pluginPath = "/home/jjxx/.syrop/plugins/bash/fields";
+    
+    IniData data;
+    ifstream i(pluginPath.c_str());
+    i >> data;
+    
+    return data.getSection("fields");
+}
+
 
 
 

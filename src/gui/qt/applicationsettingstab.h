@@ -22,7 +22,8 @@ public:
     explicit ApplicationSettingsTab(
             MainWindow* mainWindow,
             QWidget *parent, 
-            utils::attributes& attributes);
+            utils::attributes& attributes,
+            utils::attributes const & pluginFields);
     ~ApplicationSettingsTab();
     void saveChanges();
 private slots:
@@ -32,6 +33,7 @@ private:
     QMap<std::string, QLineEdit*> fields;
     Ui::ApplicationSettingsTab *ui;
     utils::attributes& attributes;
+    utils::attributes const & pluginFields;
     
     void bindData();
 };
