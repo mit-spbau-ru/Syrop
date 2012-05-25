@@ -28,8 +28,6 @@ public:
     static std::string const DEFAULT_NETWORK_CONFIG_PATH;
     static std::string const DEFAULT_SETTINGS_NAME;
     
-    static QString getNetworkSettingsFilePath(const QString&);
-    
     proxyList& getProxies() { return proxySettings; }
     utils::plugins_t const & getApps() const { return pluginsList; }
 

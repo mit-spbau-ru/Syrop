@@ -71,10 +71,6 @@ void QDataModel::removeNetwork(const QString &name)
     emit onRemoveNetwork(name);
 }
 
-QString QDataModel::getNetworkSettingsFilePath(QString const& name)
-{
-    return QString((NETWORK_SETTINGS_FILE + name.toStdString()).c_str());
-}
 
 utils::attributes QDataModel::loadNetworkSettings(const QString &name)
 {
@@ -83,15 +79,9 @@ utils::attributes QDataModel::loadNetworkSettings(const QString &name)
 
 void QDataModel::saveNetworkSettings(QString const & name, utils::attributes const & attrs)
 {
-    string nm = name.toStdString();
-    networksSettingsMapping[nm] = attrs;
-//    if(networksSettingsMapping.hasSection(nm)){
-//        networksSettingsMapping.removeSection(nm);
-//    }
-    ofstream i;
-    i.open(NETWORK_SETTINGS_FILE.c_str());
-    utils::operator <<(i, networksSettingsMapping);
-    i.close();
+    networksSettingsMapping[name.toStdString()] = attrs;
+    ofstream i(NETWORK_SETTINGS_FILE.c_str());
+    i << networksSettingsMapping;
 }
 
 
