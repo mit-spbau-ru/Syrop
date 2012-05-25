@@ -1,21 +1,32 @@
 project(syrop-daemon CXX)
 
-EXEC_PROGRAM(pkg-config ARGS --cflags dbus-glib-1 OUTPUT_VARIABLE DbusGlib_FLAGS)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${DbusGlib_FLAGS}")
+find_package(PkgConfig)
+pkg_check_modules(DBUS_GLIB dbus-glib-1)
 
-EXEC_PROGRAM(pkg-config ARGS --libs dbus-glib-1 OUTPUT_VARIABLE DbusGlib_LIBS)
+set(SYROP_LIBRARY_DIRS ../../../build/ars)
+set(SYROP_INCLUDE_PATH ../../includes)
+set(SYROP_LIBRARIES syroputils)
 
+link_directories(
+	${DBUS_GLIB_LIBRARY_DIRS}
+	${SYROP_LIBRARY_DIRS}
+)
+
+include_directories(
+	${DBUS_GLIB_INCLUDE_DIRS}
+	${SYROP_INCLUDE_PATH}
+)
 
 add_executable(syropd
                main.cpp
-	       daemonexception.cpp
+               daemonexception.cpp
                CExecuter.cpp
                CBusMessage.cpp
 )
 
 target_link_libraries(syropd
-	syroputils
-	${DbusGlib_LIBS}
+	${SYROP_LIBRARIES}
+	${DBUS_GLIB_LIBRARIES}
 )
 
 install(TARGETS syropd DESTINATION bin)
