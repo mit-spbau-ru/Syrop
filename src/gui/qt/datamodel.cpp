@@ -15,9 +15,6 @@ using namespace std;
 QDataModel* DataModel::instance = 0;
 string const QDataModel::NETWORK_SETTINGS_FILE  = 
     utils::application_dir() + utils::MAPPING_FILE;
-string const QDataModel::CONFIG_DIRECTORY   = "../config/";
-string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "../config/default";
-string const QDataModel::DEFAULT_SETTINGS_NAME = "default";
 
 void QDataModel::loadData()
 {
@@ -46,7 +43,6 @@ void QDataModel::addNetwork(QString const & name)
         throw invalid_argument("There exists network with same name.");
 
     ProxySettings p;
-    p.load(DEFAULT_NETWORK_CONFIG_PATH);
     p.save(utils::config_dir() + fileNameFromNet(stdName));
     
     proxySettings.insert(make_pair(stdName, p));

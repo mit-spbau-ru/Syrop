@@ -24,9 +24,6 @@ class QDataModel : public QObject
 public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
     static std::string const NETWORK_SETTINGS_FILE;
-    static std::string const CONFIG_DIRECTORY;
-    static std::string const DEFAULT_NETWORK_CONFIG_PATH;
-    static std::string const DEFAULT_SETTINGS_NAME;
     
     proxyList& getProxies() { return proxySettings; }
     utils::plugins_t const & getApps() const { return pluginsList; }
