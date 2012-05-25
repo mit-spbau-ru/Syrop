@@ -179,8 +179,6 @@ void MainWindow::editCurrentNetworkSettings()
 {
     DialogEditNetwork d(this, currentNetworkName);
     d.exec();
-    //DialogAddApp d(this, *currentProxySettings);
-    //d.exec();
 }
 
 void MainWindow::removeApplication() 
@@ -193,15 +191,14 @@ void MainWindow::removeApplication()
     ui->pushButtonAddApp->setEnabled(true);
 }
 
-void MainWindow::onTabChange(int i)
+void MainWindow::onTabChange(int)
 {
-    ui->pushButtonRemoveApp->setEnabled(i > 0);
+    ui->pushButtonRemoveApp->setEnabled(ui->tabWidget->count() > 0);
 }
 
 void MainWindow::checkAddAppPosibility()
 {
-    // plus one because of default
-    if((DataModel::getInstance()->getApps().size() + 1) 
+    if((DataModel::getInstance()->getApps().size()) 
             == ui->tabWidget->count()) {
         ui->pushButtonAddApp->setEnabled(false);
     }
@@ -243,19 +240,8 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     ui->tabWidget->clear();
     ProxySettings::iterator it = currentProxySettings->begin();
     
-    
-    ui->tabWidget->addTab(
-                new ApplicationSettingsTab(
-                    this,
-                    ui->tabWidget, 
-                    (*currentProxySettings)[QDataModel::DEFAULT_SETTINGS_NAME]),
-                QString(QDataModel::DEFAULT_SETTINGS_NAME.data()));
         
     while(it != currentProxySettings->end()) {
-        if(it->first == QDataModel::DEFAULT_SETTINGS_NAME) {
-            it++;
-            continue;
-        }
         ui->tabWidget->addTab(
                     new ApplicationSettingsTab(
                         this,
