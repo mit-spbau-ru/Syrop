@@ -1,0 +1,7 @@
+[fields]
+http=proxy
+https=proxy
+ftp=proxy
+socks=proxy
+ignore=text
+user_pass=auth
