@@ -31,11 +31,6 @@ namespace utils {
 
 	typedef IniData networks_t;
 	
-	/**
-	 * File mapping.conf should be in "user_home_dir/.syrop"
-	 */
-	const std::string MAPPING_FILE = "mappings.conf";
-	
 	template <typename QueryChecker>
 	networks_t::const_iterator find(networks_t const &base, QueryChecker const &query)
 	{

@@ -42,6 +42,7 @@ namespace utils
 	const string CONFIGS = "configs/";
 	const string SETUP = "/usr/share/syrop/";
 	const string PLUGIN_EXTENSION = ".py";
+	const string MAPPING_FILE = "mappings.conf";
 
 	/**
 	 * Function returns application HOME dir. Directory will be
@@ -50,7 +51,15 @@ namespace utils
 	 * @return string with directory name
 	 * @throws std::runtime_error if an error occrred
 	 */
-	std::string const & application_dir();
+	string const & application_dir();
+	
+	/**
+	 * Function return mappings file name in HOME/.syrop
+	 *
+	 * @return string with file name
+	 */
+	string const & mapping_file();
+	 
 
 	/**
 	 * Function returns application config dir. Directory will be
@@ -59,7 +68,7 @@ namespace utils
 	 * @return string with directory name
 	 * @throws std::runtime_error if an error occrred
 	 */
-	std::string const & config_dir();
+	string const & config_dir();
 
 	/**
 	 * Function returns standart plugin search path:

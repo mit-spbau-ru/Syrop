@@ -6,6 +6,7 @@ pkg_check_modules(GTKMM gtkmm-3.0)
 set(SYROP_LIBRARY_DIRS ../../../build/ars)
 set(SYROP_INCLUDE_PATH ../../includes)
 set(SYROP_LIBRARIES syroputils)
+#set(CMAKE_CXX_FLAGS "-g3")
 
 link_directories(
 	${GTKMM_LIBRARY_DIRS}

@@ -31,6 +31,7 @@
 #include "inputdialog.h"
 #include "yesnodialog.h"
 #include "mappingdialog.h"
+#include "iniparser.h"
 
 class NetworkList : public Gtk::VBox
 {
@@ -60,6 +61,8 @@ private:
 	void on_row_activated        (Gtk::TreeModel::Path const & path, Gtk::TreeViewColumn *);
 
 	void change_buttons_state();
+	void loadIniData(utils::IniData &data) const;
+	void saveIniData(utils::IniData const &data) const;
 
 	sigc::signal<void, std::string const &> myConfigAddedSignal;
 	sigc::signal<void, std::string const &> myConfigRemovedSignal;
