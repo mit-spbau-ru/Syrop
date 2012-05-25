@@ -23,6 +23,7 @@ private:
     utils::attributes attrs;
 
 private slots:
+    bool checkText();
     void onChanged();
     void onSave();    
     
