@@ -93,6 +93,13 @@ std::string const& config_dir()
 	return dirName;
 }
 
+string const & mapping_file()
+{
+	static string const mappingFileName = (application_dir() + MAPPING_FILE);
+	
+	return mappingFileName;
+}
+
 /**
  * Returns vector of standard path for searching plugins:
  *  %HOME%/.syrop/plugins

@@ -110,19 +110,24 @@ void NetworkList::on_remove_button_clicked()
 	if ( it && (myConfirmDialog.run() == Gtk::RESPONSE_YES) )
 	{
 		Glib::ustring fullName;
+		Glib::ustring shortName;
 		it->get_value(1, fullName);
+		it->get_value(0, shortName);
 		myConfigRemovedSignal.emit( fullName.raw() );
 		myListStore->erase(it);
 		utils::remove_file( fullName.raw() );
 		change_buttons_state();
+		
+		utils::IniData data;
+		loadIniData(data);
+		data.removeSection(shortName);
+		saveIniData(data);
 	}
 	myConfirmDialog.hide();
 }
 
 void NetworkList::on_mapping_button_clicked()
 {
-	static const std::string mappingFile( utils::application_dir() + utils::MAPPING_FILE );
-	
 	Gtk::ListStore::iterator it = myView.get_selection()->get_selected();
 	if ( it )
 	{
@@ -131,17 +136,13 @@ void NetworkList::on_mapping_button_clicked()
 		myMappingDialog.set_title( name.raw() );
 		
 		utils::IniData data;
-		std::ifstream in( mappingFile.c_str() );
-		in >> data;
-		in.close();
+		loadIniData(data);
 		myMappingDialog.setContent(data[name]);
 	
 		if (myMappingDialog.run() == Gtk::RESPONSE_OK)
 		{
 			myMappingDialog.saveContent(data[name]);
-			std::ofstream out( mappingFile.c_str() );
-			out << data;
-			out.close();
+			saveIniData(data);
 		}
 		myMappingDialog.hide();
 	}
@@ -182,4 +183,18 @@ void NetworkList::dropSelection()
 void NetworkList::change_buttons_state()
 {
 	myRemoveButton.set_sensitive( myListStore->children().size() > 0 );
+}
+
+void NetworkList::loadIniData(utils::IniData &data) const
+{
+	std::ifstream in( utils::mapping_file().c_str() );
+	in >> data;
+	in.close();
+}
+
+void NetworkList::saveIniData(utils::IniData const &data) const
+{
+	std::ofstream out( utils::mapping_file().c_str() );
+	out << data;
+	out.close();
 }

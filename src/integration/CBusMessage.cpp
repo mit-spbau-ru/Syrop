@@ -73,39 +73,36 @@ bool CBusMessage::isWiFi() {
         DBusMessageIter subiter;
         dbus_message_iter_recurse(&iter, &subiter);
         dbus_message_iter_get_basic(&subiter, &WPPath);
-        
+
         wirelessPropertiesPath = WPPath;
-        
+
         return !wirelessPropertiesPath.empty();
     }
     return false;
-    
+
 }
 
 std::string CBusMessage::getSSID() {
-    if (wirelessPropertiesPath.empty() && isWiFi())
-    {
-        // Construct the message to Wireless Properties
-        DBusMessage *msg;
-        msg = dbus_message_new_method_call("org.freedesktop.NetworkManager", //service
-                wirelessPropertiesPath.c_str(), //path
-                "org.freedesktop.DBus.Properties", //interface
-                "Get"); //method
-        const char *interfaceAP = "org.freedesktop.NetworkManager.AccessPoint";
-        const char *propertyAP = "Ssid";
-        dbus_message_append_args(msg, DBUS_TYPE_STRING, &interfaceAP, DBUS_TYPE_STRING, &propertyAP, DBUS_TYPE_INVALID);
+    // Construct the message to Wireless Properties
+    DBusMessage *msg;
+    msg = dbus_message_new_method_call("org.freedesktop.NetworkManager", //service
+            wirelessPropertiesPath.c_str(), //path
+            "org.freedesktop.DBus.Properties", //interface
+            "Get"); //method
+    const char *interfaceAP = "org.freedesktop.NetworkManager.AccessPoint";
+    const char *propertyAP = "Ssid";
+    dbus_message_append_args(msg, DBUS_TYPE_STRING, &interfaceAP, DBUS_TYPE_STRING, &propertyAP, DBUS_TYPE_INVALID);
 
-        /* Ask for SSID from Wireless Properties */
-        DBusMessage *rpl;
-        DBusMessageIter iter;
-        rpl = dbus_connection_send_with_reply_and_block(connection, msg, -1, NULL);
-        dbus_message_iter_init(rpl, &iter);
+    /* Ask for SSID from Wireless Properties */
+    DBusMessage *rpl;
+    DBusMessageIter iter;
+    rpl = dbus_connection_send_with_reply_and_block(connection, msg, -1, NULL);
+    dbus_message_iter_init(rpl, &iter);
 
-        /* Get SSID (finally) */
-        parserSSID(&iter);
- 
-       return SSID;
-    } else
+    /* Get SSID (finally) */
+    if (parserSSID(&iter))
+            return SSID;
+    else
         return "null";
 }
 
