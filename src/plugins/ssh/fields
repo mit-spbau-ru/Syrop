@@ -1,0 +1,3 @@
+[fields]
+ssh=proxy
+user_pass=auth

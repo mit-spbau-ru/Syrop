@@ -1,0 +1,5 @@
+[fields]
+http=proxy
+https=proxy
+ftp=proxy
+
