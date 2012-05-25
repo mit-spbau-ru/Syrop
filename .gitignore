@@ -3,6 +3,9 @@ lib
 *.o
 *.d
 *.gch
+*.cxx
+ui_*.cpp
+ui_*.h
 Makefile
 *.deb
 *.cmake
