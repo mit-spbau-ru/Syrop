@@ -2,7 +2,6 @@ project(syroputils CXX)
 
 add_library(syroputils
 		inidata.cpp
-		namedb.cpp
 		proxysettings.cpp
 		iniparser.cpp
 		genutils.cpp
