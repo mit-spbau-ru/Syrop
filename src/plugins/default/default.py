@@ -1,11 +1,15 @@
 def backupSettings ():
-	pass
+	print "backup"
 
 def setupSettings (settings):
+	if "http" in settings:
+		print settings["http"]
 	if "https" in settings:
 		print settings["https"]
-	else:
-		print settings["http"]
+	if "ftp" in settings:
+		print settings["ftp"]
+	if "socks" in settings:
+		print settings["socks"]
 
 def cleanupSettings ():
 	print "cleanned"
