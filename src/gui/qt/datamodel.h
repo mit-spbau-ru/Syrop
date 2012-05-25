@@ -41,8 +41,7 @@ public slots:
     void updateNetwork(QString const & name);
     void restoreNetwork(std::string const & name);
     utils::attributes loadNetworkSettings(QString const & name);
-    //void saveNetworkSettings(QString const & name, QString const & value);
-    void saveNetworkSettings();
+    void saveNetworkSettings(QString const & name, utils::attributes const & attrs);
     
 signals:
     void onLoadData();

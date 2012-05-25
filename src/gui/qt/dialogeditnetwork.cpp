@@ -25,6 +25,7 @@ DialogEditNetwork::DialogEditNetwork(QWidget *parent, const QString &networkName
     ui->labelErrorMessage->clear();
     
     attrs = DataModel::getInstance()->loadNetworkSettings(networkName);
+    
     std::string sum = "";
     for(utils::attributes::iterator it = attrs.begin(); 
         it != attrs.end(); it++) {
@@ -44,6 +45,7 @@ DialogEditNetwork::DialogEditNetwork(QWidget *parent, const QString &networkName
 void DialogEditNetwork::onChanged()
 {
     ui->pushButtonSave->setEnabled(true);
+    ui->labelErrorMessage->clear();
     isEdited = true;
 }
 
@@ -51,9 +53,10 @@ void DialogEditNetwork::onSave()
 {
     if(!checkText())
         return;
-    DataModel::getInstance()->saveNetworkSettings();
+    DataModel::getInstance()->saveNetworkSettings(networkName, attrs);
     isEdited = false;
     ui->pushButtonSave->setEnabled(false);
+    this->close();
 }
 
 bool DialogEditNetwork::checkText()
@@ -89,7 +92,7 @@ bool DialogEditNetwork::checkText()
     else
         ui->labelErrorMessage->clear();
     
-    return !errLines.empty();
+    return errLines.empty();
     
 }
 

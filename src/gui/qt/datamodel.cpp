@@ -86,8 +86,13 @@ utils::attributes QDataModel::loadNetworkSettings(const QString &name)
     return networksSettingsMapping[name.toStdString()];
 }
 
-void QDataModel::saveNetworkSettings()
+void QDataModel::saveNetworkSettings(QString const & name, utils::attributes const & attrs)
 {
+    string nm = name.toStdString();
+    networksSettingsMapping[nm] = attrs;
+//    if(networksSettingsMapping.hasSection(nm)){
+//        networksSettingsMapping.removeSection(nm);
+//    }
     ofstream i;
     i.open(NETWORK_SETTINGS_FILE.c_str());
     utils::operator <<(i, networksSettingsMapping);
