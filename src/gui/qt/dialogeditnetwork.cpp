@@ -2,7 +2,7 @@
 #include "ui_dialogeditnetwork.h"
 #include "qmessagebox.h"
 #include "datamodel.h"
-
+#include <string>
 
 DialogEditNetwork::DialogEditNetwork(QWidget *parent, const QString &networkName)
     : QDialog(parent)
@@ -15,8 +15,14 @@ DialogEditNetwork::DialogEditNetwork(QWidget *parent, const QString &networkName
     ui->verticalLayout->setMargin(10);
     this->setLayout(ui->verticalLayout);
     
-    ui->plainTextEditNetworkSettings->setPlainText(
-                DataModel::getInstance()->loadNetworkSettings(networkName));
+    attrs = DataModel::getInstance()->loadNetworkSettings(networkName);
+    std::string sum = "";
+    for(utils::attributes::iterator it = attrs.begin(); 
+        it != attrs.end(); it++) {
+        sum.append(it->first + "=" + it->second + "\n");
+    }
+            
+    ui->plainTextEditNetworkSettings->setPlainText(QString(sum.c_str()));
     connect(ui->plainTextEditNetworkSettings, SIGNAL(textChanged()),
             this, SLOT(onChanged()));  
     connect(ui->buttonBox, SIGNAL(accepted()),
@@ -31,9 +37,7 @@ void DialogEditNetwork::onChanged()
 
 void DialogEditNetwork::onSave()
 {
-    DataModel::getInstance()->saveNetworkSettings(
-                networkName, 
-                ui->plainTextEditNetworkSettings->toPlainText());
+    DataModel::getInstance()->saveNetworkSettings();
     isEdited = false;
 }
 

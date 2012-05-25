@@ -11,6 +11,7 @@
 
 #include "proxysettings.h"
 #include "system.h"
+#include "inidata.h"
 
 /**
  * Main data structure with events
@@ -21,7 +22,7 @@ class QDataModel : public QObject
     friend class DataModel;
 public:
     typedef std::map<std::string, utils::ProxySettings> proxyList;
-    static std::string const NETWORK_SETTINGS_DIRECTORY;
+    static std::string const NETWORK_SETTINGS_FILE;
     static std::string const CONFIG_DIRECTORY;
     static std::string const APPS_DIRECTORY;
     static std::string const DEFAULT_NETWORK_CONFIG_PATH;
@@ -34,12 +35,14 @@ public:
 
 public slots:
     void loadData();
+    void loadDataNetworkSettings();
     void addNetwork(QString const & name);
     void removeNetwork(QString const & name);
     void updateNetwork(QString const & name);
     void restoreNetwork(std::string const & name);
-    QString loadNetworkSettings(QString const & name);
-    void saveNetworkSettings(QString const & name, QString const & value);
+    utils::attributes loadNetworkSettings(QString const & name);
+    //void saveNetworkSettings(QString const & name, QString const & value);
+    void saveNetworkSettings();
     
 signals:
     void onLoadData();
@@ -57,6 +60,7 @@ private:
     {}
     QDataModel(QDataModel const &);
     void operator=(QDataModel const &);
+    utils::IniData networksSettingsMapping;
 };
 
 

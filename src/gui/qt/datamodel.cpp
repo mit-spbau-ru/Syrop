@@ -1,19 +1,20 @@
 #include <stdexcept>
 #include <map>
 #include <genutils.h>
-#include <qfile.h>
+#include <fstream>
 #include <qtextstream.h>
 
 #include "datamodel.h"
 #include "coreutils.h"
-
-
+#include "namedb2.h"
+#include "iniparser.h"
 
 using namespace utils;
 using namespace std;
 
 QDataModel* DataModel::instance = 0;
-string const QDataModel::NETWORK_SETTINGS_DIRECTORY  = "../res/settings/";
+string const QDataModel::NETWORK_SETTINGS_FILE  = 
+    utils::application_dir() + utils::MAPPING_FILE;
 string const QDataModel::CONFIG_DIRECTORY   = "../config/";
 string const QDataModel::APPS_DIRECTORY     = "../config/apps/";
 string const QDataModel::DEFAULT_NETWORK_CONFIG_PATH  = "../config/default";
@@ -22,10 +23,19 @@ string const QDataModel::DEFAULT_SETTINGS_NAME = "default";
 
 void QDataModel::loadData()
 {
-    string s = utils::config_dir();
     readAllProxySettings(utils::config_dir(), proxySettings);
     readAllProxySettings(APPS_DIRECTORY, appsList);
+    loadDataNetworkSettings();
     emit onLoadData();
+}
+
+// TODO: load ini file and 
+void QDataModel::loadDataNetworkSettings()
+{
+    ifstream i;
+    i.open(NETWORK_SETTINGS_FILE.c_str());
+    utils::operator >>(i, networksSettingsMapping);
+    i.close();
 }
 
 void QDataModel::restoreNetwork(const string &name)
@@ -68,37 +78,20 @@ void QDataModel::removeNetwork(const QString &name)
 
 QString QDataModel::getNetworkSettingsFilePath(QString const& name)
 {
-    return QString((NETWORK_SETTINGS_DIRECTORY + name.toStdString()).c_str());
+    return QString((NETWORK_SETTINGS_FILE + name.toStdString()).c_str());
 }
 
-QString QDataModel::loadNetworkSettings(const QString &name)
+utils::attributes QDataModel::loadNetworkSettings(const QString &name)
 {
-    QFile file(QDataModel::getNetworkSettingsFilePath(name));
-    
-    if(!file.exists())
-        return "";
-    if (!file.open(QIODevice::ReadOnly))
-        throw runtime_error("Can't open file");
-    
-    QString sum;
-    try {
-        QTextStream stream (&file);
-        sum = stream.readAll();
-    } catch (...) {
-        file.close();
-        throw runtime_error("Can't read file");
-    }
-    file.close();
-    return sum;
+    return networksSettingsMapping[name.toStdString()];
 }
 
-void QDataModel::saveNetworkSettings(const QString &name, const QString &content)
+void QDataModel::saveNetworkSettings()
 {
-    QFile file(QDataModel::getNetworkSettingsFilePath(name));
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream out(&file);
-    out << content;
-    file.close();
+    ofstream i;
+    i.open(NETWORK_SETTINGS_FILE.c_str());
+    utils::operator <<(i, networksSettingsMapping);
+    i.close();
 }
 
 
