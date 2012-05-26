@@ -68,5 +68,4 @@ void AuthWidget::show_password_clicked()
 void AuthWidget::save(utils::attributes & data)
 {
 	data[myTitle] = myUserEntry.get_text().raw() + ":" + myPasswordEntry.get_text().raw();
-	on_save();
 }

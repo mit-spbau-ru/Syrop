@@ -30,22 +30,22 @@
 class AbstractWidget : public Gtk::Box
 {
 public:
-	virtual bool changed() const { return myChangeFlag; }
-	virtual void save   (utils::attributes & data) = 0;
+	virtual void save(utils::attributes & data) = 0;
 	
 	virtual ~AbstractWidget() {}
+	
 	AbstractWidget(Gtk::Orientation orientation = Gtk::ORIENTATION_HORIZONTAL
-	, int spacing = 0)
+			, int spacing = 0)
 	: Gtk::Box(orientation, spacing)
-	, myChangeFlag(false)
 		{}
+
+	virtual sigc::signal<void> signal_changed() const { return myChangedSignal; }
 	
 protected:
-	virtual void on_change() { myChangeFlag = true; }
-	virtual void on_save  () { myChangeFlag = false; }
+	virtual void on_change() const { myChangedSignal.emit(); }
 	
 private:
-	bool myChangeFlag;
+	sigc::signal<void> myChangedSignal;
 };
 
 #endif //__GUI_GTK_ABSTARCT_WIDGET_H__

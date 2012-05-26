@@ -38,8 +38,5 @@ TextWidget::TextWidget(std::string const & title, std::string const & value)
 void TextWidget::save(utils::attributes & data)
 {
 	if ( !myEntry.get_text().empty() )
-	{
 		data[myLabel.get_text().raw()] = myEntry.get_text().raw();
-		on_save();
-	}
 }

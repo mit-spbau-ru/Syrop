@@ -41,7 +41,8 @@ class ApplicationView : public Gtk::VBox
 public:
 	ApplicationView(utils::attributes const & attrs, std::string const & name);
 
-	bool changed() const;
+	sigc::signal<void> signal_changed() const { return myChangedSignal; }
+	
 	void save(utils::IniData & data);
 
 private:
@@ -56,8 +57,12 @@ private:
 	widgets_t myTextChildren;
 	widgets_t myAuthChildren;
 	
+	sigc::signal<void> myChangedSignal;
+	
 	void loadFields       ( utils::attributes const & attrs, utils::attributes const & fields);
 	void loadDefaultFields( utils::attributes const & attrs );
+	
+	void on_change        () const { myChangedSignal.emit(); }
 };
 
 #endif //__GUI_GTK_APPLICATION_VIEW_H__

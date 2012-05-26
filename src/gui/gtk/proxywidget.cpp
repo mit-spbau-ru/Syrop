@@ -55,8 +55,5 @@ ProxyWidget::ProxyWidget(std::string const & title, std::string const & value)
 void ProxyWidget::save(utils::attributes & data)
 {
 	if ( !myAddress.get_text().empty() )
-	{
 		data[myLabel.get_text().raw()] = myAddress.get_text().raw() + ":" + myPort.get_text().raw();
-		on_save();
-	}
 }

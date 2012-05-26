@@ -91,6 +91,8 @@ void ApplicationView::loadFields(utils::attributes const & attrs, utils::attribu
 			widget.reset( new TextWidget(title, value) );
 			myAuthChildren.push_back(widget);
 		}
+		
+		widget->signal_changed().connect( sigc::mem_fun(*this, &ApplicationView::on_change) );
 	}
 }
 
@@ -102,36 +104,26 @@ void ApplicationView::loadDefaultFields(utils::attributes const & attrs)
 	utils::attributes::const_iterator it = attrs.find("http");
 	if ( it != attrs.end() ) value = it->second;
 	widget.reset( new ProxyWidget("http", value) );
+	widget->signal_changed().connect( sigc::mem_fun(*this, &ApplicationView::on_change) );
 	myProxyChildren.push_back(widget);
 
 	it = attrs.find("https");
 	if ( it != attrs.end() ) value = it->second;
 	widget.reset( new ProxyWidget("https", value) );
+	widget->signal_changed().connect( sigc::mem_fun(*this, &ApplicationView::on_change) );
 	myProxyChildren.push_back(widget);
 
 	it = attrs.find("ftp");
 	if ( it != attrs.end() ) value = it->second;
 	widget.reset( new ProxyWidget("ftp", value) );
+	widget->signal_changed().connect( sigc::mem_fun(*this, &ApplicationView::on_change) );
 	myProxyChildren.push_back(widget);
 
 	it = attrs.find("socks");
 	if ( it != attrs.end() ) value = it->second;
 	widget.reset( new ProxyWidget("socks", value) );
+	widget->signal_changed().connect( sigc::mem_fun(*this, &ApplicationView::on_change) );
 	myProxyChildren.push_back(widget);
-}
-
-bool ApplicationView::changed() const
-{
-	for (widgets_t::const_iterator it = myProxyChildren.begin(); it != myProxyChildren.end(); ++it)
-		if ( (*it)->changed() ) return true;
-
-	for (widgets_t::const_iterator it = myTextChildren.begin(); it != myTextChildren.end(); ++it)
-		if ( (*it)->changed() ) return true;
-		
-	for (widgets_t::const_iterator it = myAuthChildren.begin(); it != myAuthChildren.end(); ++it)
-		if ( (*it)->changed() ) return true;
-
-	return false;
 }
 
 void ApplicationView::save(utils::IniData & data)

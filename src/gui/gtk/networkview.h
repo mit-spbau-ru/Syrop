@@ -59,7 +59,7 @@ private:
 	void on_save_clicked();
 
 	void force_save();
-	bool changed() const;
+	void changed();
 	void change_buttons_state();
 };
 
