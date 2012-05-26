@@ -37,6 +37,7 @@ ApplicationSettingsTab::ApplicationSettingsTab(
              QString value = attributes.find(it->first.data())->second.data();
              p->setValue(value);
           }
+          p->bindToTab(this);
           
       }
       

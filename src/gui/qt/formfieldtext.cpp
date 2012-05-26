@@ -1,5 +1,6 @@
 #include "formfieldtext.h"
 #include "ui_formfieldtext.h"
+#include "applicationsettingstab.h"
 
 FormFieldText::FormFieldText(QWidget *parent) :
     FormPluginField(parent),
@@ -23,6 +24,12 @@ void FormFieldText::setName(QString const & value)
 void FormFieldText::setValue(QString const & value) 
 {
     ui->lineEdit->setText(value);
+}
+
+void FormFieldText::bindToTab(ApplicationSettingsTab * tab)
+{
+    connect(ui->lineEdit, SIGNAL(textChanged(QString)),
+            tab, SLOT(onChange()));
 }
 
 FormFieldText::~FormFieldText()

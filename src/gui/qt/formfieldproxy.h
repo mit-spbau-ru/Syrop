@@ -19,7 +19,7 @@ public:
     QString getValue();
     void setValue(QString const & value);
     void setName(QString const & value);
-    
+    void bindToTab(ApplicationSettingsTab * tab);
 
     
     
