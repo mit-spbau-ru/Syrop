@@ -21,6 +21,9 @@
 
 #include "main.h"
 
+/**
+ * This function will be called every time when we caching a message, satisfying our conditions.
+ */
 static DBusHandlerResult signalEngine(DBusConnection *connection, DBusMessage *message, void *user_data);
 
 int main() {
@@ -28,8 +31,7 @@ int main() {
     openlog("syropd", LOG_PID, LOG_USER);
     DBusError error;
     try {
-        GMainLoop *loop;
-        loop = g_main_loop_new(NULL, FALSE);
+        GMainLoop *loop = g_main_loop_new(NULL, FALSE);
 
         DBusConnection *bus;
         dbus_error_init(&error);
@@ -39,7 +41,7 @@ int main() {
         }
         dbus_connection_setup_with_g_main(bus, NULL);
 
-        /* listening to messages from all objects as no path is specified */
+        // listening to messages from all objects as no path is specified
         dbus_bus_add_match(bus, "type='signal',sender='org.freedesktop.NetworkManager',interface='org.freedesktop.NetworkManager.Connection.Active'", &error);
         dbus_connection_add_filter(bus, signalEngine, loop, NULL);
 
@@ -67,15 +69,38 @@ static DBusHandlerResult signalEngine(DBusConnection *connection, DBusMessage *m
 
     if (msg.isDisconnect()) {
         CExecuter execute(false);
-        //if (!exec.getResult())
-        //syslog(LOG_NOTICE, "rollback\n"); 
+        syslog(LOG_NOTICE, "rollback\n");
     } else {
         if (msg.isDefConnect()) {
+            std::string log = "New connection detected";
             if (msg.isWiFi()) {
-                CExecuter execute(msg.getSSID());
+
+                errno = 0;
+                std::ifstream in(mapping_file().c_str());
+
+                if (in.fail())
+                    throw std::runtime_error(error_message(errno));
+
+                networks_t data;
+                in >> data;
+                in.close();
+
+                std::string SSID = msg.getSSID();
+                CFinder predicate(SSID);
+                // Profile search by network name
+                const networks_t::const_iterator it = find(data, predicate);
+
+                if (it != data.end()) {
+                    CExecuter execute(it->first);
+                    log += ". Syrop is configurated for network " + SSID + "(" + it->first + ")";
+                } else {
+                    log += ", but there is no record about it in a database.\n";
+                }
+
             } else {
-                //CExecuter exec(" ");
+                log += ", but is is not Wifi connection.\n";
             }
+            syslog(LOG_NOTICE, "%s", log.c_str());
         }
     }
 

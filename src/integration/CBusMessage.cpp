@@ -21,140 +21,182 @@
 
 #include "CBusMessage.h"
 
-namespace syropd
-{
+namespace syropd {
 
-CBusMessage::CBusMessage(DBusConnection *conn, DBusMessage *msg) : connection(conn), message(msg) { 
-}
+    /**
+     * 
+     * Constructor
+     *
+     * @param conn is a connection to a remote application and associated incoming/outgoing message queues
+     * @param msg is a DBus message
+     *
+     */
 
-bool CBusMessage::isDisconnect() {
-    // A signal from the bus saying we are about to be disconnected
-    if (dbus_message_is_signal(message, "org.freedesktop.Local", "Disconnected"))
-        return true;
-    else
+    CBusMessage::CBusMessage(DBusConnection *conn, DBusMessage *msg) : connection(conn), message(msg) {
+    }
+
+    /**
+     * Check of a disconnection
+     */
+
+    bool CBusMessage::isDisconnect() {
+        // A signal from the bus saying we are about to be disconnected
+        return (dbus_message_is_signal(message, "org.freedesktop.Local", "Disconnected"));
+    }
+
+    /**
+     * Check: does the new network is a connection by default
+     */
+
+    bool CBusMessage::isDefConnect() {
+        // New network connection is default connection
+        if (dbus_message_is_signal(message, "org.freedesktop.NetworkManager.Connection.Active", "PropertiesChanged")) {
+            DBusMessageIter iter;
+            dbus_message_iter_init(message, &iter);
+            return parserStatus(&iter);
+        }
         return false;
-}
+    }
 
-bool CBusMessage::isDefConnect() {
-    // New network connection is default connection
-    if (dbus_message_is_signal(message, "org.freedesktop.NetworkManager.Connection.Active", "PropertiesChanged")) {
+    /**
+     * Check: does the new network is a WiFi connection
+     */
+
+    bool CBusMessage::isWiFi() {
+        // Construct the message to Active Connection
+        DBusMessage *msg;
+        msg = dbus_message_new_method_call("org.freedesktop.NetworkManager", // service
+                dbus_message_get_path(message), // path
+                "org.freedesktop.DBus.Properties", // interface
+                "Get"); // method
+
+        const char *interfaceDefltActvConctn = "org.freedesktop.NetworkManager.Connection.Active";
+        const char *propertyDefltActvConctn = "SpecificObject";
+        dbus_message_append_args(msg, DBUS_TYPE_STRING, &interfaceDefltActvConctn, DBUS_TYPE_STRING, &propertyDefltActvConctn, DBUS_TYPE_INVALID);
+
+        // Ask for SpecificObject from ActiveConnection
+        DBusMessage *rpl;
         DBusMessageIter iter;
-        dbus_message_iter_init(message, &iter);
-        return parserStatus(&iter);
-    }
-    return false;
-}
+        rpl = dbus_connection_send_with_reply_and_block(connection, msg, -1, NULL);
+        dbus_message_iter_init(rpl, &iter);
 
-bool CBusMessage::isWiFi() {
-    // Construct the message to Active Connection
-    DBusMessage *msg;
-    msg = dbus_message_new_method_call("org.freedesktop.NetworkManager", // service
-            dbus_message_get_path(message), // path
-            "org.freedesktop.DBus.Properties", // interface
-            "Get"); // method
-    
-    const char *interfaceDefltActvConctn = "org.freedesktop.NetworkManager.Connection.Active";
-    const char *propertyDefltActvConctn = "SpecificObject";
-    dbus_message_append_args(msg, DBUS_TYPE_STRING, &interfaceDefltActvConctn, DBUS_TYPE_STRING, &propertyDefltActvConctn, DBUS_TYPE_INVALID);
+        // Can we get SSID?
+        int type = dbus_message_iter_get_arg_type(&iter);
+        if (type == DBUS_TYPE_INVALID) {
+            return false;
+        }
+        if (type == DBUS_TYPE_VARIANT) {
+            const char *WPPath;
+            DBusMessageIter subiter;
+            dbus_message_iter_recurse(&iter, &subiter);
+            dbus_message_iter_get_basic(&subiter, &WPPath);
 
-    // Ask for SpecificObject from ActiveConnection
-    DBusMessage *rpl;
-    DBusMessageIter iter;
-    rpl = dbus_connection_send_with_reply_and_block(connection, msg, -1, NULL);
-    dbus_message_iter_init(rpl, &iter);
+            wirelessPropertiesPath = WPPath;
 
-    // Can we get SSID?
-    int type = dbus_message_iter_get_arg_type(&iter);
-    if (type == DBUS_TYPE_INVALID) {
+            return !wirelessPropertiesPath.empty();
+        }
         return false;
+
     }
-    if (type == DBUS_TYPE_VARIANT) {
-        const char *WPPath;
-        DBusMessageIter subiter;
-        dbus_message_iter_recurse(&iter, &subiter);
-        dbus_message_iter_get_basic(&subiter, &WPPath);
 
-        wirelessPropertiesPath = WPPath;
+    /**
+     * 
+     * Function returns a network name
+     *
+     * @return network name
+     * 
+     */
 
-        return !wirelessPropertiesPath.empty();
-    }
-    return false;
+    std::string CBusMessage::getSSID() {
+        // Construct the message to Wireless Properties
+        DBusMessage *msg;
+        msg = dbus_message_new_method_call("org.freedesktop.NetworkManager", //service
+                wirelessPropertiesPath.c_str(), //path
+                "org.freedesktop.DBus.Properties", //interface
+                "Get"); //method
+        const char *interfaceAP = "org.freedesktop.NetworkManager.AccessPoint";
+        const char *propertyAP = "Ssid";
+        dbus_message_append_args(msg, DBUS_TYPE_STRING, &interfaceAP, DBUS_TYPE_STRING, &propertyAP, DBUS_TYPE_INVALID);
 
-}
+        /* Ask for SSID from Wireless Properties */
+        DBusMessage *rpl;
+        DBusMessageIter iter;
+        rpl = dbus_connection_send_with_reply_and_block(connection, msg, -1, NULL);
+        dbus_message_iter_init(rpl, &iter);
 
-std::string CBusMessage::getSSID() {
-    // Construct the message to Wireless Properties
-    DBusMessage *msg;
-    msg = dbus_message_new_method_call("org.freedesktop.NetworkManager", //service
-            wirelessPropertiesPath.c_str(), //path
-            "org.freedesktop.DBus.Properties", //interface
-            "Get"); //method
-    const char *interfaceAP = "org.freedesktop.NetworkManager.AccessPoint";
-    const char *propertyAP = "Ssid";
-    dbus_message_append_args(msg, DBUS_TYPE_STRING, &interfaceAP, DBUS_TYPE_STRING, &propertyAP, DBUS_TYPE_INVALID);
-
-    /* Ask for SSID from Wireless Properties */
-    DBusMessage *rpl;
-    DBusMessageIter iter;
-    rpl = dbus_connection_send_with_reply_and_block(connection, msg, -1, NULL);
-    dbus_message_iter_init(rpl, &iter);
-
-    /* Get SSID (finally) */
-    if (parserSSID(&iter))
+        /* Get SSID (finally) */
+        if (parserSSID(&iter))
             return SSID;
-    else
-        return "null";
-}
+        else
+            return "null";
+    }
 
-bool CBusMessage::parserStatus(DBusMessageIter *iter) {
-    int type = dbus_message_iter_get_arg_type(iter);
-    if (type == DBUS_TYPE_INVALID) {
+    /**
+     * 
+     * Function searches for a keyword "Default" in the message
+     *
+     * @param iter is a DBus message iterator
+     * 
+     */
+
+    bool CBusMessage::parserStatus(DBusMessageIter *iter) {
+        int type = dbus_message_iter_get_arg_type(iter);
+        if (type == DBUS_TYPE_INVALID) {
+            return false;
+        }
+
+        // loop
+        if (type == DBUS_TYPE_ARRAY || type == DBUS_TYPE_DICT_ENTRY) {
+            DBusMessageIter subiter;
+            dbus_message_iter_recurse(iter, &subiter);
+            return parserStatus(&subiter);
+        }
+
+        std::string def = "Default";
+        const char *str;
+
+        dbus_message_iter_get_basic(iter, &str);
+        if (!def.compare(str)) {
+            dbus_message_iter_next(iter);
+            DBusMessageIter subiter;
+            dbus_message_iter_recurse(iter, &subiter);
+            dbus_bool_t boolean;
+            dbus_message_iter_get_basic(&subiter, &boolean);
+            return boolean;
+        }
         return false;
     }
-    
-    // loop
-    if (type == DBUS_TYPE_ARRAY || type == DBUS_TYPE_DICT_ENTRY) {
-        DBusMessageIter subiter;
-        dbus_message_iter_recurse(iter, &subiter);
-        return parserStatus(&subiter);
-    }
-    
-    std::string def = "Default";
-    const char *str;
-    
-    dbus_message_iter_get_basic(iter, &str);
-    if (!def.compare(str)) {
-        dbus_message_iter_next(iter);
-        DBusMessageIter subiter;
-        dbus_message_iter_recurse(iter, &subiter);
-        dbus_bool_t boolean;
-        dbus_message_iter_get_basic(&subiter, &boolean);
-        return boolean;
-    }
-    return false;
-}
 
-bool CBusMessage::parserSSID(DBusMessageIter *iter) {
-    int type = dbus_message_iter_get_arg_type(iter);
-    if (type == DBUS_TYPE_INVALID) {
-        return false;
-    }
+    /**
+     * 
+     * Function pulls out a network name from the message
+     *
+     * @param iter contains a network name
+     * @return network name
+     * 
+     */
     
-    // loop
-    if (type == DBUS_TYPE_VARIANT || type == DBUS_TYPE_ARRAY) {
-        DBusMessageIter subiter;
-        dbus_message_iter_recurse(iter, &subiter);
-        return parserSSID(&subiter);
+    bool CBusMessage::parserSSID(DBusMessageIter *iter) {
+        int type = dbus_message_iter_get_arg_type(iter);
+        if (type == DBUS_TYPE_INVALID) {
+            return false;
+        }
+
+        // loop
+        if (type == DBUS_TYPE_VARIANT || type == DBUS_TYPE_ARRAY) {
+            DBusMessageIter subiter;
+            dbus_message_iter_recurse(iter, &subiter);
+            return parserSSID(&subiter);
+        }
+
+        unsigned char tmp;
+        do {
+            dbus_message_iter_get_basic(iter, &tmp);
+            SSID.push_back(tmp);
+        } while (dbus_message_iter_next(iter));
+        return true;
     }
 
-    unsigned char tmp;
-    do {
-        dbus_message_iter_get_basic(iter, &tmp);
-        SSID.push_back(tmp);
-    } while (dbus_message_iter_next(iter));
-    return true;
-}
-    
-    
-    
+
+
 } // namespace daemon
