@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Edit network settings</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../icons/icon_extension.gif</normaloff>../icons/icon_extension.gif</iconset>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
@@ -63,15 +67,41 @@
       </item>
       <item>
        <widget class="QPushButton" name="pushButtonCheck">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Check that text is correct</string>
+        </property>
         <property name="text">
-         <string>Check</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../icons/icon_alert.gif</normaloff>../icons/icon_alert.gif</iconset>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButtonSave">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Save changes</string>
+        </property>
         <property name="text">
-         <string>Save</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../icons/action_save.gif</normaloff>../icons/action_save.gif</iconset>
         </property>
         <property name="default">
          <bool>false</bool>

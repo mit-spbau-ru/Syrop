@@ -31,12 +31,15 @@ public:
 public slots:
     void loadData();
     void loadDataNetworkSettings();
+    
     void addNetwork(QString const & name);
     void removeNetwork(QString const & name);
     void updateNetwork(QString const & name);
     void restoreNetwork(std::string const & name);
+    utils::attributes loadPluginSettings(QString const & name);
     utils::attributes loadNetworkSettings(QString const & name);
     void saveNetworkSettings(QString const & name, utils::attributes const & attrs);
+    void removeNetworkSettings(QString const & name);
     
 signals:
     void onLoadData();

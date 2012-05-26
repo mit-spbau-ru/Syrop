@@ -19,6 +19,13 @@
   <property name="windowTitle">
    <string>Syrop</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../icons/page_up.gif</normaloff>../icons/page_up.gif</iconset>
+  </property>
+  <property name="toolTip">
+   <string>Remove application setting from current network</string>
+  </property>
   <widget class="QWidget" name="centralwidgetHolder">
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
@@ -70,11 +77,24 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Save data for each application</string>
+           </property>
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
            </property>
            <property name="text">
-            <string>Save</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/action_save.gif</normaloff>../icons/action_save.gif</iconset>
            </property>
           </widget>
          </item>
@@ -83,8 +103,21 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Add new application settings for current network</string>
+           </property>
            <property name="text">
-            <string>Add App</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/note_new.gif</normaloff>../icons/note_new.gif</iconset>
            </property>
           </widget>
          </item>
@@ -93,8 +126,18 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Remove App</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/note_delete.gif</normaloff>../icons/note_delete.gif</iconset>
            </property>
           </widget>
          </item>
@@ -143,8 +186,15 @@
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QPushButton" name="pushButtonNetworkAdd">
+           <property name="toolTip">
+            <string>Add new network</string>
+           </property>
            <property name="text">
-            <string>+</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/date_new.gif</normaloff>../icons/date_new.gif</iconset>
            </property>
           </widget>
          </item>
@@ -153,8 +203,15 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>Special configurations</string>
+           </property>
            <property name="text">
-            <string>mappings</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/icon_extension.gif</normaloff>../icons/icon_extension.gif</iconset>
            </property>
           </widget>
          </item>
@@ -163,8 +220,15 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>Remove current network</string>
+           </property>
            <property name="text">
-            <string>-</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../icons/date_delete.gif</normaloff>../icons/date_delete.gif</iconset>
            </property>
           </widget>
          </item>

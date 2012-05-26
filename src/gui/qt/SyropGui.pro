@@ -17,7 +17,10 @@ SOURCES += main.cpp \
     dialogabout.cpp \
     datamodel.cpp \
     dialogaddapp.cpp \
-    dialogeditnetwork.cpp
+    dialogeditnetwork.cpp \
+    formfieldproxy.cpp \
+    formfieldauth.cpp \
+    formfieldtext.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -26,7 +29,11 @@ HEADERS  += \
     datamodel.h \
     dialogabout.h \
     dialogaddapp.h \
-    dialogeditnetwork.h
+    dialogeditnetwork.h \
+    formfieldproxy.h \
+    formpluginfield.h \
+    formfieldauth.h \
+    formfieldtext.h
 
 FORMS    += \
     mainwindow.ui \
@@ -34,7 +41,10 @@ FORMS    += \
     applicationsettingstab.ui \
     dialogabout.ui \
     dialogaddapp.ui \
-    dialogeditnetwork.ui
+    dialogeditnetwork.ui \
+    formfieldproxy.ui \
+    formfieldauth.ui \
+    formfieldtext.ui
 
 INCLUDEPATH += $$PWD/../../includes
 DEPENDPATH += $$PWD/../../includes

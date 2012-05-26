@@ -2,6 +2,7 @@
 #define APPLICATIONSETTINGSTAB_H
 
 #include "mainwindow.h"
+#include "formfieldproxy.h"
 
 #include <QWidget>
 #include <inidata.h>
@@ -22,16 +23,21 @@ public:
     explicit ApplicationSettingsTab(
             MainWindow* mainWindow,
             QWidget *parent, 
-            utils::attributes& attributes);
+            utils::attributes& attributes,
+            utils::attributes const & pluginFields);
     ~ApplicationSettingsTab();
     void saveChanges();
-private slots:
+    
+public slots:
     void onChange();
+    
 private:
     MainWindow* mainWindow;
-    QMap<std::string, QLineEdit*> fields;
+    QMap<QString, FormPluginField*> fields;
     Ui::ApplicationSettingsTab *ui;
     utils::attributes& attributes;
+    utils::attributes const & pluginFields;
+    FormPluginField* fieldsFactory(QString const & type);
     
     void bindData();
 };
