@@ -78,6 +78,10 @@ void MainWindow::onLoad()
     
 }
 
+void MainWindow::closeEvent(QCloseEvent *){
+    checkToSaveCurrentNetwork();
+}
+
 void MainWindow::bindData()
 {
     QDataModel::proxyList::iterator it = 
@@ -205,19 +209,7 @@ void MainWindow::checkAddAppPosibility()
     }
 }
 
-void MainWindow::changeCurrentNetwork(QString const & title)
-{
-    
-    if(title.isEmpty()) {
-        currentNetworkName = "";
-        ui->pushButtonNetworkRemove->setEnabled(false);
-        ui->pushButtonNetworkSettings->setEnabled(false);
-        ui->pushButtonRemoveApp->setEnabled(false);
-        ui->pushButtonAddApp->setEnabled(false);
-        ui->pushButtonSave->setEnabled(false);
-        ui->tabWidget->clear();
-        return;
-    }
+void MainWindow::checkToSaveCurrentNetwork(){
     
     if(isCurrentNetworkEdited) {
         QMessageBox mb(this);
@@ -234,6 +226,24 @@ void MainWindow::changeCurrentNetwork(QString const & title)
             restoreCurrentNetwork();
         
     }
+    
+}
+
+void MainWindow::changeCurrentNetwork(QString const & title)
+{
+    
+    if(title.isEmpty()) {
+        currentNetworkName = "";
+        ui->pushButtonNetworkRemove->setEnabled(false);
+        ui->pushButtonNetworkSettings->setEnabled(false);
+        ui->pushButtonRemoveApp->setEnabled(false);
+        ui->pushButtonAddApp->setEnabled(false);
+        ui->pushButtonSave->setEnabled(false);
+        ui->tabWidget->clear();
+        return;
+    }
+    
+    checkToSaveCurrentNetwork();
                 
     currentProxySettings = &DataModel::getInstance()->getProxies()
                             .find(title.toStdString())->second;
@@ -241,7 +251,6 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     ui->tabWidget->clear();
     ProxySettings::iterator it = currentProxySettings->begin();
     
-        
     while(it != currentProxySettings->end()) {
         QString qname (it->first.data());
         ui->tabWidget->addTab(

@@ -38,6 +38,10 @@ private slots:
     void editCurrentNetworkSettings();
     void removeApplication();
     void showAbout();
+    void checkToSaveCurrentNetwork();
+    
+    void closeEvent(QCloseEvent *);
+    
 private:
     /**
      * Fill network list from DatamModel

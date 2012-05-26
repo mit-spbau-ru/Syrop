@@ -55,7 +55,11 @@ void ApplicationSettingsTab::saveChanges()
     QMapIterator<QString, FormPluginField*> i(fields);
     while (i.hasNext()) {
         i.next();
-        attributes[i.key().toStdString()] = i.value()->getValue().toStdString();
+        if(i.value()->getValue().length() > 0)
+            attributes[i.key().toStdString()] = i.value()->getValue().toStdString();
+        else {
+            attributes.erase(i.key().toStdString());
+        }
     }
 }
 

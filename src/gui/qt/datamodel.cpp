@@ -32,6 +32,7 @@ void QDataModel::loadDataNetworkSettings()
 
 void QDataModel::restoreNetwork(const string &name)
 {
+    proxySettings.find(name)->second = ProxySettings();
     proxySettings.find(name)->second.load(
                 utils::config_dir() + fileNameFromNet(name));
 }
@@ -60,6 +61,7 @@ void QDataModel::removeNetwork(const QString &name)
     proxyList::iterator it = proxySettings.find(name.toStdString());
     utils::remove_file(utils::config_dir() + fileNameFromNet(name.toStdString()));
     proxySettings.erase(it);
+    removeNetworkSettings(name);
     emit onRemoveNetwork(name);
 }
 
@@ -67,6 +69,13 @@ void QDataModel::removeNetwork(const QString &name)
 utils::attributes QDataModel::loadNetworkSettings(const QString &name)
 {
     return networksSettingsMapping[name.toStdString()];
+}
+
+void QDataModel::removeNetworkSettings(QString const & name)
+{
+    networksSettingsMapping.removeSection(name.toStdString());
+    ofstream i(NETWORK_SETTINGS_FILE.c_str());
+    i << networksSettingsMapping;
 }
 
 void QDataModel::saveNetworkSettings(QString const & name, utils::attributes const & attrs)
