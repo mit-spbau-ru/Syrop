@@ -44,9 +44,7 @@ void QDataModel::addNetwork(QString const & name)
 
     ProxySettings p;
     p.save(utils::config_dir() + fileNameFromNet(stdName));
-    
     proxySettings.insert(make_pair(stdName, p));
-    
     emit onAddNetwork(name);
 }
 
@@ -54,7 +52,6 @@ void QDataModel::updateNetwork(const QString &name)
 {
     string stdName = name.toStdString();
     proxySettings[stdName].save(utils::config_dir() + fileNameFromNet(stdName));
-    
     emit onUpdateNetwork(name);
 }
 
@@ -63,7 +60,6 @@ void QDataModel::removeNetwork(const QString &name)
     proxyList::iterator it = proxySettings.find(name.toStdString());
     utils::remove_file(utils::config_dir() + fileNameFromNet(name.toStdString()));
     proxySettings.erase(it);
-    
     emit onRemoveNetwork(name);
 }
 
@@ -80,16 +76,12 @@ void QDataModel::saveNetworkSettings(QString const & name, utils::attributes con
     i << networksSettingsMapping;
 }
 
-// TODO: real load
-utils::attributes QDataModel::loadPluginSettings(QString const &)
+utils::attributes QDataModel::loadPluginSettings(QString const & name)
 {
-//    string pluginPath = pluginsList.find(name.toStdString())->second;
-    string pluginPath = "/home/jjxx/.syrop/plugins/bash/fields";
-    
+    string pluginPath = pluginsList.find(name.toStdString())->second + "/fields";
     IniData data;
     ifstream i(pluginPath.c_str());
     i >> data;
-    
     return data.getSection("fields");
 }
 
