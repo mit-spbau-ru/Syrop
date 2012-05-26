@@ -170,7 +170,9 @@ void MainWindow::removeCurrentNetwork()
     if(mb.exec() != QMessageBox::Yes)
         return;
     
+    isCurrentNetworkEdited = false;
     DataModel::getInstance()->removeNetwork(currentNetworkName);
+    
     
 }
 
