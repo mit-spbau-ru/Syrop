@@ -67,3 +67,9 @@ void MainWindow::on_network_selected(std::string const &name)
 	myLayout.pack1(*myCurrentNetwork, true, true);
 	myCurrentNetwork->show();
 }
+
+bool MainWindow::on_delete_event(GdkEventAny* event)
+{
+	if (myLayout.get_child1()) myCurrentNetwork->save();
+	return false;
+}

@@ -35,6 +35,9 @@ class MainWindow : public Gtk::Window
 public:
 	MainWindow(utils::files_t const &configs);
 
+protected:
+	virtual bool on_delete_event(GdkEventAny* event);
+
 private:
 	NetworkList myNetworks;
 	boost::shared_ptr<NetworkView> myCurrentNetwork;
