@@ -1,3 +1,3 @@
 project(ssh-plugin)
 
-install_files(/share/syrop/plugins/ssh .py ssh)
+install_files(/share/syrop/plugins/ssh FILES ssh.py fields)
