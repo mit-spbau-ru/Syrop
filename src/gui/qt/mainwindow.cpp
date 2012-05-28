@@ -78,6 +78,10 @@ void MainWindow::onLoad()
     
 }
 
+void MainWindow::closeEvent(QCloseEvent *){
+    checkToSaveCurrentNetwork();
+}
+
 void MainWindow::bindData()
 {
     QDataModel::proxyList::iterator it = 
@@ -113,7 +117,7 @@ void MainWindow::onRemoveNetwok(const QString &title)
 
 void MainWindow::onUpdateNetwork(const QString&){}
 
-void MainWindow::onAddApplication(const QString & app){
+void MainWindow::onAddPlugin(const QString & app){
     
     this->onCurrentNetworkEdited();
     
@@ -121,7 +125,8 @@ void MainWindow::onAddApplication(const QString & app){
                 new ApplicationSettingsTab(
                     this,
                     ui->tabWidget, 
-                    (*currentProxySettings)[app.toStdString()]), 
+                    (*currentProxySettings)[app.toStdString()],
+                    DataModel::getInstance()->loadPluginSettings(app)),
                 app);
     checkAddAppPosibility();
 }
@@ -165,7 +170,9 @@ void MainWindow::removeCurrentNetwork()
     if(mb.exec() != QMessageBox::Yes)
         return;
     
+    isCurrentNetworkEdited = false;
     DataModel::getInstance()->removeNetwork(currentNetworkName);
+    
     
 }
 
@@ -179,8 +186,6 @@ void MainWindow::editCurrentNetworkSettings()
 {
     DialogEditNetwork d(this, currentNetworkName);
     d.exec();
-    //DialogAddApp d(this, *currentProxySettings);
-    //d.exec();
 }
 
 void MainWindow::removeApplication() 
@@ -193,33 +198,20 @@ void MainWindow::removeApplication()
     ui->pushButtonAddApp->setEnabled(true);
 }
 
-void MainWindow::onTabChange(int i)
+void MainWindow::onTabChange(int)
 {
-    ui->pushButtonRemoveApp->setEnabled(i > 0);
+    ui->pushButtonRemoveApp->setEnabled(ui->tabWidget->count() > 0);
 }
 
 void MainWindow::checkAddAppPosibility()
 {
-    // plus one because of default
-    if((DataModel::getInstance()->getApps().size() + 1) 
+    if((DataModel::getInstance()->getApps().size()) 
             == ui->tabWidget->count()) {
         ui->pushButtonAddApp->setEnabled(false);
     }
 }
 
-void MainWindow::changeCurrentNetwork(QString const & title)
-{
-    
-    if(title.isEmpty()) {
-        currentNetworkName = "";
-        ui->pushButtonNetworkRemove->setEnabled(false);
-        ui->pushButtonNetworkSettings->setEnabled(false);
-        ui->pushButtonRemoveApp->setEnabled(false);
-        ui->pushButtonAddApp->setEnabled(false);
-        ui->pushButtonSave->setEnabled(false);
-        ui->tabWidget->clear();
-        return;
-    }
+void MainWindow::checkToSaveCurrentNetwork(){
     
     if(isCurrentNetworkEdited) {
         QMessageBox mb(this);
@@ -236,6 +228,24 @@ void MainWindow::changeCurrentNetwork(QString const & title)
             restoreCurrentNetwork();
         
     }
+    
+}
+
+void MainWindow::changeCurrentNetwork(QString const & title)
+{
+    
+    if(title.isEmpty()) {
+        currentNetworkName = "";
+        ui->pushButtonNetworkRemove->setEnabled(false);
+        ui->pushButtonNetworkSettings->setEnabled(false);
+        ui->pushButtonRemoveApp->setEnabled(false);
+        ui->pushButtonAddApp->setEnabled(false);
+        ui->pushButtonSave->setEnabled(false);
+        ui->tabWidget->clear();
+        return;
+    }
+    
+    checkToSaveCurrentNetwork();
                 
     currentProxySettings = &DataModel::getInstance()->getProxies()
                             .find(title.toStdString())->second;
@@ -243,25 +253,15 @@ void MainWindow::changeCurrentNetwork(QString const & title)
     ui->tabWidget->clear();
     ProxySettings::iterator it = currentProxySettings->begin();
     
-    
-    ui->tabWidget->addTab(
-                new ApplicationSettingsTab(
-                    this,
-                    ui->tabWidget, 
-                    (*currentProxySettings)[QDataModel::DEFAULT_SETTINGS_NAME]),
-                QString(QDataModel::DEFAULT_SETTINGS_NAME.data()));
-        
     while(it != currentProxySettings->end()) {
-        if(it->first == QDataModel::DEFAULT_SETTINGS_NAME) {
-            it++;
-            continue;
-        }
+        QString qname (it->first.data());
         ui->tabWidget->addTab(
                     new ApplicationSettingsTab(
                         this,
                         ui->tabWidget, 
-                        it->second), 
-                    QString(it->first.data()));
+                        it->second,
+                        DataModel::getInstance()->loadPluginSettings(qname)), 
+                    qname);
         it++;
     }
         

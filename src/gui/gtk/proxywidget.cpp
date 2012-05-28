@@ -19,50 +19,41 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef __GUI_GTK_APPLICATION_VIEW_H__
-#define __GUI_GTK_APPLICATION_VIEW_H__
+#include <sstream>
 
-#include <boost/xpressive/xpressive.hpp>
-#include <boost/shared_ptr.hpp>
+#include "proxywidget.h"
 
-#include <gtkmm.h>
-
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include "iniparser.h"
-#include "abstractwidget.h"
-
-namespace bxprs = boost::xpressive;
-
-class ApplicationView : public Gtk::VBox
+ProxyWidget::ProxyWidget(std::string const & title, std::string const & value)
+: AbstractWidget()
+, REGEX         ("^\\s*(\\S+){1}\\s*:\\s*(\\d+){1}\\s*$")
+, PROXY_REGEX   (bxprs::sregex::compile(REGEX))
+, myLabel       (title.c_str())
+, myPort        (Gtk::Adjustment::create(3128, 1, 65000, 1, 10, 0))
 {
-public:
-	ApplicationView(utils::attributes const & attrs, std::string const & name);
+	bxprs::smatch match;
+	if ( bxprs::regex_match(value, match, PROXY_REGEX) )
+	{
+		std::stringstream sstrm;
+		int port;
+		sstrm << match[2].str();
+		sstrm >> port;
+		
+		myAddress.set_text( match[1].str() );
+		myPort.set_value  ( port );
+	}
 
-	sigc::signal<void> signal_changed() const { return myChangedSignal; }
+	pack_start( myLabel,   false, false );
+	pack_end  ( myPort,    false, false );
+	pack_end  ( myAddress, false, true  );
 	
-	void save(utils::IniData & data);
+	myAddress.signal_changed().connect( sigc::mem_fun(*this, &ProxyWidget::on_change) );
+	myPort.signal_changed().connect( sigc::mem_fun(*this, &ProxyWidget::on_change) );
+	
+	show_all_children();
+}
 
-private:
-	typedef std::vector<boost::shared_ptr<AbstractWidget> > widgets_t;
-	const std::string PROXY_TYPE;
-	const std::string TEXT_TYPE;
-	const std::string AUTH_TYPE;
-	
-	std::string myPluginName;
-	
-	widgets_t myProxyChildren;
-	widgets_t myTextChildren;
-	widgets_t myAuthChildren;
-	
-	sigc::signal<void> myChangedSignal;
-	
-	void loadFields       ( utils::attributes const & attrs, utils::attributes const & fields);
-	void loadDefaultFields( utils::attributes const & attrs );
-	
-	void on_change        () const { myChangedSignal.emit(); }
-};
-
-#endif //__GUI_GTK_APPLICATION_VIEW_H__
+void ProxyWidget::save(utils::attributes & data)
+{
+	if ( !myAddress.get_text().empty() )
+		data[myLabel.get_text().raw()] = myAddress.get_text().raw() + ":" + myPort.get_text().raw();
+}

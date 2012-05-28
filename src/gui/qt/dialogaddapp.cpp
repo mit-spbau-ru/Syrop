@@ -2,8 +2,10 @@
 #include "ui_dialogaddapp.h"
 #include "datamodel.h"
 #include "proxysettings.h"
+#include "fstream"
 
 using namespace utils;
+using namespace std;
 
 DialogAddApp::DialogAddApp(MainWindow* mainWindow, utils::ProxySettings& proxySettings) 
     : QDialog(mainWindow)
@@ -13,8 +15,8 @@ DialogAddApp::DialogAddApp(MainWindow* mainWindow, utils::ProxySettings& proxySe
 {
     ui->setupUi(this);
     
-    QDataModel::proxyList::const_iterator it = DataModel::getInstance()->getApps().begin();
-    QDataModel::proxyList::const_iterator end = DataModel::getInstance()->getApps().end();
+    utils::plugins_t::const_iterator it = DataModel::getInstance()->getApps().begin();
+    utils::plugins_t::const_iterator end = DataModel::getInstance()->getApps().end();
     
     while(it != end) {
         if(!proxySettings.exists(it->first))
@@ -26,14 +28,12 @@ DialogAddApp::DialogAddApp(MainWindow* mainWindow, utils::ProxySettings& proxySe
             this, SLOT(onChoose()));   
 }
 
-//TODO: need save
+
 void DialogAddApp::onChoose()
 {
-    std::string app = ui->comboBox->currentText().toStdString();
-    QDataModel::proxyList const & apps = DataModel::getInstance()->getApps();
-    utils::attributes a = apps.find(app)->second.begin()->second;
-    proxySettings.add(app, a);
-    mainWindow->onAddApplication(ui->comboBox->currentText());
+    std::string app = ui->comboBox->currentText().toStdString();                                
+    proxySettings.add(app, utils::attributes());
+    mainWindow->onAddPlugin(ui->comboBox->currentText());
 }
 
 DialogAddApp::~DialogAddApp()

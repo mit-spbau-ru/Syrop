@@ -37,6 +37,8 @@ NetworkView::NetworkView(std::string const & name)
 , myRemoveButton("remove")
 , mySaveButton  ("save")
 {
+	mySaveButton.set_sensitive(false);
+	
 	myControlLayout.pack_start(myAddButton,    false, false);
 	myControlLayout.pack_start(myRemoveButton, false, false);
 	myControlLayout.pack_start(mySaveButton,   false, false);
@@ -46,10 +48,11 @@ NetworkView::NetworkView(std::string const & name)
 	in >> data;
 	for (utils::IniData::const_iterator it = data.begin(); it != data.end(); ++it)
 	{
-		view_ptr_t view( new ApplicationView(it->second) );
+		view_ptr_t view( new ApplicationView(it->second, it->first) );
 		myTabs.insert( make_pair(it->first, view) );
 		view->show();
 		myApplications.append_page(*view, it->first);
+		view->signal_changed().connect( sigc::mem_fun(*this, &NetworkView::changed) );
 	}
 	in.close();
 	change_buttons_state();
@@ -77,20 +80,15 @@ std::string const & NetworkView::getFullName() const
 	return myName;
 }
 
-bool NetworkView::changed() const
+void NetworkView::changed()
 {
-	return myChangeFlag;
+	myChangeFlag = true;
+	change_buttons_state();
 }
 
 void NetworkView::save()
 {
-	bool flag = changed();
-	for (tabs_t::const_iterator it = myTabs.begin(); it != myTabs.end(); ++it)
-	{
-		if ( flag |= it->second->changed() ) break;
-	}
-	
-	if ( flag && mySaveDialog.run() == Gtk::RESPONSE_YES ) force_save();
+	if ( myChangeFlag && mySaveDialog.run() == Gtk::RESPONSE_YES ) force_save();
 	mySaveDialog.hide();
 }
 
@@ -111,13 +109,13 @@ void NetworkView::on_add_clicked()
 		std::string appName = myAddDialog.getText();
 		if ( myTabs.find(appName) == myTabs.end() )
 		{
-			view_ptr_t view( new ApplicationView( utils::attributes() ) );
+			view_ptr_t view( new ApplicationView( utils::attributes(), appName ) );
 			myTabs.insert( make_pair(appName, view) );
 			view->show();
 			myApplications.prepend_page( *view, myAddDialog.getText() );
-			change_buttons_state();
 			myApplications.set_current_page(0);
-			myChangeFlag = true;
+			view->signal_changed().connect( sigc::mem_fun(*this, &NetworkView::changed) );
+			change_buttons_state();
 		}
 		else
 		{
@@ -147,8 +145,7 @@ void NetworkView::on_remove_clicked()
 		myTabs.erase(it);
 		myApplications.remove_page( *widget );
 		myApplications.set_current_page(-1);
-		change_buttons_state();
-		myChangeFlag = true;
+		changed();
 	}
 }
 
@@ -161,14 +158,16 @@ void NetworkView::force_save()
 {
 	utils::IniData data;
 	for (tabs_t::const_iterator it = myTabs.begin(); it != myTabs.end(); ++it)
-		it->second->save(data, it->first);
+		it->second->save(data);
 	std::ofstream out( myName.c_str() );
 	out << data;
 	out.close();
 	myChangeFlag = false;
+	change_buttons_state();
 }
 
 void NetworkView::change_buttons_state()
 {
-	myRemoveButton.set_sensitive(myApplications.get_n_pages() > 0);
+	myRemoveButton.set_sensitive( myApplications.get_n_pages() > 0 );
+	mySaveButton.set_sensitive  ( myChangeFlag                     );
 }

@@ -19,50 +19,24 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef __GUI_GTK_APPLICATION_VIEW_H__
-#define __GUI_GTK_APPLICATION_VIEW_H__
+#include "textwidget.h"
 
-#include <boost/xpressive/xpressive.hpp>
-#include <boost/shared_ptr.hpp>
-
-#include <gtkmm.h>
-
-#include <fstream>
-#include <string>
-#include <vector>
-
-#include "iniparser.h"
-#include "abstractwidget.h"
-
-namespace bxprs = boost::xpressive;
-
-class ApplicationView : public Gtk::VBox
+TextWidget::TextWidget(std::string const & title, std::string const & value)
+: AbstractWidget()
+, myLabel       (title.c_str())
 {
-public:
-	ApplicationView(utils::attributes const & attrs, std::string const & name);
+	myEntry.set_text(value.c_str());
+	
+	pack_start( myLabel, false, true );
+	pack_end  ( myEntry, false, true );
+	
+	myEntry.signal_changed().connect( sigc::mem_fun(*this, &TextWidget::on_change) );
+	
+	show_all_children();
+}
 
-	sigc::signal<void> signal_changed() const { return myChangedSignal; }
-	
-	void save(utils::IniData & data);
-
-private:
-	typedef std::vector<boost::shared_ptr<AbstractWidget> > widgets_t;
-	const std::string PROXY_TYPE;
-	const std::string TEXT_TYPE;
-	const std::string AUTH_TYPE;
-	
-	std::string myPluginName;
-	
-	widgets_t myProxyChildren;
-	widgets_t myTextChildren;
-	widgets_t myAuthChildren;
-	
-	sigc::signal<void> myChangedSignal;
-	
-	void loadFields       ( utils::attributes const & attrs, utils::attributes const & fields);
-	void loadDefaultFields( utils::attributes const & attrs );
-	
-	void on_change        () const { myChangedSignal.emit(); }
-};
-
-#endif //__GUI_GTK_APPLICATION_VIEW_H__
+void TextWidget::save(utils::attributes & data)
+{
+	if ( !myEntry.get_text().empty() )
+		data[myLabel.get_text().raw()] = myEntry.get_text().raw();
+}

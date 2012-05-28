@@ -2,6 +2,7 @@
 #define DIALOGEDITNETWORK_H
 
 #include <QDialog>
+#include "inidata.h"
 
 namespace Ui {
 class DialogEditNetwork;
@@ -19,8 +20,10 @@ private:
     Ui::DialogEditNetwork *ui;
     const QString& networkName;
     bool isEdited;
+    utils::attributes attrs ;
 
 private slots:
+    bool checkText();
     void onChanged();
     void onSave();    
     

@@ -19,77 +19,33 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#ifndef _UTILS_COREUTILS_H_
-#define _UTILS_COREUTILS_H_
+#ifndef __GUI_GTK_ABSTARCT_WIDGET_H__
+#define __GUI_GTK_ABSTARCT_WIDGET_H__
 
+#include <gtkmm.h>
 #include <string>
-#include <map>
-#include <vector>
 
-#include "fileinfo.h"
+#include "inidata.h"
 
-using std::string;
-using std::vector;
-using std::map;
-
-namespace utils
+class AbstractWidget : public Gtk::Box
 {
-	typedef vector<FileInfo> files_t;
-	typedef map<string, string> plugins_t;
-
-	const string HOME = ".syrop/";
-	const string PLUGINS = "plugins/";
-	const string CONFIGS = "configs/";
-	const string SETUP = "/usr/share/syrop/";
-	const string PLUGIN_EXTENSION = ".py";
-	const string MAPPING_FILE = "mappings.conf";
-	const string FIELDS_FILE = "fields";
-
-	/**
-	 * Function returns application HOME dir. Directory will be
-	 * created if doesn't exist;
-	 *
-	 * @return string with directory name
-	 * @throws std::runtime_error if an error occrred
-	 */
-	string const & application_dir();
+public:
+	virtual void save(utils::attributes & data) = 0;
 	
-	/**
-	 * Function return mappings file name in HOME/.syrop
-	 *
-	 * @return string with file name
-	 */
-	string const & mapping_file();
-	 
-
-	/**
-	 * Function returns application config dir. Directory will be
-	 * created if doesn't exist;
-	 *
-	 * @return string with directory name
-	 * @throws std::runtime_error if an error occrred
-	 */
-	string const & config_dir();
-
-	/**
-	 * Function returns standart plugin search path:
-	 *	$HOME/.syrop/plugins
-	 *	/usr/share/syrop/plugins
-	 *
-	 * @return vector of a string with path
-	 * @throws std::runtime_error if an system error occurred
-	 */
-	vector<string> const & search_pathes(); // throws std::runtime_error
+	virtual ~AbstractWidget() {}
 	
-	/**
-	 * Return map of plugins in a diretories specified in the path argument
-	 *
-	 * @param path vectror of search pathes
-	 * @param plugins set of pairs (plugin name, main plugin file)
-	 * @throws std::runtime_error if an system error occurred
-	 */
-	void list_plugins(vector<string> const & path, plugins_t & plugins); // throws std::runtime_error
+	AbstractWidget(Gtk::Orientation orientation = Gtk::ORIENTATION_HORIZONTAL
+			, int spacing = 0)
+	: Gtk::Box(orientation, spacing)
+		{}
 
-} // namespace utils
+	virtual sigc::signal<void> signal_changed() const { return myChangedSignal; }
+	
+protected:
+	virtual void on_change() const { myChangedSignal.emit(); }
+	
+private:
+	sigc::signal<void> myChangedSignal;
+};
 
-#endif //_UTILS_COREUTILS_H_
+#endif //__GUI_GTK_ABSTARCT_WIDGET_H__

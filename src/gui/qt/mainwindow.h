@@ -20,7 +20,7 @@ public:
     ~MainWindow();
 public slots:
     void onCurrentNetworkEdited();
-    void onAddApplication(QString const & title);
+    void onAddPlugin(QString const & title);
 private slots:
     // data model
     void onLoad();
@@ -38,6 +38,10 @@ private slots:
     void editCurrentNetworkSettings();
     void removeApplication();
     void showAbout();
+    void checkToSaveCurrentNetwork();
+    
+    void closeEvent(QCloseEvent *);
+    
 private:
     /**
      * Fill network list from DatamModel

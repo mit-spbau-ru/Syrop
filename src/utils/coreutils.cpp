@@ -62,8 +62,7 @@ namespace utils
 			for (files_t::const_iterator it = children.begin(); it != children.end(); ++it)
 			{
 				if (test_plugin(*it))
-					plugins[it->getName()] = it->getFullName() + "/"
-								+ it->getName() + PLUGIN_EXTENSION;
+					plugins[it->getName()] = it->getFullName();
 			}	
 		}
 

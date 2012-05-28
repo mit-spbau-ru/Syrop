@@ -31,6 +31,9 @@ set ( SyropGui_SRCS
 	datamodel.cpp
 	dialogaddapp.cpp
     dialogeditnetwork.cpp
+    formfieldauth.cpp
+    formfieldproxy.cpp
+    formfieldtext.cpp
 	)
 
 set ( SyropGui_UIS
@@ -40,6 +43,9 @@ set ( SyropGui_UIS
 	dialogabout.ui
 	dialogaddapp.ui
     dialogeditnetwork.ui
+    formfieldauth.ui
+    formfieldproxy.ui
+    formfieldtext.ui
 	)
 QT4_WRAP_UI(UIS ${SyropGui_UIS})
 
@@ -51,6 +57,10 @@ set ( SyropGui_MOCS
 	dialogabout.h
 	dialogaddapp.h
     dialogeditnetwork.h
+    formfieldauth.h
+    formfieldproxy.h
+    formfieldtext.h
+    formpluginfield.h
 	)
 QT4_WRAP_CPP(MOCS ${SyropGui_MOCS})
 

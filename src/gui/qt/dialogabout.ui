@@ -23,7 +23,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>About program and developers</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../icons/page_text.gif</normaloff>../icons/page_text.gif</iconset>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">

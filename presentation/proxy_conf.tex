@@ -1,0 +1,167 @@
+\documentclass[unicode]{beamer}
+
+% utf-8 damnit!
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+%\usetheme{Pittsburgh}
+%\usecolortheme{beaver}
+
+\usetheme{Madrid} % My favorite!
+
+%\usetheme{Boadilla} % Pretty neat, soft color.
+%\usetheme{default}
+%\usetheme{Warsaw}
+%\usetheme{Bergen} % This template has nagivation on the left
+%\usetheme{Frankfurt} % Similar to the default 
+%with an extra region at the top.
+%\usecolortheme{seahorse} % Simple and clean template
+%\usetheme{Darmstadt} % not so good
+% Uncomment the following line if you want %
+% page numbers and using Warsaw theme%
+% \setbeamertemplate{footline}[page number]
+%\setbeamercovered{transparent}
+\setbeamercovered{invisible}
+% To remove the navigation symbols from 
+% the bottom of slides%
+\setbeamertemplate{navigation symbols}{} 
+%
+
+\usepackage{graphicx}
+%\usepackage{bm}         % For typesetting bold math (not \mathbold)
+%\logo{\includegraphics[height=0.6cm]{yourlogo.eps}}
+%
+\title[Syrop]{Syrop: Автоматическая конфигурация настроек прокси для Linux}
+\author{Алексей Великий, Михаил Кринкин, Ксения Крашенинникова, Семен Мартынов, Александр Смаль}
+\institute[APTU]
+{
+Санкт-Петербугский Академический Университет
+ \\
+\medskip
+{\emph{avsmal@gmail.com}}
+}
+\date{\today}
+% \today will show current date. 
+% Alternatively, you can specify a date.
+%
+\begin{document}
+%
+\begin{frame}
+\titlepage
+\end{frame}
+%
+\begin{frame}
+\frametitle{Идея}
+\begin{itemize}
+\item 
+Многие приложения используют подключение к Internet \\
+(\emph{svn}, \emph{ssh}, \emph{bash}, etc.)
+\item
+Разные системы - разные интерфейсы настройки
+\item
+Хорошо бы иметь возможность определять настройки в одном
+месте так, чтобы они автоматически применялись для
+всех программ
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Постановка задачи}
+Необходимо написать приложение, которое
+\begin{itemize}
+\item предоставляет единый интерфейс для  конфигурации разных систем
+\item позволяет хранить настройки для разных сетей \\
+и реагирует на смену сети
+\item обладает расширяемостью: \\
+можно добавить поддержку новых приложений
+\item позволяет отменять примененные настройки
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Структура проекта}
+\begin{itemize}
+\item \emph{core} :  обеспечение интеграцию плагинов
+\item \emph{plugins} :  расширения, выполняющие настройки подключения к сети для разных систем
+\item \emph{network} : перехватывет сообщения D-BUS о состоянии сети
+\item \emph{utils} : взаимодействие системы с файловой системой, 
+парсер настроек сетей и локальных настроек системы
+\item \emph{gui} : поддержка консольного и графического режима работы
+\end{itemize}
+\end{frame}
+%
+%example for ini format
+
+\begin{frame}
+\frametitle{Syrop}
+\end{frame}
+
+\begin{frame}
+\frametitle{syropd}
+\end{frame}
+
+\begin{frame}
+\frametitle{QT и GTK GUI}
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Plug-Ins}
+
+\begin{itemize}
+
+\item default - применяется, если для протокола не заданы специальные настройки
+
+\item svn
+\begin{itemize}
+\item updates '~/.subversion/servers'
+\item specifies HTTP settings
+\end{itemize}
+
+\item ssh
+\begin{itemize}
+\item ssh - updates '~/.ssh/config'
+\item specifies HTTP settings
+\end{itemize}
+
+\item bash
+\begin{itemize}
+\item svn - updates '~/.bashrc'
+\item specifies HTTP, FTP settings
+\end{itemize}
+
+\item gconf
+\begin{itemize}
+\item runs native gconftool configurator tool
+\item specifies HTTP, FTP, SOCKS protocols settings
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle {Результаты}
+\begin{itemize}
+\item tar-ball package available at https://github.com/avsmal/Syrop
+\item система сборки CMake
+\item GUI: QT и GTK
+\item реализованы плагины для svn, ssh, bash, gconf
+\item расширяемость
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle {Развитие проектов}
+\begin{itemize}
+\item поддержка новых плагинов
+\item расширение интерфейса
+\end{itemize}
+\end{frame}
+
+
+%\end{Huge}
+ 
+% End of slides
+\end{document} 
