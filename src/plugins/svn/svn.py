@@ -6,6 +6,13 @@ def backupSettings ():
 	pass
 
 def setupSettings (settings):
+
+    user_pass = {}
+    if "user_pass" in settings:
+        res = settings["user_pass"].split(":")
+        user_pass["user"] = res[0]
+        user_pass["password"] = res[1]
+
 	#проверяем что есть нужные настройки
 	if 'http' in settings:
 		#сдвигаем global секцию в конец файла
@@ -29,8 +36,8 @@ def setupSettings (settings):
 		#устанавливаем, а если есть, то выводим предупреждение
 		if config.has_option('global', 'http-proxy-host'):
 			print 'WARN: http-proxy-host is set already'
-		elif 'server' in params:
-			cfg.write('http-proxy-host=' + params['server'] + '\n')
+		elif 'host' in params:
+			cfg.write('http-proxy-host=' + params['host'] + '\n')
 		
 		if config.has_option('global', 'http-proxy-port'):
 			print 'WARN: http-proxy-port is set already'
@@ -39,13 +46,13 @@ def setupSettings (settings):
 		
 		if config.has_option('global', 'http-proxy-username'):
 			print 'WARN: http-proxy-username is set already'
-		elif 'user' in params:
-			cfg.write('http-proxy-username=' + params['user'] + '\n')
+		elif 'user' in user_pass:
+			cfg.write('http-proxy-username=' + user_pass['user'] + '\n')
 		
 		if config.has_option('global', 'http-proxy-password'):
 			print 'WARN: http-proxy-password is set already'
-		elif 'password' in params:
-			cfg.write('http-proxy-password=' + params['password'] + '\n')
+		elif 'password' in user_pass:
+			cfg.write('http-proxy-password=' + user_pass['password'] + '\n')
 		
 		#выставляем метку конца секции и закрываем файл
 		cfg.write('#syrop end\n')
@@ -70,6 +77,11 @@ def cleanupSettings ():
 	oldconf.close()
 	os.remove(name + '.old')
 	
+def sectionString (string):
+    m = re.match(r"^\[\s*(.+)\s*\]$", string.strip(None))
+    if m is not None:
+        return m.group(1)
+        return None
 
 #сдвигаем global секцию конфигурационного файла в конец,
 #чтобы можно было добавлять в нее простым дописываем в файл
@@ -100,25 +112,16 @@ def moveGlobalToEnd ():
 	oldconf.close()
 	os.remove(name + '.old')
 	
-def sectionString (string):
-	m = re.match(r"^\[\s*(.+)\s*\]$", string.strip(None))
-	if m is not None:
-		return m.group(1)
-	return None
 
 #функция ожидает строку вида [user:password@]server[:port]
 def splitProxyString (conf):
 	params = {}
-	m = re.match(r"^(([^:@]+)[:]([^:@]+)[@]){,1}([^:@]+){1}[:]([^:@]+){,1}$", conf.strip(None))
+	m = re.match(r"^([^:@]+){1}[:]([^:@]+){1}$", conf.strip(None))
 
 	if m is not None:
+		if m.group(1) is not None:
+			params["host"] = m.group(1)
 		if m.group(2) is not None:
-			params['user'] = m.group(2)
-		if m.group(3) is not None:
-			params['password'] = m.group(3)
-		if m.group(4) is not None:
-			params['address'] = m.group(4)
-		if m.group(5) is not None:
-			params['port'] = m.group(5)
+			params["port"] = m.group(2)
 
 	return params
