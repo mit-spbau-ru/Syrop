@@ -25,19 +25,30 @@
 #include <cstdlib>
 #include <syslog.h>
 #include <string>
+#include <fstream>
 #include <glib.h>
 #include <dbus/dbus.h>
 #include <dbus/dbus-glib-lowlevel.h>
 #include <unistd.h>
+#include <cerrno>
 
 #include "daemonexception.h"
 #include "CExecuter.h"
 #include "CBusMessage.h"
+#include "CFinder.h"
+
+#include "coreutils.h"
+#include "namedb2.h"
+#include "system.h"
 
 using syropd::daemonexception;
 using syropd::CExecuter;
 using syropd::CBusMessage;
+using syropd::CFinder;
 
+using utils::mapping_file;
+using utils::find;
+using utils::error_message;
 
 #endif	/* MAIN_H */
 

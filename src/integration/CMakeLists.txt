@@ -22,6 +22,7 @@ add_executable(syropd
                daemonexception.cpp
                CExecuter.cpp
                CBusMessage.cpp
+               CFinder.cpp
 )
 
 target_link_libraries(syropd

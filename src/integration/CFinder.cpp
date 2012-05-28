@@ -19,59 +19,32 @@
  * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                                         *
  *****************************************************************************************/
 
-#include "CExecuter.h"
+#include "CFinder.h"
 
 namespace syropd {
 
     /**
+     * Constructor.
      * 
-     * Constructor
-     * Is caused, when it is necessary to roll back network settings changes
+     * @param userSsid - the network name, which should be in a database
+     *
+     */
+
+    CFinder::CFinder(const string &userSsid) : ssidVal(userSsid), ssidPar("ssid") {
+    };
+
+    /**
+     * Functor
+     * Checks existence of the specified network in a database.
      * 
-     * @param bool flag
+     * @param pair with section and attributes map
      *
      */
     
-    CExecuter::CExecuter(bool) {
-        char* const argv[] = {(char *) "syrop", (char *) "-r", (char *) 0};
-    }
-
-    /**
-     * 
-     * Constructor
-     * Is caused, when the new network is detected and the profile is defined
-     * 
-     * @param profile - profile name
-     *
-     */
-    CExecuter::CExecuter(std::string profile) {
-        char* const argv[] = {(char *) "syrop", (char *) "-a", const_cast<char*> (profile.c_str()), (char *) 0};
-    }
-
-    /**
-     * 
-     * Function calls a syrop with parameters which are defined in the constructor.
-     * 
-     * @param argv - array with parameters
-     *
-     */
-    
-    void CExecuter::exec(char* const argv[]) {
-        pid_t pID = fork();
-
-        if (pID == 0) {
-
-            if (execv("/usr/bin/syrop", argv)) {
-                std::cerr << "An unknown error has occurred with SSID " << argv[1] << std::endl;
-                exit(EXIT_FAILURE);
-            }
-            result = 0;
-
-            exit(EXIT_SUCCESS);
-        } else if (pID < 0) {
-            std::cerr << "Failed to fork" << std::endl;
-            result = 1;
-        }
+    bool CFinder::operator()(const pair <string, attributes> &section_it) {
+        attributes section = section_it.second;
+        attributes::const_iterator ait = section.find(ssidPar);
+        return ((ait != section.end()) && (ssidVal.compare(ait->second)));
     }
 
 } // namespace daemon

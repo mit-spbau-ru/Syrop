@@ -21,14 +21,27 @@
 
 #include "daemonexception.h"
 
-namespace syropd
-{
+namespace syropd {
 
-daemonexception::daemonexception(DBusError &err) : error(err) {
-}
+    /**
+     * Constructor
+     * 
+     * @param DBus error
+     *
+     */
 
-const char* daemonexception::what() {
-    return error.message;
-}
+    daemonexception::daemonexception(DBusError &err) : error(err) {
+    }
+
+    /**
+     * Function returns the error text
+     * 
+     * @return the error text
+     *
+     */
+
+    const char* daemonexception::what() {
+        return error.message;
+    }
 
 } // namespace daemon

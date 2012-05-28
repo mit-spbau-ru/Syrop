@@ -3,3 +3,4 @@ Files:
         daemonexception.[h|cpp] --- exception class in case of error during connection with D-bus
         CExecuter.[h|cpp] --- class for run syrop with a name of network profile
         CBusMessage.[h|cpp] --- class for operation with D-bus message
+        CFinder.[h|cpp] --- class for filtering records in a database of networks
